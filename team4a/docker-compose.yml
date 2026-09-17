@@ -1,0 +1,214 @@
+# Team 4A Multi-Modal Data Ingestion -- local Docker Compose stack (Task 11.1).
+#
+# Architecture (per the official Team 4A design):
+#   FastAPI API  ->  Celery/Redis  ->  Celery Worker
+#       -> PDF/MP4/YouTube Processors -> Chunker -> Embedder
+#       -> Metadata Enricher -> Qdrant Publisher
+#
+# This file provisions infrastructure and container startup ONLY (Task
+# 11.1). It deliberately does not perform or claim any end-to-end
+# ingestion run -- that is Task 11.2.
+#
+# All inter-service URLs use Compose service names (redis, qdrant), never
+# localhost, so containers can actually resolve each other -- overriding
+# app/config/settings.py's own localhost-based local-dev defaults via
+# environment variables, per that module's own design (every setting is
+# environment-overridable).
+
+services:
+  redis:
+    image: redis:7-alpine
+    # Used for: Celery broker, Celery result backend, RedisJobStore
+    # (Task 10.2's shared, cross-process job state), and progress
+    # mirroring (app/utils/progress.py). One Redis instance serves all
+    # four roles -- no second broker/database was introduced.
+    #
+    # PRODUCTION HARDENING TASK 1: `--appendonly yes` enables Redis's AOF
+    # (Append Only File) persistence, which logs every write command as
+    # it happens, rather than relying solely on the image's default
+    # periodic RDB snapshots (which can lose the most recent writes made
+    # between snapshot points -- exactly the job-state/broker data this
+    # service depends on). Combined with the named `redis_data` volume
+    # below (mounted at `/data`, Redis's own configured working
+    # directory -- confirmed via `redis-server --appendonly yes` writing
+    # its `appendonlydir` there), data survives not just a container
+    # restart but a full container recreation (`docker compose down` +
+    # `up`, image rebuild, `--force-recreate`), since the volume -- not
+    # the container's writable layer -- is what's inspected/preserved.
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      # redis-cli ships with the official redis image itself, so this
+      # requires no extra tooling.
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    # The vector store app/pipeline/publisher.py publishes to. Publisher
+    # itself is untouched -- only the URL it's configured with changes,
+    # via QDRANT_URL below, from the local-dev default (localhost:6333)
+    # to the Compose service name.
+    ports:
+      - "6333:6333"
+    volumes:
+      # Persistent storage: Qdrant data survives `docker compose down`
+      # (without `-v`) and stack restarts, using the standard Qdrant
+      # container storage path.
+      - qdrant_storage:/qdrant/storage
+    healthcheck:
+      # FIX (real Docker verification found the original check broken):
+      # the previous test used `CMD-SHELL`, which Docker always executes
+      # via `/bin/sh -c "..."` regardless of what other shells exist in
+      # the image. On this (Debian-based) image, `/bin/sh` is `dash`,
+      # which does NOT implement the `/dev/tcp` pseudo-device -- that is
+      # a bash-specific extension, not POSIX `sh` -- which is exactly
+      # why the real container logged
+      # "cannot create /dev/tcp/127.0.0.1/6333: Directory nonexistent".
+      # It was never a question of whether `/dev/tcp` itself worked; the
+      # wrong shell was interpreting it.
+      #
+      # The official qdrant/qdrant image deliberately ships without
+      # curl/wget/nc -- confirmed by the Qdrant maintainers themselves,
+      # who removed them as a security hardening measure (see
+      # https://github.com/qdrant/qdrant/issues/3491 and the still-open
+      # feature request for a built-in healthcheck command,
+      # https://github.com/qdrant/qdrant/issues/4250) -- so no
+      # HTTP-capable tool can be installed or assumed present, and none
+      # is added here.
+      #
+      # Fix: invoke `bash` directly via Docker's exec (`CMD`) array
+      # form -- bypassing `/bin/sh` entirely -- to use bash's own
+      # `/dev/tcp` feature to open a raw TCP connection, send a minimal
+      # HTTP/1.1 GET for Qdrant's own documented readiness endpoint
+      # (https://api.qdrant.tech/api-reference/service/readyz --
+      # "Checks the instance to see when it can start accepting
+      # traffic"), and check the response's status line for "200". This
+      # checks real HTTP-level readiness, not merely "the TCP port
+      # accepts connections". This is the same documented workaround
+      # used for other images hardened the same way (e.g. Keycloak,
+      # Elastic APM Server) once curl/wget were removed from them.
+      #
+      # Residual, explicitly-flagged assumption: this relies on
+      # `/bin/bash` itself still being present in the image (only
+      # curl/wget/nc are confirmed and documented as removed) -- a
+      # reasonable, well-precedented assumption for a Debian-based image
+      # that has not been independently verified against a pulled copy
+      # of this exact image (this sandbox's own Docker Hub access
+      # remains separately blocked -- see the Task 11.1/5/7 reports).
+      # If bash also turns out to be absent, the real Docker environment
+      # that already reported the original failure is what would need
+      # to report a new one -- this is not fabricated as fixed without
+      # that confirmation.
+      test: [
+        "CMD", "bash", "-c",
+        "exec 3<>/dev/tcp/127.0.0.1/6333 && printf 'GET /readyz HTTP/1.1\\r\\nHost: 127.0.0.1\\r\\nConnection: close\\r\\n\\r\\n' >&3 && head -c 32 <&3 | grep -q ' 200 '"
+      ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build: .
+    # Uses the Dockerfile's default CMD (uvicorn app.main:app ...).
+    ports:
+      - "8000:8000"
+    environment:
+      # Redis: broker + result backend + job state + progress, all via
+      # the Compose service name "redis", never localhost.
+      REDIS_BROKER_URL: redis://redis:6379/0
+      REDIS_RESULT_BACKEND_URL: redis://redis:6379/1
+      # Qdrant: Compose service name "qdrant", never localhost.
+      QDRANT_URL: http://qdrant:6333
+      QDRANT_COLLECTION_NAME: team4a_ingested_chunks
+      # Shared upload directory -- see the "uploads" volume below, also
+      # mounted by "worker" at the same path so Task 10.2's Celery tasks
+      # can read what the API saved.
+      UPLOAD_DIRECTORY: /data/uploads
+      # No GPU assumed; matches Settings' own CPU defaults explicitly.
+      EMBEDDING_DEVICE: cpu
+      WHISPER_DEVICE: cpu
+      # Production Hardening Task 6: explicit for operator visibility --
+      # matches Settings.log_level's own default ("INFO"), so this is a
+      # documentation-only addition, not a behavior change.
+      LOG_LEVEL: INFO
+    volumes:
+      - uploads:/data/uploads
+    healthcheck:
+      # Production Hardening Task 4: uses GET /health (process-alive,
+      # not GET /readyz) -- Docker's HEALTHCHECK is analogous to a
+      # liveness probe (is this container's process stuck/hung?), not a
+      # readiness probe gating traffic from other services, and nothing
+      # else in this compose file depends on "api" being healthy. `curl`/
+      # `wget` are not installed in the python:3.12-slim image this
+      # service builds from (see Dockerfile), so this uses `python3`
+      # itself -- always present, since it's what runs the application.
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      redis:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+
+  worker:
+    build: .
+    # Same image as "api" (built from the same Dockerfile) -- only the
+    # command differs. Uses the *existing* app.celery_app (Task 1.3) and
+    # app.tasks (Task 10.2); no second Celery application or task module.
+    # --concurrency=10 makes Requirement 8.1's "at least 10 concurrent
+    # Ingestion_Jobs" explicit and visible here; it matches (and should be
+    # kept in sync with) Settings.celery_worker_concurrency, which
+    # app/celery_app.py's build_celery_app() already applies as
+    # worker_concurrency=10 even without this flag -- the flag is kept for
+    # visibility per Task 11.1's own suggested command, not because the
+    # Python-side configuration is insufficient on its own.
+    command: celery -A app.celery_app worker --loglevel=info --concurrency=10
+    environment:
+      REDIS_BROKER_URL: redis://redis:6379/0
+      REDIS_RESULT_BACKEND_URL: redis://redis:6379/1
+      QDRANT_URL: http://qdrant:6333
+      QDRANT_COLLECTION_NAME: team4a_ingested_chunks
+      UPLOAD_DIRECTORY: /data/uploads
+      EMBEDDING_DEVICE: cpu
+      WHISPER_DEVICE: cpu
+      # Production Hardening Task 6: explicit for operator visibility --
+      # matches Settings.log_level's own default ("INFO"), so this is a
+      # documentation-only addition, not a behavior change.
+      LOG_LEVEL: INFO
+    volumes:
+      # Same named volume as "api", at the same mount path -- a shared
+      # volume, not two isolated ones, so the worker can read files the
+      # API saved (Task 10.1/10.2's file-path contract).
+      - uploads:/data/uploads
+    depends_on:
+      redis:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+
+volumes:
+  # Shared between "api" and "worker" -- see both services' "uploads" mounts above.
+  # PRODUCTION HARDENING TASK 5: neither service overrides the image's
+  # default non-root `USER app` (set in the Dockerfile) back to root --
+  # no `user:` key is set on either service here, so both inherit it.
+  # This named volume is populated with the image's `/data/uploads`
+  # ownership (app:app) the first time it's created; see the Dockerfile's
+  # own comment for the migration note covering an already-existing,
+  # previously root-owned volume.
+  uploads:
+  # Qdrant's persistent data directory (Task 11.1 section 15: do not make
+  # Qdrant data disappear on every stack restart).
+  qdrant_storage:
+  # Redis's AOF/RDB data directory (Production Hardening Task 1): job
+  # state (RedisJobStore), the Celery broker/result-backend queues, and
+  # progress-mirroring keys all survive container restart/recreation.
+  redis_data:

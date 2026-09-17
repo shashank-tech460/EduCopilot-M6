@@ -1,0 +1,1136 @@
+{
+  "models": {
+    "semantic_only__baseline__threshold_0.0": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.18,
+          "3": 0.32666666666666666,
+          "5": 0.36666666666666664,
+          "10": 0.3933333333333333
+        },
+        "mrr": 0.2648888888888889
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.4375,
+            "3": 0.6875,
+            "5": 0.8125,
+            "10": 0.9375
+          },
+          "mrr": 0.590625
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0625,
+            "5": 0.0625,
+            "10": 0.0625
+          },
+          "mrr": 0.020833333333333332
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.75,
+            "5": 0.8125,
+            "10": 0.8125
+          },
+          "mrr": 0.5677083333333334
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.16666666666666666,
+            "3": 0.16666666666666666,
+            "5": 0.16666666666666666,
+            "10": 0.16666666666666666
+          },
+          "mrr": 0.3333333333333333
+        }
+      },
+      "seconds": 9.236644500022521
+    },
+    "semantic_only__baseline__threshold_0.3": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.18,
+          "3": 0.31333333333333335,
+          "5": 0.35333333333333333,
+          "10": 0.38
+        },
+        "mrr": 0.2604444444444445
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.4375,
+            "3": 0.6875,
+            "5": 0.8125,
+            "10": 0.9375
+          },
+          "mrr": 0.590625
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.75,
+            "5": 0.8125,
+            "10": 0.8125
+          },
+          "mrr": 0.5677083333333334
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.16666666666666666,
+            "3": 0.16666666666666666,
+            "5": 0.16666666666666666,
+            "10": 0.16666666666666666
+          },
+          "mrr": 0.3333333333333333
+        }
+      },
+      "seconds": 1.8525918999803253
+    },
+    "semantic_only__candidate__threshold_0.0": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.21333333333333335,
+          "3": 0.32,
+          "5": 0.42,
+          "10": 0.4866666666666667
+        },
+        "mrr": 0.2941587301587302
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.6875,
+            "5": 0.875,
+            "10": 0.9375
+          },
+          "mrr": 0.571875
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.125,
+            "3": 0.1875,
+            "5": 0.375,
+            "10": 0.5
+          },
+          "mrr": 0.20892857142857144
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5,
+            "3": 0.625,
+            "5": 0.6875,
+            "10": 0.8125
+          },
+          "mrr": 0.5855654761904762
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.16666666666666666,
+            "10": 0.16666666666666666
+          },
+          "mrr": 0.06666666666666667
+        }
+      },
+      "seconds": 11.62047039999743
+    },
+    "semantic_only__candidate__threshold_0.3": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.21333333333333335,
+          "3": 0.32,
+          "5": 0.42,
+          "10": 0.4866666666666667
+        },
+        "mrr": 0.2941587301587302
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.6875,
+            "5": 0.875,
+            "10": 0.9375
+          },
+          "mrr": 0.571875
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.125,
+            "3": 0.1875,
+            "5": 0.375,
+            "10": 0.5
+          },
+          "mrr": 0.20892857142857144
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5,
+            "3": 0.625,
+            "5": 0.6875,
+            "10": 0.8125
+          },
+          "mrr": 0.5855654761904762
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.16666666666666666,
+            "10": 0.16666666666666666
+          },
+          "mrr": 0.06666666666666667
+        }
+      },
+      "seconds": 2.846128299977863
+    },
+    "hybrid_rrf__baseline__threshold_0.0": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.20666666666666667,
+          "3": 0.43333333333333335,
+          "5": 0.44666666666666666,
+          "10": 0.47333333333333333
+        },
+        "mrr": 0.31266666666666665
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5,
+            "3": 0.875,
+            "5": 0.9375,
+            "10": 0.9375
+          },
+          "mrr": 0.6583333333333333
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.0625,
+            "3": 0.1875,
+            "5": 0.1875,
+            "10": 0.25
+          },
+          "mrr": 0.12239583333333333
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.75,
+            "5": 0.75,
+            "10": 0.8125
+          },
+          "mrr": 0.5182291666666666
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0625,
+            "3": 0.3125,
+            "5": 0.3125,
+            "10": 0.3125
+          },
+          "mrr": 0.25
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.3333333333333333,
+            "5": 0.3333333333333333,
+            "10": 0.3333333333333333
+          },
+          "mrr": 0.2222222222222222
+        }
+      },
+      "seconds": 17.565534299996216,
+      "mean_latency_seconds": 0.23420712399994956
+    },
+    "hybrid_rrf__baseline__threshold_0.3": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.20666666666666667,
+          "3": 0.43333333333333335,
+          "5": 0.44666666666666666,
+          "10": 0.47333333333333333
+        },
+        "mrr": 0.31266666666666665
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5,
+            "3": 0.875,
+            "5": 0.9375,
+            "10": 0.9375
+          },
+          "mrr": 0.6583333333333333
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.0625,
+            "3": 0.1875,
+            "5": 0.1875,
+            "10": 0.25
+          },
+          "mrr": 0.12239583333333333
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.75,
+            "5": 0.75,
+            "10": 0.8125
+          },
+          "mrr": 0.5182291666666666
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0625,
+            "3": 0.3125,
+            "5": 0.3125,
+            "10": 0.3125
+          },
+          "mrr": 0.25
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.3333333333333333,
+            "5": 0.3333333333333333,
+            "10": 0.3333333333333333
+          },
+          "mrr": 0.2222222222222222
+        }
+      },
+      "seconds": 10.777385599998524,
+      "mean_latency_seconds": 0.14369847466664698
+    },
+    "hybrid_rrf__candidate__threshold_0.0": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.24,
+          "3": 0.36,
+          "5": 0.4866666666666667,
+          "10": 0.54
+        },
+        "mrr": 0.33414814814814814
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.4375,
+            "3": 0.6875,
+            "5": 1.0,
+            "10": 1.0
+          },
+          "mrr": 0.6208333333333333
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.125,
+            "3": 0.1875,
+            "5": 0.1875,
+            "10": 0.25
+          },
+          "mrr": 0.15625
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5625,
+            "3": 0.6875,
+            "5": 0.875,
+            "10": 0.9375
+          },
+          "mrr": 0.6756944444444445
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.125,
+            "5": 0.3125,
+            "10": 0.5625
+          },
+          "mrr": 0.12291666666666667
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.3333333333333333,
+            "5": 0.3333333333333333,
+            "10": 0.3333333333333333
+          },
+          "mrr": 0.27777777777777773
+        }
+      },
+      "seconds": 19.951788100006524,
+      "mean_latency_seconds": 0.26602384133342033
+    },
+    "hybrid_rrf__candidate__threshold_0.3": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.24,
+          "3": 0.36,
+          "5": 0.4866666666666667,
+          "10": 0.54
+        },
+        "mrr": 0.33414814814814814
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.4375,
+            "3": 0.6875,
+            "5": 1.0,
+            "10": 1.0
+          },
+          "mrr": 0.6208333333333333
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.125,
+            "3": 0.1875,
+            "5": 0.1875,
+            "10": 0.25
+          },
+          "mrr": 0.15625
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5625,
+            "3": 0.6875,
+            "5": 0.875,
+            "10": 0.9375
+          },
+          "mrr": 0.6756944444444445
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.125,
+            "5": 0.3125,
+            "10": 0.5625
+          },
+          "mrr": 0.12291666666666667
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.3333333333333333,
+            "5": 0.3333333333333333,
+            "10": 0.3333333333333333
+          },
+          "mrr": 0.27777777777777773
+        }
+      },
+      "seconds": 12.262201000005007,
+      "mean_latency_seconds": 0.16349601333340008
+    }
+  },
+  "timing": {
+    "baseline_semantic_only_24_queries_seconds": 30.121700599993346,
+    "candidate_semantic_only_24_queries_seconds": 10.172127099998761
+  },
+  "part_c_semantic_ranks": {
+    "baseline": {
+      "c_os_modules__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_os_modules__q_hindi": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_os_modules__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_real_time_os__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_real_time_os__q_hindi": {
+        "rank": 27,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_real_time_os__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_process_stack_contents__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_process_stack_contents__q_hindi": {
+        "rank": 32,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_process_stack_contents__q_hinglish": {
+        "rank": 84,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_sjf_not_implementable__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_sjf_not_implementable__q_hindi": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_sjf_not_implementable__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_page_fault_definition__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_page_fault_definition__q_hindi": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_page_fault_definition__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_fcfs_disk_scheduling__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_fcfs_disk_scheduling__q_hindi": {
+        "rank": 87,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_fcfs_disk_scheduling__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_memory_hierarchy_locality__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_memory_hierarchy_locality__q_hindi": {
+        "rank": 29,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_memory_hierarchy_locality__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_hold_and_wait_deadlock__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_hold_and_wait_deadlock__q_hindi": {
+        "rank": 58,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_hold_and_wait_deadlock__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      }
+    },
+    "candidate": {
+      "c_os_modules__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_os_modules__q_hindi": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_os_modules__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_real_time_os__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_real_time_os__q_hindi": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_real_time_os__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_process_stack_contents__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_process_stack_contents__q_hindi": {
+        "rank": 48,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_process_stack_contents__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_sjf_not_implementable__q_english": {
+        "rank": 91,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_sjf_not_implementable__q_hindi": {
+        "rank": 75,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_sjf_not_implementable__q_hinglish": {
+        "rank": 57,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_page_fault_definition__q_english": {
+        "rank": 85,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_page_fault_definition__q_hindi": {
+        "rank": 27,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_page_fault_definition__q_hinglish": {
+        "rank": 31,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_fcfs_disk_scheduling__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_fcfs_disk_scheduling__q_hindi": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_fcfs_disk_scheduling__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_memory_hierarchy_locality__q_english": {
+        "rank": 78,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_memory_hierarchy_locality__q_hindi": {
+        "rank": 51,
+        "in_top10": false,
+        "in_top100": true
+      },
+      "c_memory_hierarchy_locality__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_hold_and_wait_deadlock__q_english": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_hold_and_wait_deadlock__q_hindi": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      },
+      "c_hold_and_wait_deadlock__q_hinglish": {
+        "rank": null,
+        "in_top10": false,
+        "in_top100": false
+      }
+    }
+  },
+  "part_c_rrf_rank_hindi_source": {
+    "baseline": [
+      {
+        "query_id": "c_os_modules__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_os_modules__q_hindi",
+        "rrf_rank_top100": 58
+      },
+      {
+        "query_id": "c_os_modules__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_real_time_os__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_real_time_os__q_hindi",
+        "rrf_rank_top100": 2
+      },
+      {
+        "query_id": "c_real_time_os__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_process_stack_contents__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_process_stack_contents__q_hindi",
+        "rrf_rank_top100": 2
+      },
+      {
+        "query_id": "c_process_stack_contents__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_hindi",
+        "rrf_rank_top100": 60
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_page_fault_definition__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_page_fault_definition__q_hindi",
+        "rrf_rank_top100": 41
+      },
+      {
+        "query_id": "c_page_fault_definition__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_hindi",
+        "rrf_rank_top100": 85
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_hindi",
+        "rrf_rank_top100": 1
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_hindi",
+        "rrf_rank_top100": 15
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_hinglish",
+        "rrf_rank_top100": null
+      }
+    ],
+    "candidate": [
+      {
+        "query_id": "c_os_modules__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_os_modules__q_hindi",
+        "rrf_rank_top100": 10
+      },
+      {
+        "query_id": "c_os_modules__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_real_time_os__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_real_time_os__q_hindi",
+        "rrf_rank_top100": 18
+      },
+      {
+        "query_id": "c_real_time_os__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_process_stack_contents__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_process_stack_contents__q_hindi",
+        "rrf_rank_top100": 3
+      },
+      {
+        "query_id": "c_process_stack_contents__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_hindi",
+        "rrf_rank_top100": 10
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_hinglish",
+        "rrf_rank_top100": 98
+      },
+      {
+        "query_id": "c_page_fault_definition__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_page_fault_definition__q_hindi",
+        "rrf_rank_top100": 5
+      },
+      {
+        "query_id": "c_page_fault_definition__q_hinglish",
+        "rrf_rank_top100": 81
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_hindi",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_hindi",
+        "rrf_rank_top100": 4
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_hinglish",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_english",
+        "rrf_rank_top100": null
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_hindi",
+        "rrf_rank_top100": 47
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_hinglish",
+        "rrf_rank_top100": null
+      }
+    ]
+  }
+}

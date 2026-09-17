@@ -1,0 +1,524 @@
+{
+  "bm25_refresh_seconds": 1.3571553999790922,
+  "chunk_count": 1650,
+  "production_threshold": 0.3,
+  "mean_latencies_seconds": {
+    "semantic": 0.8474734208333151,
+    "bm25": 0.13691698333180588,
+    "rrf_00": 0.12872577916641603,
+    "rerank_pool40": 3.3515507166691045,
+    "rerank_pool100": 6.087972658334668
+  },
+  "real_generation_authority_result_for_hindi_doc": {
+    "6aaa7e8c81e2b76728b76bb6": 1
+  },
+  "per_query": [
+    {
+      "query_id": "c_os_modules__q_english",
+      "query": "Why does an operating system have separate modules for tasks like file management, process management, and networking?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "f404ac22-88f5-591d-b20f-e0502be6ef96"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 996,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_os_modules__q_hindi",
+      "query": "ऑपरेटिंग सिस्टम में फाइल मैनेजमेंट, प्रोसेस मैनेजमेंट और नेटवर्किंग जैसे कार्यों के लिए अलग-अलग मॉड्यूल क्यों होते हैं?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "f404ac22-88f5-591d-b20f-e0502be6ef96"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 1,
+      "bm25_raw_score": 69.38193366019239,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": 58,
+      "rrf_threshold_production_rank": 58,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": 1
+    },
+    {
+      "query_id": "c_os_modules__q_hinglish",
+      "query": "Operating system mein file management, process management aur networking ke liye alag-alag modules kyu hote hain?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "f404ac22-88f5-591d-b20f-e0502be6ef96"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 737,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_real_time_os__q_english",
+      "query": "What is a real-time operating system?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "280c2744-c8bb-5f78-854b-52e3b77c8613"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 1260,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_real_time_os__q_hindi",
+      "query": "रियल टाइम ऑपरेटिंग सिस्टम क्या होता है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "280c2744-c8bb-5f78-854b-52e3b77c8613"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": 27,
+      "semantic_top100_raw_cosine_score": 0.45459288,
+      "bm25_rank": 1,
+      "bm25_raw_score": 31.401810212353844,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": 2,
+      "rrf_threshold_production_rank": 2,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": true,
+      "final_top10_hit_reranked_pool40": true,
+      "reranked_pool100_rank": 2
+    },
+    {
+      "query_id": "c_real_time_os__q_hinglish",
+      "query": "Real time operating system kya hota hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "280c2744-c8bb-5f78-854b-52e3b77c8613"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 1203,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_process_stack_contents__q_english",
+      "query": "What does the stack section of a process contain?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 1166,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_process_stack_contents__q_hindi",
+      "query": "एक प्रोसेस के स्टैक सेक्शन में क्या होता है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": 32,
+      "semantic_top100_raw_cosine_score": 0.44187433,
+      "bm25_rank": 3,
+      "bm25_raw_score": 29.050103384453415,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": 2,
+      "rrf_threshold_production_rank": 2,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": true,
+      "final_top10_hit_reranked_pool40": true,
+      "reranked_pool100_rank": 1
+    },
+    {
+      "query_id": "c_process_stack_contents__q_hinglish",
+      "query": "Process ke stack section mein kya hota hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": 84,
+      "semantic_top100_raw_cosine_score": 0.29312283,
+      "bm25_rank": 935,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": 98,
+      "rrf_threshold_production_rank": 98,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": 70
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_english",
+      "query": "Why is the Shortest Job First (SJF) scheduling algorithm difficult to implement in practice?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 1070,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_hindi",
+      "query": "शॉर्टेस्ट जॉब फर्स्ट (SJF) शेड्यूलिंग एल्गोरिदम को व्यवहार में लागू करना कठिन क्यों है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 7,
+      "bm25_raw_score": 27.16663926315267,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": 62,
+      "rrf_threshold_production_rank": 62,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": 9
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_hinglish",
+      "query": "SJF scheduling algorithm ko practically implement karna mushkil kyu hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 485,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_page_fault_definition__q_english",
+      "query": "What is a page fault?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "de102609-87b3-5d1d-b5d6-78591df889cd"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 917,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_page_fault_definition__q_hindi",
+      "query": "पेज फॉल्ट क्या होता है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "de102609-87b3-5d1d-b5d6-78591df889cd"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 1,
+      "bm25_raw_score": 25.30629034129812,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": 46,
+      "rrf_threshold_production_rank": 46,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": 1
+    },
+    {
+      "query_id": "c_page_fault_definition__q_hinglish",
+      "query": "Page fault kya hota hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "de102609-87b3-5d1d-b5d6-78591df889cd"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 643,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_english",
+      "query": "What is a drawback of the FCFS disk scheduling algorithm?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 1375,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_hindi",
+      "query": "FCFS डिस्क शेड्यूलिंग एल्गोरिदम की एक कमी क्या है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": 87,
+      "semantic_top100_raw_cosine_score": 0.422578,
+      "bm25_rank": 184,
+      "bm25_raw_score": 3.7729872006258685,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": 60,
+      "rrf_threshold_production_rank": 60,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": 14
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_hinglish",
+      "query": "FCFS disk scheduling algorithm ka ek drawback kya hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 1341,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_english",
+      "query": "What is locality of reference in the context of memory hierarchy?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "1e2576b8-b408-5ded-9144-2d977076f961",
+        "2c1abf3a-9337-5167-8b7c-e6fb816f20cc"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 986,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_hindi",
+      "query": "मेमोरी हायरार्की के संदर्भ में लोकैलिटी ऑफ रेफरेंस क्या है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "1e2576b8-b408-5ded-9144-2d977076f961",
+        "2c1abf3a-9337-5167-8b7c-e6fb816f20cc"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": 29,
+      "semantic_top100_raw_cosine_score": 0.4745073,
+      "bm25_rank": 1,
+      "bm25_raw_score": 22.253586496962104,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": 1,
+      "rrf_threshold_production_rank": 1,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": true,
+      "final_top10_hit_reranked_pool40": true,
+      "reranked_pool100_rank": 1
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_hinglish",
+      "query": "Memory hierarchy ke context mein locality of reference kya hoti hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "1e2576b8-b408-5ded-9144-2d977076f961",
+        "2c1abf3a-9337-5167-8b7c-e6fb816f20cc"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 761,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_english",
+      "query": "How does holding a resource while waiting for another cause a deadlock?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "d487a846-1937-5a17-a6f6-f0fe58575fca"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 951,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_hindi",
+      "query": "एक रिसोर्स को पकड़े रखते हुए दूसरे के लिए इंतज़ार करना डेडलॉक का कारण कैसे बनता है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "d487a846-1937-5a17-a6f6-f0fe58575fca"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": 58,
+      "semantic_top100_raw_cosine_score": 0.49044424,
+      "bm25_rank": 12,
+      "bm25_raw_score": 26.15151141468454,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": 15,
+      "rrf_threshold_production_rank": 15,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": true,
+      "reranked_pool100_rank": 1
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_hinglish",
+      "query": "Ek resource ko hold karke rakhna aur dusre resource ka wait karna deadlock ka reason kaise banta hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "d487a846-1937-5a17-a6f6-f0fe58575fca"
+      ],
+      "present_in_canonical_corpus": true,
+      "semantic_top100_rank": null,
+      "semantic_top100_raw_cosine_score": null,
+      "bm25_rank": 614,
+      "bm25_raw_score": 0.0,
+      "bm25_corpus_size_this_workspace": 1400,
+      "rrf_threshold0_rank": null,
+      "rrf_threshold_production_rank": null,
+      "eliminated_by_threshold": false,
+      "final_top10_hit_no_rerank": false,
+      "final_top10_hit_reranked_pool40": false,
+      "reranked_pool100_rank": null
+    }
+  ]
+}

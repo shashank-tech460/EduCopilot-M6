@@ -1,0 +1,1372 @@
+{
+  "phase": "4D",
+  "point_count_before": 1650,
+  "point_count_after": 1650,
+  "models_evaluated": {
+    "baseline": {
+      "name": "all-MiniLM-L6-v2",
+      "dimension": 384,
+      "collection": "phase2_eval_all_minilm_l6_v2_20260917T113049 (reused from Phase 4A, not rebuilt)"
+    },
+    "candidate": {
+      "name": "paraphrase-multilingual-MiniLM-L12-v2",
+      "dimension": 384,
+      "collection": "phase2_eval_paraphrase_multilingual_minilm_l12_v2_20260917T113049 (reused from Phase 4A, not rebuilt)"
+    }
+  },
+  "part_b_overall_and_by_pair": {
+    "semantic_only__baseline__threshold_0.0": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.18,
+          "3": 0.32666666666666666,
+          "5": 0.36666666666666664,
+          "10": 0.3933333333333333
+        },
+        "mrr": 0.2648888888888889
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.4375,
+            "3": 0.6875,
+            "5": 0.8125,
+            "10": 0.9375
+          },
+          "mrr": 0.590625
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0625,
+            "5": 0.0625,
+            "10": 0.0625
+          },
+          "mrr": 0.020833333333333332
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.75,
+            "5": 0.8125,
+            "10": 0.8125
+          },
+          "mrr": 0.5677083333333334
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.16666666666666666,
+            "3": 0.16666666666666666,
+            "5": 0.16666666666666666,
+            "10": 0.16666666666666666
+          },
+          "mrr": 0.3333333333333333
+        }
+      },
+      "seconds": 9.236644500022521
+    },
+    "semantic_only__baseline__threshold_0.3": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.18,
+          "3": 0.31333333333333335,
+          "5": 0.35333333333333333,
+          "10": 0.38
+        },
+        "mrr": 0.2604444444444445
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.4375,
+            "3": 0.6875,
+            "5": 0.8125,
+            "10": 0.9375
+          },
+          "mrr": 0.590625
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.75,
+            "5": 0.8125,
+            "10": 0.8125
+          },
+          "mrr": 0.5677083333333334
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.16666666666666666,
+            "3": 0.16666666666666666,
+            "5": 0.16666666666666666,
+            "10": 0.16666666666666666
+          },
+          "mrr": 0.3333333333333333
+        }
+      },
+      "seconds": 1.8525918999803253
+    },
+    "semantic_only__candidate__threshold_0.0": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.21333333333333335,
+          "3": 0.32,
+          "5": 0.42,
+          "10": 0.4866666666666667
+        },
+        "mrr": 0.2941587301587302
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.6875,
+            "5": 0.875,
+            "10": 0.9375
+          },
+          "mrr": 0.571875
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.125,
+            "3": 0.1875,
+            "5": 0.375,
+            "10": 0.5
+          },
+          "mrr": 0.20892857142857144
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5,
+            "3": 0.625,
+            "5": 0.6875,
+            "10": 0.8125
+          },
+          "mrr": 0.5855654761904762
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.16666666666666666,
+            "10": 0.16666666666666666
+          },
+          "mrr": 0.06666666666666667
+        }
+      },
+      "seconds": 11.62047039999743
+    },
+    "semantic_only__candidate__threshold_0.3": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.21333333333333335,
+          "3": 0.32,
+          "5": 0.42,
+          "10": 0.4866666666666667
+        },
+        "mrr": 0.2941587301587302
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.6875,
+            "5": 0.875,
+            "10": 0.9375
+          },
+          "mrr": 0.571875
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.125,
+            "3": 0.1875,
+            "5": 0.375,
+            "10": 0.5
+          },
+          "mrr": 0.20892857142857144
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5,
+            "3": 0.625,
+            "5": 0.6875,
+            "10": 0.8125
+          },
+          "mrr": 0.5855654761904762
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.16666666666666666,
+            "10": 0.16666666666666666
+          },
+          "mrr": 0.06666666666666667
+        }
+      },
+      "seconds": 2.846128299977863
+    },
+    "hybrid_rrf__baseline__threshold_0.0": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.20666666666666667,
+          "3": 0.43333333333333335,
+          "5": 0.44666666666666666,
+          "10": 0.47333333333333333
+        },
+        "mrr": 0.31266666666666665
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5,
+            "3": 0.875,
+            "5": 0.9375,
+            "10": 0.9375
+          },
+          "mrr": 0.6583333333333333
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.0625,
+            "3": 0.1875,
+            "5": 0.1875,
+            "10": 0.25
+          },
+          "mrr": 0.12239583333333333
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.75,
+            "5": 0.75,
+            "10": 0.8125
+          },
+          "mrr": 0.5182291666666666
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0625,
+            "3": 0.3125,
+            "5": 0.3125,
+            "10": 0.3125
+          },
+          "mrr": 0.25
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.3333333333333333,
+            "5": 0.3333333333333333,
+            "10": 0.3333333333333333
+          },
+          "mrr": 0.2222222222222222
+        }
+      },
+      "seconds": 17.565534299996216,
+      "mean_latency_seconds": 0.23420712399994956
+    },
+    "hybrid_rrf__baseline__threshold_0.3": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.20666666666666667,
+          "3": 0.43333333333333335,
+          "5": 0.44666666666666666,
+          "10": 0.47333333333333333
+        },
+        "mrr": 0.31266666666666665
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5,
+            "3": 0.875,
+            "5": 0.9375,
+            "10": 0.9375
+          },
+          "mrr": 0.6583333333333333
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.0625,
+            "3": 0.1875,
+            "5": 0.1875,
+            "10": 0.25
+          },
+          "mrr": 0.12239583333333333
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.375,
+            "3": 0.75,
+            "5": 0.75,
+            "10": 0.8125
+          },
+          "mrr": 0.5182291666666666
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0625,
+            "3": 0.3125,
+            "5": 0.3125,
+            "10": 0.3125
+          },
+          "mrr": 0.25
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.3333333333333333,
+            "5": 0.3333333333333333,
+            "10": 0.3333333333333333
+          },
+          "mrr": 0.2222222222222222
+        }
+      },
+      "seconds": 10.777385599998524,
+      "mean_latency_seconds": 0.14369847466664698
+    },
+    "hybrid_rrf__candidate__threshold_0.0": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.24,
+          "3": 0.36,
+          "5": 0.4866666666666667,
+          "10": 0.54
+        },
+        "mrr": 0.33414814814814814
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.4375,
+            "3": 0.6875,
+            "5": 1.0,
+            "10": 1.0
+          },
+          "mrr": 0.6208333333333333
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.125,
+            "3": 0.1875,
+            "5": 0.1875,
+            "10": 0.25
+          },
+          "mrr": 0.15625
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5625,
+            "3": 0.6875,
+            "5": 0.875,
+            "10": 0.9375
+          },
+          "mrr": 0.6756944444444445
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.125,
+            "5": 0.3125,
+            "10": 0.5625
+          },
+          "mrr": 0.12291666666666667
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.3333333333333333,
+            "5": 0.3333333333333333,
+            "10": 0.3333333333333333
+          },
+          "mrr": 0.27777777777777773
+        }
+      },
+      "seconds": 19.951788100006524,
+      "mean_latency_seconds": 0.26602384133342033
+    },
+    "hybrid_rrf__candidate__threshold_0.3": {
+      "overall": {
+        "query_count": 75,
+        "recall_at_k": {
+          "1": 0.24,
+          "3": 0.36,
+          "5": 0.4866666666666667,
+          "10": 0.54
+        },
+        "mrr": 0.33414814814814814
+      },
+      "by_language_pair": {
+        "english->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.4375,
+            "3": 0.6875,
+            "5": 1.0,
+            "10": 1.0
+          },
+          "mrr": 0.6208333333333333
+        },
+        "hindi->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.125,
+            "3": 0.1875,
+            "5": 0.1875,
+            "10": 0.25
+          },
+          "mrr": 0.15625
+        },
+        "hinglish->english": {
+          "query_count": 16,
+          "recall_at_k": {
+            "1": 0.5625,
+            "3": 0.6875,
+            "5": 0.875,
+            "10": 0.9375
+          },
+          "mrr": 0.6756944444444445
+        },
+        "english->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "hindi->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.125,
+            "5": 0.3125,
+            "10": 0.5625
+          },
+          "mrr": 0.12291666666666667
+        },
+        "hinglish->hindi": {
+          "query_count": 8,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0
+          },
+          "mrr": 0.0
+        },
+        "english->mixed": {
+          "query_count": 3,
+          "recall_at_k": {
+            "1": 0.0,
+            "3": 0.3333333333333333,
+            "5": 0.3333333333333333,
+            "10": 0.3333333333333333
+          },
+          "mrr": 0.27777777777777773
+        }
+      },
+      "seconds": 12.262201000005007,
+      "mean_latency_seconds": 0.16349601333340008
+    }
+  },
+  "part_c_hindi_source_24_queries": [
+    {
+      "query_id": "c_os_modules__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "f404ac22-88f5-591d-b20f-e0502be6ef96"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 996,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_os_modules__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "f404ac22-88f5-591d-b20f-e0502be6ef96"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 1,
+      "current_model_rrf_rank_top100": 58,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": 58,
+      "multilingual_hybrid_rrf_rank_top100": 10,
+      "multilingual_hybrid_rrf_reranker_hit_top10": true,
+      "multilingual_hybrid_rrf_reranker_rank": 1
+    },
+    {
+      "query_id": "c_os_modules__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "f404ac22-88f5-591d-b20f-e0502be6ef96"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 737,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_real_time_os__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "280c2744-c8bb-5f78-854b-52e3b77c8613"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 1260,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_real_time_os__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "280c2744-c8bb-5f78-854b-52e3b77c8613"
+      ],
+      "current_model_semantic_rank_top100": 27,
+      "current_model_bm25_rank": 1,
+      "current_model_rrf_rank_top100": 2,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": 2,
+      "multilingual_hybrid_rrf_rank_top100": 18,
+      "multilingual_hybrid_rrf_reranker_hit_top10": true,
+      "multilingual_hybrid_rrf_reranker_rank": 7
+    },
+    {
+      "query_id": "c_real_time_os__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "280c2744-c8bb-5f78-854b-52e3b77c8613"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 1203,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_process_stack_contents__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 1166,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_process_stack_contents__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+      ],
+      "current_model_semantic_rank_top100": 32,
+      "current_model_bm25_rank": 3,
+      "current_model_rrf_rank_top100": 2,
+      "multilingual_semantic_rank_top100": 48,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": true,
+      "baseline_hybrid_rrf_rank_top100": 2,
+      "multilingual_hybrid_rrf_rank_top100": 3,
+      "multilingual_hybrid_rrf_reranker_hit_top10": true,
+      "multilingual_hybrid_rrf_reranker_rank": 1
+    },
+    {
+      "query_id": "c_process_stack_contents__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+      ],
+      "current_model_semantic_rank_top100": 84,
+      "current_model_bm25_rank": 935,
+      "current_model_rrf_rank_top100": 98,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 1070,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": 91,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": true,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 7,
+      "current_model_rrf_rank_top100": 62,
+      "multilingual_semantic_rank_top100": 75,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": true,
+      "baseline_hybrid_rrf_rank_top100": 60,
+      "multilingual_hybrid_rrf_rank_top100": 10,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 485,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": 57,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": true,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": 98,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_page_fault_definition__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "de102609-87b3-5d1d-b5d6-78591df889cd"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 917,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": 85,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": true,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_page_fault_definition__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "de102609-87b3-5d1d-b5d6-78591df889cd"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 1,
+      "current_model_rrf_rank_top100": 46,
+      "multilingual_semantic_rank_top100": 27,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": true,
+      "baseline_hybrid_rrf_rank_top100": 41,
+      "multilingual_hybrid_rrf_rank_top100": 5,
+      "multilingual_hybrid_rrf_reranker_hit_top10": true,
+      "multilingual_hybrid_rrf_reranker_rank": 1
+    },
+    {
+      "query_id": "c_page_fault_definition__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "de102609-87b3-5d1d-b5d6-78591df889cd"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 643,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": 31,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": true,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": 81,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 1375,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+      ],
+      "current_model_semantic_rank_top100": 87,
+      "current_model_bm25_rank": 184,
+      "current_model_rrf_rank_top100": 60,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": 85,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 1341,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "2c1abf3a-9337-5167-8b7c-e6fb816f20cc",
+        "1e2576b8-b408-5ded-9144-2d977076f961"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 986,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": 78,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": true,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "2c1abf3a-9337-5167-8b7c-e6fb816f20cc",
+        "1e2576b8-b408-5ded-9144-2d977076f961"
+      ],
+      "current_model_semantic_rank_top100": 29,
+      "current_model_bm25_rank": 1,
+      "current_model_rrf_rank_top100": 1,
+      "multilingual_semantic_rank_top100": 51,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": true,
+      "baseline_hybrid_rrf_rank_top100": 1,
+      "multilingual_hybrid_rrf_rank_top100": 4,
+      "multilingual_hybrid_rrf_reranker_hit_top10": true,
+      "multilingual_hybrid_rrf_reranker_rank": 1
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "2c1abf3a-9337-5167-8b7c-e6fb816f20cc",
+        "1e2576b8-b408-5ded-9144-2d977076f961"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 761,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "d487a846-1937-5a17-a6f6-f0fe58575fca"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 951,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "d487a846-1937-5a17-a6f6-f0fe58575fca"
+      ],
+      "current_model_semantic_rank_top100": 58,
+      "current_model_bm25_rank": 12,
+      "current_model_rrf_rank_top100": 15,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": 15,
+      "multilingual_hybrid_rrf_rank_top100": 47,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "relevant_chunk_ids": [
+        "d487a846-1937-5a17-a6f6-f0fe58575fca"
+      ],
+      "current_model_semantic_rank_top100": null,
+      "current_model_bm25_rank": 614,
+      "current_model_rrf_rank_top100": null,
+      "multilingual_semantic_rank_top100": null,
+      "multilingual_in_top10_semantic_only": false,
+      "multilingual_in_top100_semantic_only": false,
+      "baseline_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_rank_top100": null,
+      "multilingual_hybrid_rrf_reranker_hit_top10": false,
+      "multilingual_hybrid_rrf_reranker_rank": null
+    }
+  ],
+  "part_d_candidate_recall_at_k": {
+    "baseline_english_to_hindi": {
+      "1": 0.0,
+      "10": 0.0,
+      "25": 0.0,
+      "50": 0.0,
+      "100": 0.0
+    },
+    "baseline_hinglish_to_hindi": {
+      "1": 0.0,
+      "10": 0.0,
+      "25": 0.0,
+      "50": 0.0,
+      "100": 0.125
+    },
+    "candidate_english_to_hindi": {
+      "1": 0.0,
+      "10": 0.0,
+      "25": 0.0,
+      "50": 0.0,
+      "100": 0.375
+    },
+    "candidate_hinglish_to_hindi": {
+      "1": 0.0,
+      "10": 0.0,
+      "25": 0.0,
+      "50": 0.125,
+      "100": 0.25
+    }
+  },
+  "part_e_reranker_hindi_source": {
+    "per_query": [
+      {
+        "query_id": "c_os_modules__q_english",
+        "query_language": "english",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 30.77190549997613
+      },
+      {
+        "query_id": "c_os_modules__q_hindi",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "hit_top10": true,
+        "rank": 1,
+        "latency_seconds": 3.105235700000776
+      },
+      {
+        "query_id": "c_os_modules__q_hinglish",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 3.030165300006047
+      },
+      {
+        "query_id": "c_real_time_os__q_english",
+        "query_language": "english",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 3.0808774999750312
+      },
+      {
+        "query_id": "c_real_time_os__q_hindi",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "hit_top10": true,
+        "rank": 7,
+        "latency_seconds": 3.0632500000065193
+      },
+      {
+        "query_id": "c_real_time_os__q_hinglish",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 3.0204668999940623
+      },
+      {
+        "query_id": "c_process_stack_contents__q_english",
+        "query_language": "english",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 3.4197495999978855
+      },
+      {
+        "query_id": "c_process_stack_contents__q_hindi",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "hit_top10": true,
+        "rank": 1,
+        "latency_seconds": 3.1551289000199176
+      },
+      {
+        "query_id": "c_process_stack_contents__q_hinglish",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 3.5037214000185486
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_english",
+        "query_language": "english",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 3.5218157000199426
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_hindi",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 3.4483985000115354
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_hinglish",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 3.3943693000182975
+      },
+      {
+        "query_id": "c_page_fault_definition__q_english",
+        "query_language": "english",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 2.452563700004248
+      },
+      {
+        "query_id": "c_page_fault_definition__q_hindi",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "hit_top10": true,
+        "rank": 1,
+        "latency_seconds": 1.829966899997089
+      },
+      {
+        "query_id": "c_page_fault_definition__q_hinglish",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 2.787916299974313
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_english",
+        "query_language": "english",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 5.2304044000047725
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_hindi",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 5.220585899980506
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_hinglish",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 5.175702400010778
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_english",
+        "query_language": "english",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 3.8595539999951143
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_hindi",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "hit_top10": true,
+        "rank": 1,
+        "latency_seconds": 4.918243199994322
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_hinglish",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 4.663261700014118
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_english",
+        "query_language": "english",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 5.45207530001062
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_hindi",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 5.1251242000143975
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_hinglish",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "hit_top10": false,
+        "rank": null,
+        "latency_seconds": 5.356645199994091
+      }
+    ],
+    "total_seconds": 118.58791939998628,
+    "mean_latency_seconds": 4.9411633083327615
+  },
+  "timing": {
+    "baseline_semantic_only_24_queries_seconds": 30.121700599993346,
+    "candidate_semantic_only_24_queries_seconds": 10.172127099998761
+  }
+}

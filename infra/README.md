@@ -1,0 +1,1 @@
+# Infrastructure configuration placeholder — this integration intentionally reuses your existing approved Docker/native setup for Mongo/Redis/Qdrant/Ollama rather than duplicating it here (per this task's own Section 17 instruction).

@@ -1,0 +1,52 @@
+# EduCopilot M6 — root .gitignore
+# Created during the pre-GitHub cleanup (see docs/M6_REPOSITORY_CLEANUP_AUDIT.md).
+# Git has not been initialized yet; this file takes effect once it is.
+
+# ---------------------------------------------------------------------------
+# Secrets — never commit real values, only *.example templates
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+!.env.docker.example
+*.pem
+
+# ---------------------------------------------------------------------------
+# Python build/test caches (regenerated automatically)
+# ---------------------------------------------------------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.hypothesis/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# ---------------------------------------------------------------------------
+# Node / Next.js (team4c already has its own .gitignore covering this;
+# kept here too in case the root becomes the effective git root for a tool
+# that doesn't descend into nested .gitignore files)
+# ---------------------------------------------------------------------------
+node_modules/
+.next/
+*.tsbuildinfo
+next-env.d.ts
+
+# ---------------------------------------------------------------------------
+# Non-canonical backup/duplicate project-copy directories (exact names only
+# — see docs/M6_REPOSITORY_CLEANUP_AUDIT.md sections 5/6 for why these exist
+# and why they are excluded from Git rather than deleted). Kept locally for
+# rollback/reference.
+# ---------------------------------------------------------------------------
+/team4a-backup-before-transcript-windowing/
+/team4a-before-youtube-hindi-fallback/
+/team4a-new/
+/team4b-context-provenance-temp/
+
+# ---------------------------------------------------------------------------
+# Tool-local session state (Claude Code) — not project content
+# ---------------------------------------------------------------------------
+/.claude/

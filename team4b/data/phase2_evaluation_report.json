@@ -1,0 +1,121 @@
+{
+  "run_id": "c91af386f4",
+  "ground_truth_available": false,
+  "ground_truth_file": null,
+  "ground_truth_query_count": 0,
+  "chunk_count": 1650,
+  "workspace_ids": null,
+  "top_k": 10,
+  "thresholds": [
+    0.0,
+    0.3
+  ],
+  "canonical_collection": "educopilot_chunks",
+  "canonical_point_count": 1650,
+  "unavailable_models": [],
+  "models": [
+    {
+      "model_name": "all-MiniLM-L6-v2",
+      "role": "baseline",
+      "dimension": 384,
+      "temp_collection_name": "phase2_eval_all_minilm_l6_v2_c91af386f4",
+      "chunk_count": 1650,
+      "embedding_seconds": 27.757606099999975,
+      "indexing_seconds": 1.1156995999917854,
+      "thresholds": [
+        {
+          "threshold": 0.0,
+          "overall": {
+            "query_count": 0,
+            "recall_at_k": {
+              "1": 0.0,
+              "3": 0.0,
+              "5": 0.0,
+              "10": 0.0
+            },
+            "mrr": 0.0
+          },
+          "by_language_pair": {},
+          "latency_seconds": {
+            "mean": null,
+            "min": null,
+            "max": null
+          },
+          "raw_outcomes": []
+        },
+        {
+          "threshold": 0.3,
+          "overall": {
+            "query_count": 0,
+            "recall_at_k": {
+              "1": 0.0,
+              "3": 0.0,
+              "5": 0.0,
+              "10": 0.0
+            },
+            "mrr": 0.0
+          },
+          "by_language_pair": {},
+          "latency_seconds": {
+            "mean": null,
+            "min": null,
+            "max": null
+          },
+          "raw_outcomes": []
+        }
+      ]
+    },
+    {
+      "model_name": "paraphrase-multilingual-MiniLM-L12-v2",
+      "role": "candidate",
+      "dimension": 384,
+      "temp_collection_name": "phase2_eval_paraphrase_multilingual_minilm_l12_v2_c91af386f4",
+      "chunk_count": 1650,
+      "embedding_seconds": 27.526085099991178,
+      "indexing_seconds": 1.0172018999874126,
+      "thresholds": [
+        {
+          "threshold": 0.0,
+          "overall": {
+            "query_count": 0,
+            "recall_at_k": {
+              "1": 0.0,
+              "3": 0.0,
+              "5": 0.0,
+              "10": 0.0
+            },
+            "mrr": 0.0
+          },
+          "by_language_pair": {},
+          "latency_seconds": {
+            "mean": null,
+            "min": null,
+            "max": null
+          },
+          "raw_outcomes": []
+        },
+        {
+          "threshold": 0.3,
+          "overall": {
+            "query_count": 0,
+            "recall_at_k": {
+              "1": 0.0,
+              "3": 0.0,
+              "5": 0.0,
+              "10": 0.0
+            },
+            "mrr": 0.0
+          },
+          "by_language_pair": {},
+          "latency_seconds": {
+            "mean": null,
+            "min": null,
+            "max": null
+          },
+          "raw_outcomes": []
+        }
+      ]
+    }
+  ],
+  "metrics_note": "NOT_COMPUTED: no --ground-truth file was provided. Recall@k/MRR values above are all 0.0 by construction (no relevant_chunk_ids to match against) and MUST NOT be read as real retrieval-quality measurements. Structural results (dimensions, embedding/indexing timing, raw per-query retrieval latency and ranked chunk_ids) ARE real measurements."
+}

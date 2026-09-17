@@ -1,0 +1,49 @@
+# Team 4B — Advanced RAG & Semantic Search
+# Runtime dependencies, per the official design document's Task 1.1 list.
+
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+qdrant-client
+sentence-transformers
+redis
+httpx
+rank-bm25
+ragas
+
+# pandas: not a direct dependency of ragas itself (verified: `pip show
+# ragas` lists no pandas), but app/services/ragas_adapter.py imports it
+# directly (`result.to_pandas()`, `pd.isna()`). It currently installs
+# transitively via ragas -> datasets -> pandas, so a plain `pip install
+# -r requirements.txt` already works today -- but relying on an
+# incidental transitive dependency of a transitive dependency, for a
+# package OUR OWN code imports directly, is a genuine build-
+# reproducibility risk (Task 11.1): if a future ragas/datasets release
+# drops that transitive chain, the build would still succeed but the
+# application would fail at runtime with ModuleNotFoundError. Declared
+# explicitly here, unpinned (matching every other unpinned entry in this
+# file), so pip's resolver keeps picking whatever version is already
+# compatible -- this is a declaration fix, not a version change.
+pandas
+
+# ragas==0.4.3 fails to import against the latest langchain-community
+# (0.4.2) in this environment: ModuleNotFoundError for
+# langchain_community.chat_models.vertexai. Pinned to the last known-
+# compatible release (Task 9.1) -- the smallest change that fixes the
+# import without touching any other already-approved dependency.
+langchain-community<0.4
+
+# Phase 2B (Rev.4.4 internal service JWT foundation): ES256 verification
+# of short-lived internal JWTs Team 4C mints. `cryptography` is PyJWT's
+# own documented extra for asymmetric algorithms (ES256/RS256). Team 4B
+# holds ONLY public verification keys -- see app/security/service_jwt.py.
+pyjwt
+cryptography
+
+# MVP M4 (generation visibility): the ONLY reason Team 4B ever imports
+# pymongo -- a narrow, read-only authority check against Team 4C's
+# File.currentIngestionGeneration (app/services/generation_authority.py).
+# Never used to write, create, or mutate a Mongo document anywhere in
+# this codebase.
+pymongo

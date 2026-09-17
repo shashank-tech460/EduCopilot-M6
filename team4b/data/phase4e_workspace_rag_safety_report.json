@@ -1,0 +1,210 @@
+{
+  "phase": "4E",
+  "title": "Generalized Domain-Agnostic RAG + Workspace Isolation + Retrieval Safety",
+  "date": "2026-09-17",
+  "repository_state": {
+    "is_git_repository": false,
+    "note": "Confirmed via `git status`/`git branch`/`git diff --stat`, all failing with 'fatal: not a git repository'. Consistent with every prior phase's own check. No git-based diff/branch tracking is possible; file-level before/after state is reported manually below instead."
+  },
+  "phase_4d_acceptance_gate": {
+    "verdict": "PASS -- Phase 4E authorized to proceed",
+    "criteria": {
+      "A_evaluation_files_exist_and_are_substantive": {
+        "status": "PASS",
+        "evidence": "team4b/data/phase4d_cross_lingual_embedding_evaluation.json and _review.md both present and non-trivial in size."
+      },
+      "B_baseline_and_candidate_models_known_and_documented": {
+        "status": "PASS",
+        "baseline": "all-MiniLM-L6-v2",
+        "candidate": "paraphrase-multilingual-MiniLM-L12-v2"
+      },
+      "C_results_reproducible": {
+        "status": "PASS",
+        "evidence": "Documented methodology reuses Phase 4A's temporary Qdrant collections and the settings-override trick; no undocumented manual steps."
+      },
+      "D_canonical_collection_never_overwritten": {
+        "status": "PASS",
+        "evidence": "educopilot_chunks point_count = 1650 at Phase 4D close and re-verified fresh at Phase 4E start and again at Phase 4E close (see canonical_collection_integrity below)."
+      },
+      "E_no_production_embedding_migration_occurred": {
+        "status": "PASS",
+        "evidence": "Settings.embedding_model_name live-read at Phase 4E start = 'all-MiniLM-L6-v2' (unchanged default)."
+      },
+      "F_production_embedding_configuration_known_and_unchanged": {
+        "status": "PASS"
+      },
+      "G_phase_4d_benchmark_results_fully_recorded": {
+        "status": "PASS",
+        "files": [
+          "team4b/data/phase4d_cross_lingual_embedding_evaluation.json",
+          "team4b/data/phase4d_cross_lingual_embedding_review.md"
+        ]
+      },
+      "H_no_recommendation_made_solely_from_one_improved_metric": {
+        "status": "PASS",
+        "evidence": "Phase 4D review explicitly separated per-metric movement from an overall migration recommendation."
+      }
+    }
+  },
+  "discovered_path_discrepancies": [
+    {
+      "assumed_by_prompt": "team4b/app/config.py",
+      "actual": "team4b/app/core/config.py"
+    },
+    {
+      "assumed_by_prompt": "team4b/app/dependencies.py",
+      "actual": "team4b/app/api/dependencies.py"
+    }
+  ],
+  "canonical_collection_integrity": {
+    "collection_name": "educopilot_chunks",
+    "point_count_before_phase_4e": 1650,
+    "point_count_after_phase_4e": 1650,
+    "modified_in_this_phase": false
+  },
+  "production_configuration_verified_unchanged": {
+    "embedding_model_name": "all-MiniLM-L6-v2",
+    "reranker_enabled": false
+  },
+  "production_code_changes": [
+    {
+      "phase": "4E-F1",
+      "file": "team4b/app/services/bm25_index.py",
+      "change": "Added a `source_type: str | None = None` field to `BM25Document` (same construction-convenience-default precedent as `workspace_id`/`document_id`). Added a `collection_filter: list[str] | None = None` keyword parameter to `BM25Index.search()`; when non-empty, candidates are narrowed to matching `source_type` values BEFORE the per-query `BM25Okapi` instance is built (mirrors the existing `document_ids` narrowing). Empty/`None` both mean 'no restriction', matching `VectorStoreManager._build_collection_filter()`'s existing semantic-leg contract -- deliberately NOT `document_ids`'s 'empty means zero results' contract."
+    },
+    {
+      "phase": "4E-F1",
+      "file": "team4b/app/services/hybrid_retriever.py",
+      "change": "`refresh_bm25_corpus()` now populates `BM25Document.source_type` from each chunk's already-normalized `metadata['source_type']`. `_retrieve_keyword_only()` gained a `collection_filter` parameter and passes it to `BM25Index.search()`. `_retrieve_hybrid()` now passes `collection_filter` to the BM25 leg's `search()` call (previously only the semantic leg received it). `retrieve()` threads `collection_filter` into `_retrieve_keyword_only()` (previously not accepted by that method at all)."
+    }
+  ],
+  "production_code_changes_note": "Phase 4E itself made no production changes (see the historical known_findings[0] record below). This follow-up, Phase 4E-F1, made exactly the two production changes listed above -- the smallest correct fix for the confirmed gap, with no other retrieval behavior touched.",
+  "files_created": [
+    "team4b/tests/test_phase4e_workspace_rag_safety.py",
+    "team4b/data/phase4e_workspace_rag_safety_report.json",
+    "team4b/data/phase4e_workspace_rag_safety_review.md",
+    "team4b/tests/test_phase4e_f1_bm25_source_filter.py"
+  ],
+  "files_modified": [
+    "team4b/app/services/bm25_index.py",
+    "team4b/app/services/hybrid_retriever.py",
+    "team4b/tests/test_hybrid_retriever.py",
+    "team4b/tests/test_hybrid_retriever_properties.py",
+    "team4b/tests/test_phase4e_workspace_rag_safety.py"
+  ],
+  "files_modified_note": "test_hybrid_retriever.py and test_hybrid_retriever_properties.py needed a one-line signature update on three locally-defined BM25Index test-double subclasses (SlowBM25, _RaisingBM25, _CountingBM25) to accept the new `collection_filter` keyword parameter -- a required, mechanical consequence of threading `collection_filter` into the BM25 leg's call site, not a behavior change to those tests. test_phase4e_workspace_rag_safety.py's former KNOWN_GAP test and its docstring were updated to assert the now-correct (filtered) behavior; the historical finding itself is preserved below and in the review markdown, not deleted.",
+  "known_findings": [
+    {
+      "id": "PHASE4E-F1",
+      "title": "collection_filter (source-type restriction) is not enforced on the BM25 leg in hybrid mode",
+      "location": "team4b/app/services/hybrid_retriever.py: HybridRetriever._retrieve_hybrid()",
+      "confidence": "confirmed",
+      "description": "In hybrid mode, `_retrieve_hybrid()` passes `collection_filter` to the semantic leg (`_semantic_candidates`) but not to the BM25 leg (`self._bm25_index.search(...)`). `BM25Index.search()` has no source-type parameter at all. A BM25-only lexical match of a non-selected source type can therefore enter RRF fusion and appear in the final hybrid result, even though semantic-only mode correctly enforces the same filter.",
+      "scope_of_impact": "Source-type filtering only (e.g. PDF-only vs video-only). Workspace isolation, document-id filtering, and generation-authority enforcement are unaffected -- confirmed independently enforced pre-fusion for all three retrieval modes by the passing tests in TestWorkspaceIsolation, TestDocumentFiltering, and TestGenerationAuthority.",
+      "reproduced_by_test": "tests/test_phase4e_workspace_rag_safety.py::TestSourceSelection::test_KNOWN_GAP_collection_filter_is_not_enforced_against_the_bm25_leg_in_hybrid_mode (Phase 4E finding, preserved as history -- test since renamed and updated, see fix.regression_test below)",
+      "status": "FIXED",
+      "status_history": "Phase 4E (2026-09-17): documented_not_fixed, deliberately deferred per that phase's own architecture/test/validation-only scope. Phase 4E-F1 (2026-09-17, same day, follow-up task): fixed. This record is preserved rather than deleted, per Phase 4E-F1's explicit instruction not to rewrite history.",
+      "rationale_for_not_fixing_in_phase_4e": "Fixing required a multi-file production change beyond Phase 4E's single-smallest-correct-fix allowance for that phase, and source-type filtering was judged a narrower, lower-severity property than the workspace/document/authority invariants Phase 4E was scoped to validate. Recommended as the first item for a follow-up phase -- which became Phase 4E-F1.",
+      "fix": {
+        "root_cause": "BM25Index.search() had no source-type parameter at all, and HybridRetriever never passed collection_filter to it in either keyword-only or hybrid mode.",
+        "files_changed": ["team4b/app/services/bm25_index.py", "team4b/app/services/hybrid_retriever.py"],
+        "summary": "Added BM25Document.source_type and BM25Index.search(collection_filter=...), populated from each chunk's already-normalized metadata; threaded collection_filter into both HybridRetriever._retrieve_keyword_only() (previously didn't accept it at all) and _retrieve_hybrid()'s BM25 leg call (previously only the semantic leg received it). See production_code_changes above for full detail.",
+        "regression_test": "tests/test_phase4e_f1_bm25_source_filter.py (14 tests, A-K plus 2 supporting unit/end-to-end tests) and tests/test_phase4e_workspace_rag_safety.py::TestSourceSelection::test_PHASE4E_F1_FIXED_collection_filter_is_enforced_against_the_bm25_leg_in_hybrid_mode",
+        "verified_date": "2026-09-17"
+      }
+    }
+  ],
+  "test_suite": {
+    "phase_4e_file": "team4b/tests/test_phase4e_workspace_rag_safety.py",
+    "phase_4e_total_tests": 69,
+    "phase_4e_result": "69 passed, 0 failed, 0 skipped (one test renamed/updated in place for the 4E-F1 fix, see files_modified_note; test count unchanged)",
+    "tests_by_class": {
+      "TestWorkspaceIsolation": 9,
+      "TestDocumentFiltering": 13,
+      "TestGenerationAuthority": 7,
+      "TestSourceSelection": 3,
+      "TestSessionIsolation": 3,
+      "TestMultilingualArchitecture": 7,
+      "TestDomainGeneralization": 6,
+      "TestRerankerSafetyInvariants": 5,
+      "TestCitationIntegrity": 4,
+      "TestEdgeAndFailureCases": 9,
+      "TestCrossCuttingInvariants": 3
+    },
+    "phase_4e_f1_file": "team4b/tests/test_phase4e_f1_bm25_source_filter.py",
+    "phase_4e_f1_total_tests": 14,
+    "phase_4e_f1_result": "14 passed, 0 failed, 0 skipped",
+    "phase_4e_f1_tests_by_class": {
+      "TestBM25LegSourceFiltering": 7,
+      "TestHybridModeSourceFiltering": 3,
+      "TestSourceFilteringCombinedWithOtherScoping": 2,
+      "TestRealNormalizedVocabularyEndToEnd": 1
+    },
+    "phase_4e_f1_acceptance_letters_covered": {
+      "A": "TestBM25LegSourceFiltering::test_A_filter_type_alpha_excludes_type_beta",
+      "B": "TestBM25LegSourceFiltering::test_B_filter_type_beta_excludes_type_alpha",
+      "C": "TestBM25LegSourceFiltering::test_C_filter_type_gamma_excludes_both_others AND TestHybridModeSourceFiltering::test_C_source_filtering_holds_in_hybrid_mode_not_just_keyword_mode",
+      "D": "TestBM25LegSourceFiltering::test_D_multiple_filters_include_exactly_those_types",
+      "E": "TestBM25LegSourceFiltering::test_E_no_collection_filter_preserves_existing_behavior",
+      "F": "TestBM25LegSourceFiltering::test_F_empty_collection_filter_behaves_like_no_restriction",
+      "G": "TestHybridModeSourceFiltering::test_G_source_filtering_correct_after_rrf_even_when_excluded_type_would_rank_first_on_bm25_alone",
+      "H": "TestHybridModeSourceFiltering::test_H_source_filtering_correct_with_reranker_enabled",
+      "I": "TestHybridModeSourceFiltering::test_I_source_filtering_correct_when_reranker_fails_and_falls_back",
+      "J": "TestSourceFilteringCombinedWithOtherScoping::test_J_workspace_isolation_intact_simultaneously_with_source_filtering",
+      "K": "TestSourceFilteringCombinedWithOtherScoping::test_K_document_filtering_and_source_filtering_together"
+    },
+    "uses_real_infrastructure": false,
+    "infrastructure_note": "All new tests (Phase 4E and 4E-F1) run against InMemoryQdrantClient (tests/fakes.py) and small locally-defined generic fakes. No real Qdrant/MongoDB/Redis/Ollama connection, no network access, no model download."
+  },
+  "regression_results": {
+    "targeted_sequence": {
+      "files": [
+        "team4b/tests/test_bm25_index.py",
+        "team4b/tests/test_hybrid_retriever.py",
+        "team4b/tests/test_hybrid_retriever_properties.py",
+        "team4b/tests/test_reranker.py",
+        "team4b/tests/test_phase4e_workspace_rag_safety.py",
+        "team4b/tests/test_phase4e_f1_bm25_source_filter.py",
+        "team4b/tests/test_phase2_evaluation_harness.py",
+        "team4b/tests/test_phase3_generalized_ground_truth.py"
+      ],
+      "result": "368 passed, 0 failed"
+    },
+    "full_team4b_suite": {
+      "result": "1274 passed, 3 skipped, 0 failed",
+      "skipped_note": "Pre-existing skips unrelated to Phase 4E/4E-F1 (not investigated further; neither phase touched the code paths they cover).",
+      "note": "1274 = the 1260 passed at Phase 4E close + 14 new Phase 4E-F1 tests; no regressions."
+    }
+  },
+  "invariant_traceability": [
+    {"id": 1, "statement": "A query in workspace A must never return workspace B's evidence.", "status": "proven", "primary_tests": ["TestWorkspaceIsolation (9 tests, all 3 search modes, reranker enabled/failed, minimal metadata)"]},
+    {"id": 2, "statement": "document_ids filtering must be correctly enforced (None/single/multiple/empty) across all search modes.", "status": "proven", "primary_tests": ["TestDocumentFiltering (13 tests)"]},
+    {"id": 3, "statement": "Generation-authority filtering must exclude unauthorized/stale candidates before fusion and reranking.", "status": "proven", "primary_tests": ["TestGenerationAuthority (7 tests)"]},
+    {"id": 4, "statement": "The reranker cannot introduce a candidate not present in its input.", "status": "proven", "primary_tests": ["TestRerankerSafetyInvariants::test_reranker_cannot_introduce_a_candidate_not_present_in_input"]},
+    {"id": 5, "statement": "The reranker cannot modify chunk_id/text/metadata identity, only relevance_score/order.", "status": "proven", "primary_tests": ["TestRerankerSafetyInvariants::test_reranker_cannot_modify_metadata_identity"]},
+    {"id": 6, "statement": "Fallback on reranker failure cannot weaken authorization (must remain within the already-authorized set).", "status": "proven", "primary_tests": ["TestGenerationAuthority::test_fallback_on_reranker_failure_remains_authorized", "TestWorkspaceIsolation::test_workspace_isolation_holds_when_reranker_fails"]},
+    {"id": 7, "statement": "An empty document_ids filter must return zero results (non-widening).", "status": "proven", "primary_tests": ["TestDocumentFiltering::test_document_ids_empty_list_returns_zero_results (all 3 modes)"]},
+    {"id": 8, "statement": "Citation metadata must refer to actual retrieved chunks, never LLM-generated text.", "status": "proven", "primary_tests": ["TestCitationIntegrity (4 tests)"]},
+    {"id": 9, "statement": "A brand-new subject/domain workspace requires zero retrieval-code changes.", "status": "proven", "primary_tests": ["TestDomainGeneralization (6 tests, 5 synthetic subjects)", "TestCrossCuttingInvariants::test_invariant_9_and_10_new_domain_and_workspace_need_no_retrieval_code_change"]},
+    {"id": 10, "statement": "A brand-new workspace requires zero retrieval-code changes.", "status": "proven", "primary_tests": ["TestDomainGeneralization::test_five_synthetic_subject_workspaces_never_cross_contaminate", "TestCrossCuttingInvariants::test_invariant_9_and_10_new_domain_and_workspace_need_no_retrieval_code_change"]},
+    {"id": 11, "statement": "Source-type filtering is enforced through the full pipeline.", "status": "proven", "note": "As of Phase 4E-F1 (2026-09-17): proven for the semantic leg (unchanged) AND the BM25 leg in both keyword-only and hybrid mode (previously a confirmed gap, now fixed -- see known_findings[0]).", "primary_tests": ["TestSourceSelection::test_collection_filter_document_only_excludes_video_in_semantic_mode", "TestSourceSelection::test_PHASE4E_F1_FIXED_collection_filter_is_enforced_against_the_bm25_leg_in_hybrid_mode", "TestCrossCuttingInvariants::test_invariant_11_source_filtering_enforced_in_semantic_leg_throughout_pipeline", "test_phase4e_f1_bm25_source_filter.py (14 tests, A-K)"]},
+    {"id": 12, "statement": "Session context cannot cross workspace boundaries.", "status": "proven", "primary_tests": ["TestSessionIsolation (3 tests)", "TestCrossCuttingInvariants::test_invariant_12_session_context_cannot_cross_workspace_boundaries"]}
+  ],
+  "master_safety_checklist_summary": {
+    "workspace_isolation": "PASS",
+    "document_filtering": "PASS",
+    "generation_authority_enforcement": "PASS",
+    "source_selection_filtering": "PASS (as of Phase 4E-F1; was PARTIAL at Phase 4E close)",
+    "session_isolation": "PASS",
+    "multilingual_architecture_no_language_branching": "PASS",
+    "domain_generalization_no_subject_branching": "PASS",
+    "reranker_safety_and_pipeline_ordering": "PASS",
+    "citation_integrity": "PASS",
+    "canonical_data_untouched": "PASS",
+    "no_production_reranker_enablement": "PASS",
+    "no_embedding_migration": "PASS",
+    "no_secrets_logged_or_exposed": "PASS",
+    "no_out_of_scope_production_changes": "PASS"
+  },
+  "next_phase_recommendation": "PHASE4E-F1 is complete: the BM25/collection_filter gap is fixed and regression-tested (14 new tests, plus the updated Phase 4E test). No other production issue is currently known. This report makes no recommendation to start a specific Phase 4F; that remains the user's decision."
+}

@@ -1,0 +1,1460 @@
+{
+  "_notice": "CANDIDATE -- NOT YET VALIDATED GROUND TRUTH. Every entry in this file was proposed by an AI agent (Claude) after directly reading real chunk text from the canonical educopilot_chunks collection. No entry has been confirmed by a human domain reviewer. This is a GENERALIZED, domain-agnostic benchmark covering every real usable content source currently in the corpus (operating systems AND database management systems) -- it is NOT scoped to any one subject. Do NOT pass this file to phase2_multilingual_embedding_evaluation.py as --ground-truth, and do NOT treat any Recall@k/MRR numbers computed from it as valid, until a human has reviewed and explicitly approved each entry (see phase3_generalized_ground_truth_review.md). This file is additive to, and does not replace, team4b/data/phase2_ground_truth_candidate.json. PHASE 3.1 RECONCILIATION (see phase3_generalized_ground_truth_review.md's reconciliation section for the full changelog): query_type/wording corrections applied to c_mft_mvt, c_sjf_difficulty, and c_workspace_wide_scheduling_algorithms; c_memory_hierarchy_locality flagged as needing further chunk verification once Qdrant is reachable again (not resolved by inventing evidence); c_transaction_isolation_levels and c_sql_query_evaluation_steps re-verified sufficient against complete chunk text; c_process_memory_cross_document_hard's rationale corrected to accurately describe evidence relationships. Status remains CANDIDATE_NOT_VALIDATED throughout -- nothing was approved. PHASE 3.1 FINAL CORRECTION: c_memory_hierarchy_locality's live-Qdrant-verified continuation chunk (1e2576b8-b408-5ded-9144-2d977076f961) has been added to relevant_chunk_ids for all 3 language variants; review_flag updated from NEEDS_ADJACENT_CHUNK_VERIFICATION to RE_VERIFIED_SUFFICIENT. This was the only outstanding item from the live verification pass. Status remains CANDIDATE_NOT_VALIDATED throughout.",
+  "entries": [
+    {
+      "query_id": "c_mft_mvt__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What is the difference between multiple fixed partitions (MFT) and multiple variable partitions (MVT)?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "pdf",
+      "document_id": "6aa90e314ac03b89c7624ccb",
+      "query_type": "comparison",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "f0cc7bc5-bad4-5302-aae1-1e57efe5e5d2"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explicitly names MFT and MVT and lists advantages/disadvantages of each.",
+      "chunk_text_excerpt": "(Hardware support for relocation and limit registers) According to size of partitions, the multiple partition schemes are divided into two types: i. Multiple fixed partition/ multiprogramming with fixed task(MFT) ii. Multiple variable partition/ multiprogramming with variable task(MVT) i. Multiple f"
+    },
+    {
+      "query_id": "c_mft_mvt__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "एकाधिक स्थिर विभाजन (MFT) और एकाधिक परिवर्तनीय विभाजन (MVT) में क्या अंतर है?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "pdf",
+      "document_id": "6aa90e314ac03b89c7624ccb",
+      "query_type": "comparison",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "f0cc7bc5-bad4-5302-aae1-1e57efe5e5d2"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explicitly names MFT and MVT and lists advantages/disadvantages of each.",
+      "chunk_text_excerpt": "(Hardware support for relocation and limit registers) According to size of partitions, the multiple partition schemes are divided into two types: i. Multiple fixed partition/ multiprogramming with fixed task(MFT) ii. Multiple variable partition/ multiprogramming with variable task(MVT) i. Multiple f"
+    },
+    {
+      "query_id": "c_mft_mvt__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "MFT aur MVT partitioning mein kya difference hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "pdf",
+      "document_id": "6aa90e314ac03b89c7624ccb",
+      "query_type": "comparison",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "f0cc7bc5-bad4-5302-aae1-1e57efe5e5d2"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explicitly names MFT and MVT and lists advantages/disadvantages of each.",
+      "chunk_text_excerpt": "(Hardware support for relocation and limit registers) According to size of partitions, the multiple partition schemes are divided into two types: i. Multiple fixed partition/ multiprogramming with fixed task(MFT) ii. Multiple variable partition/ multiprogramming with variable task(MVT) i. Multiple f"
+    },
+    {
+      "query_id": "c_producer_consumer__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What is the producer-consumer problem in process synchronization?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "process synchronization",
+      "source_type": "pdf",
+      "document_id": "6aa90e314ac03b89c7624ccb",
+      "query_type": "conceptual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "f3c769b8-86c7-5928-aadc-9464f1113f6e"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk defines the producer-consumer paradigm and the bounded/unbounded buffer setup.",
+      "chunk_text_excerpt": "Lecture # 17 Process Synchronization A situation where several processes access and manipulate the same data concurrently and the outcome of the execution depends on the particular order in which the access takes place, is called a race condition. Producer-Consumer Problem Paradigm for cooperating p"
+    },
+    {
+      "query_id": "c_producer_consumer__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "प्रोसेस सिंक्रोनाइजेशन में प्रोड्यूसर-कंज्यूमर समस्या क्या है?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "process synchronization",
+      "source_type": "pdf",
+      "document_id": "6aa90e314ac03b89c7624ccb",
+      "query_type": "conceptual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "f3c769b8-86c7-5928-aadc-9464f1113f6e"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk defines the producer-consumer paradigm and the bounded/unbounded buffer setup.",
+      "chunk_text_excerpt": "Lecture # 17 Process Synchronization A situation where several processes access and manipulate the same data concurrently and the outcome of the execution depends on the particular order in which the access takes place, is called a race condition. Producer-Consumer Problem Paradigm for cooperating p"
+    },
+    {
+      "query_id": "c_producer_consumer__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Process synchronization mein producer-consumer problem kya hoti hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "process synchronization",
+      "source_type": "pdf",
+      "document_id": "6aa90e314ac03b89c7624ccb",
+      "query_type": "conceptual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "f3c769b8-86c7-5928-aadc-9464f1113f6e"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk defines the producer-consumer paradigm and the bounded/unbounded buffer setup.",
+      "chunk_text_excerpt": "Lecture # 17 Process Synchronization A situation where several processes access and manipulate the same data concurrently and the outcome of the execution depends on the particular order in which the access takes place, is called a race condition. Producer-Consumer Problem Paradigm for cooperating p"
+    },
+    {
+      "query_id": "c_process_vs_program__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What is the difference between a process and a program?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "process management",
+      "source_type": "pdf",
+      "document_id": "6aa72e4416cbab6b27d5f50b",
+      "query_type": "comparison",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "8bde1fee-6475-5709-b3d3-df7cc009e665"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk contains an explicit numbered list contrasting process vs program (static vs dynamic, secondary vs main storage, active vs passive entity, etc.).",
+      "chunk_text_excerpt": "Lecture #6(UNIT-II) Process Concept  Informally, a process is a program in execution. A process is more than the program code, which is sometimes known as the text section. It also includes the current activity, as represented by the value of the program counter and the contents of the processor's "
+    },
+    {
+      "query_id": "c_process_vs_program__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "प्रोसेस और प्रोग्राम में क्या अंतर है?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "process management",
+      "source_type": "pdf",
+      "document_id": "6aa72e4416cbab6b27d5f50b",
+      "query_type": "comparison",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "8bde1fee-6475-5709-b3d3-df7cc009e665"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk contains an explicit numbered list contrasting process vs program (static vs dynamic, secondary vs main storage, active vs passive entity, etc.).",
+      "chunk_text_excerpt": "Lecture #6(UNIT-II) Process Concept  Informally, a process is a program in execution. A process is more than the program code, which is sometimes known as the text section. It also includes the current activity, as represented by the value of the program counter and the contents of the processor's "
+    },
+    {
+      "query_id": "c_process_vs_program__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Process aur program mein kya farak hota hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "process management",
+      "source_type": "pdf",
+      "document_id": "6aa72e4416cbab6b27d5f50b",
+      "query_type": "comparison",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "8bde1fee-6475-5709-b3d3-df7cc009e665"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk contains an explicit numbered list contrasting process vs program (static vs dynamic, secondary vs main storage, active vs passive entity, etc.).",
+      "chunk_text_excerpt": "Lecture #6(UNIT-II) Process Concept  Informally, a process is a program in execution. A process is more than the program code, which is sometimes known as the text section. It also includes the current activity, as represented by the value of the program counter and the contents of the processor's "
+    },
+    {
+      "query_id": "c_semaphore_wait_signal__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What are the wait and signal operations on a semaphore?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "process synchronization",
+      "source_type": "pdf",
+      "document_id": "6aa846698a7bd709c53a5f4e",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "ccda131d-5398-57b1-87ea-a90e73ae79ea"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk gives the classical pseudocode definitions of wait(S) and signal(S) and states they must execute indivisibly.",
+      "chunk_text_excerpt": "Lecture # 20 Semaphores The solutions to the critical-section problem presented before are not easy to generalize to more complex problems. To overcome this difficulty, we can use a synchronization tool called a semaphore. A semaphore S is an integer variable that, apart from initialization, is acce"
+    },
+    {
+      "query_id": "c_semaphore_wait_signal__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "सेमाफोर पर वेट और सिग्नल ऑपरेशन क्या होते हैं?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "process synchronization",
+      "source_type": "pdf",
+      "document_id": "6aa846698a7bd709c53a5f4e",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "ccda131d-5398-57b1-87ea-a90e73ae79ea"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk gives the classical pseudocode definitions of wait(S) and signal(S) and states they must execute indivisibly.",
+      "chunk_text_excerpt": "Lecture # 20 Semaphores The solutions to the critical-section problem presented before are not easy to generalize to more complex problems. To overcome this difficulty, we can use a synchronization tool called a semaphore. A semaphore S is an integer variable that, apart from initialization, is acce"
+    },
+    {
+      "query_id": "c_semaphore_wait_signal__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Semaphore ke wait aur signal operations kya hote hain?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "process synchronization",
+      "source_type": "pdf",
+      "document_id": "6aa846698a7bd709c53a5f4e",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "ccda131d-5398-57b1-87ea-a90e73ae79ea"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk gives the classical pseudocode definitions of wait(S) and signal(S) and states they must execute indivisibly.",
+      "chunk_text_excerpt": "Lecture # 20 Semaphores The solutions to the critical-section problem presented before are not easy to generalize to more complex problems. To overcome this difficulty, we can use a synchronization tool called a semaphore. A semaphore S is an integer variable that, apart from initialization, is acce"
+    },
+    {
+      "query_id": "c_user_level_threads__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What are the advantages of user-level threads?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "threads",
+      "source_type": "pdf",
+      "document_id": "6aa72e4416cbab6b27d5f50b",
+      "query_type": "advantage_disadvantage",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "0a3a084e-013e-569e-bb20-08a65f2f05a6"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk lists user-level thread advantages (no OS modification needed, simple representation/management, fast switching) and disadvantages.",
+      "chunk_text_excerpt": "2. Resource sharing: By default, threads share the memory and the resources of the process to which they belong. The benefit of code sharing is that it allows an application to have several different threads of activity all within the same address space. 3. Economy: Allocating memory and resources f"
+    },
+    {
+      "query_id": "c_user_level_threads__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "यूज़र-लेवल थ्रेड्स के क्या फायदे हैं?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "threads",
+      "source_type": "pdf",
+      "document_id": "6aa72e4416cbab6b27d5f50b",
+      "query_type": "advantage_disadvantage",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "0a3a084e-013e-569e-bb20-08a65f2f05a6"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk lists user-level thread advantages (no OS modification needed, simple representation/management, fast switching) and disadvantages.",
+      "chunk_text_excerpt": "2. Resource sharing: By default, threads share the memory and the resources of the process to which they belong. The benefit of code sharing is that it allows an application to have several different threads of activity all within the same address space. 3. Economy: Allocating memory and resources f"
+    },
+    {
+      "query_id": "c_user_level_threads__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "User-level threads ke kya advantages hote hain?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "threads",
+      "source_type": "pdf",
+      "document_id": "6aa72e4416cbab6b27d5f50b",
+      "query_type": "advantage_disadvantage",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "0a3a084e-013e-569e-bb20-08a65f2f05a6"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk lists user-level thread advantages (no OS modification needed, simple representation/management, fast switching) and disadvantages.",
+      "chunk_text_excerpt": "2. Resource sharing: By default, threads share the memory and the resources of the process to which they belong. The benefit of code sharing is that it allows an application to have several different threads of activity all within the same address space. 3. Economy: Allocating memory and resources f"
+    },
+    {
+      "query_id": "c_sjf_difficulty__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Why is the Shortest Job First (SJF) algorithm difficult to implement in practice for short-term CPU scheduling?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "cpu scheduling",
+      "source_type": "pdf",
+      "document_id": "6aa72dae16cbab6b27d5f508",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "ae88f902-a448-573d-a7ea-a7ea2b4191f5"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states there is no way to know the length of the next CPU burst at the short-term scheduling level, which makes SJF DIFFICULT to implement directly in practice (it can only be approximated) -- not that it is mathematically impossible.",
+      "chunk_text_excerpt": "the minimum average waiting time for a given set of processes. By moving a short process before a long one, the waiting time of the short process decreases more than it increases the waiting time of the long process. Consequently, the average waiting time decreases. The real difficulty with the SJF "
+    },
+    {
+      "query_id": "c_sjf_difficulty__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "शॉर्ट-टर्म CPU शेड्यूलिंग के लिए शॉर्टेस्ट जॉब फर्स्ट (SJF) एल्गोरिदम को व्यवहार में लागू करना कठिन क्यों है?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "cpu scheduling",
+      "source_type": "pdf",
+      "document_id": "6aa72dae16cbab6b27d5f508",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "ae88f902-a448-573d-a7ea-a7ea2b4191f5"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states there is no way to know the length of the next CPU burst at the short-term scheduling level, which makes SJF DIFFICULT to implement directly in practice (it can only be approximated) -- not that it is mathematically impossible.",
+      "chunk_text_excerpt": "the minimum average waiting time for a given set of processes. By moving a short process before a long one, the waiting time of the short process decreases more than it increases the waiting time of the long process. Consequently, the average waiting time decreases. The real difficulty with the SJF "
+    },
+    {
+      "query_id": "c_sjf_difficulty__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Short-term CPU scheduling ke liye SJF algorithm ko practically implement karna mushkil kyu hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "cpu scheduling",
+      "source_type": "pdf",
+      "document_id": "6aa72dae16cbab6b27d5f508",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "ae88f902-a448-573d-a7ea-a7ea2b4191f5"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states there is no way to know the length of the next CPU burst at the short-term scheduling level, which makes SJF DIFFICULT to implement directly in practice (it can only be approximated) -- not that it is mathematically impossible.",
+      "chunk_text_excerpt": "the minimum average waiting time for a given set of processes. By moving a short process before a long one, the waiting time of the short process decreases more than it increases the waiting time of the long process. Consequently, the average waiting time decreases. The real difficulty with the SJF "
+    },
+    {
+      "query_id": "c_ipc_direct_vs_indirect__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What is the difference between direct and indirect communication in inter-process communication (IPC)?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "inter-process communication",
+      "source_type": "pdf",
+      "document_id": "6aa72dae16cbab6b27d5f508",
+      "query_type": "comparison",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "13c21374-754e-5a0c-88d6-f6df04cb2370"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk contrasts direct communication (send(P,message)/receive(Q,message), naming processes explicitly) with indirect communication via shared mailboxes.",
+      "chunk_text_excerpt": "Lecture #15 Inter-process Communication (IPC)  Mechanism for processes to communicate and to synchronize their actions.  Message system – processes communicate with each other without resorting to shared variables.  IPC facility provides two operations: 1. send(message) – message size fixed or va"
+    },
+    {
+      "query_id": "c_ipc_direct_vs_indirect__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "इंटर-प्रोसेस कम्युनिकेशन (IPC) में डायरेक्ट और इनडायरेक्ट कम्युनिकेशन में क्या अंतर है?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "inter-process communication",
+      "source_type": "pdf",
+      "document_id": "6aa72dae16cbab6b27d5f508",
+      "query_type": "comparison",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "13c21374-754e-5a0c-88d6-f6df04cb2370"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk contrasts direct communication (send(P,message)/receive(Q,message), naming processes explicitly) with indirect communication via shared mailboxes.",
+      "chunk_text_excerpt": "Lecture #15 Inter-process Communication (IPC)  Mechanism for processes to communicate and to synchronize their actions.  Message system – processes communicate with each other without resorting to shared variables.  IPC facility provides two operations: 1. send(message) – message size fixed or va"
+    },
+    {
+      "query_id": "c_ipc_direct_vs_indirect__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "IPC mein direct aur indirect communication mein kya difference hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "inter-process communication",
+      "source_type": "pdf",
+      "document_id": "6aa72dae16cbab6b27d5f508",
+      "query_type": "comparison",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "13c21374-754e-5a0c-88d6-f6df04cb2370"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk contrasts direct communication (send(P,message)/receive(Q,message), naming processes explicitly) with indirect communication via shared mailboxes.",
+      "chunk_text_excerpt": "Lecture #15 Inter-process Communication (IPC)  Mechanism for processes to communicate and to synchronize their actions.  Message system – processes communicate with each other without resorting to shared variables.  IPC facility provides two operations: 1. send(message) – message size fixed or va"
+    },
+    {
+      "query_id": "c_lru_page_replacement__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "How does the LRU (Least Recently Used) page replacement algorithm decide which page to replace?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "pdf",
+      "document_id": "6aa72dae16cbab6b27d5f508",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "d372f4f7-85f8-5f73-b66a-5e71af9251ff"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explains LRU replaces the page that has not been used for the longest period of time, and describes counter-based and stack-based implementations.",
+      "chunk_text_excerpt": "It is simply “Replace the page that will not be used for the longest period of time”. Use of this page-replacement algorithm guarantees the lowest possible pagefault rate for a fixed number of frames. Example: (Optimal page-replacement algorithm) 3. LRU Page Replacement algorithm If we use the recen"
+    },
+    {
+      "query_id": "c_lru_page_replacement__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "LRU (लीस्ट रीसेंटली यूज्ड) पेज रिप्लेसमेंट एल्गोरिदम यह कैसे तय करता है कि कौन सा पेज बदला जाए?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "pdf",
+      "document_id": "6aa72dae16cbab6b27d5f508",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "d372f4f7-85f8-5f73-b66a-5e71af9251ff"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explains LRU replaces the page that has not been used for the longest period of time, and describes counter-based and stack-based implementations.",
+      "chunk_text_excerpt": "It is simply “Replace the page that will not be used for the longest period of time”. Use of this page-replacement algorithm guarantees the lowest possible pagefault rate for a fixed number of frames. Example: (Optimal page-replacement algorithm) 3. LRU Page Replacement algorithm If we use the recen"
+    },
+    {
+      "query_id": "c_lru_page_replacement__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "LRU page replacement algorithm ye kaise decide karta hai ki kaunsa page replace karna hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "pdf",
+      "document_id": "6aa72dae16cbab6b27d5f508",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "d372f4f7-85f8-5f73-b66a-5e71af9251ff"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explains LRU replaces the page that has not been used for the longest period of time, and describes counter-based and stack-based implementations.",
+      "chunk_text_excerpt": "It is simply “Replace the page that will not be used for the longest period of time”. Use of this page-replacement algorithm guarantees the lowest possible pagefault rate for a fixed number of frames. Example: (Optimal page-replacement algorithm) 3. LRU Page Replacement algorithm If we use the recen"
+    },
+    {
+      "query_id": "c_os_modules__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Why does an operating system have separate modules for tasks like file management, process management, and networking?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "os architecture",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "conceptual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "f404ac22-88f5-591d-b20f-e0502be6ef96"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Government-ministries analogy; states OS has separate modules per function and singles out process management and memory management as the two modules emphasized in this course.",
+      "chunk_text_excerpt": "नम े ं ट ऑफ इ ं ड ि य ा क ा ग ो ल ह ै म ा न ल ी ज ि ए सबक ा स ा थ सबक ा व ि क ा स । व ो क ै स े ह ो ग ा? 58 मिनिस्ट्रीज हैं। 93 डिपार्टमेंट्स हैं जो डायरेक्ट गवर्नमेंट ऑफ इंडिया को रिपोर्ट करते हैं। हम कह रहे हैं अगर सारे डिपार्टमेंट अच्छे से काम करेंगे तो काम भी ठीक से होगा। ठीक उसी तरह यहां पर भी "
+    },
+    {
+      "query_id": "c_os_modules__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "ऑपरेटिंग सिस्टम में फाइल मैनेजमेंट, प्रोसेस मैनेजमेंट और नेटवर्किंग जैसे कार्यों के लिए अलग-अलग मॉड्यूल क्यों होते हैं?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "os architecture",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "conceptual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "f404ac22-88f5-591d-b20f-e0502be6ef96"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Government-ministries analogy; states OS has separate modules per function and singles out process management and memory management as the two modules emphasized in this course.",
+      "chunk_text_excerpt": "नम े ं ट ऑफ इ ं ड ि य ा क ा ग ो ल ह ै म ा न ल ी ज ि ए सबक ा स ा थ सबक ा व ि क ा स । व ो क ै स े ह ो ग ा? 58 मिनिस्ट्रीज हैं। 93 डिपार्टमेंट्स हैं जो डायरेक्ट गवर्नमेंट ऑफ इंडिया को रिपोर्ट करते हैं। हम कह रहे हैं अगर सारे डिपार्टमेंट अच्छे से काम करेंगे तो काम भी ठीक से होगा। ठीक उसी तरह यहां पर भी "
+    },
+    {
+      "query_id": "c_os_modules__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Operating system mein file management, process management aur networking ke liye alag-alag modules kyu hote hain?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "os architecture",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "conceptual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "f404ac22-88f5-591d-b20f-e0502be6ef96"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Government-ministries analogy; states OS has separate modules per function and singles out process management and memory management as the two modules emphasized in this course.",
+      "chunk_text_excerpt": "नम े ं ट ऑफ इ ं ड ि य ा क ा ग ो ल ह ै म ा न ल ी ज ि ए सबक ा स ा थ सबक ा व ि क ा स । व ो क ै स े ह ो ग ा? 58 मिनिस्ट्रीज हैं। 93 डिपार्टमेंट्स हैं जो डायरेक्ट गवर्नमेंट ऑफ इंडिया को रिपोर्ट करते हैं। हम कह रहे हैं अगर सारे डिपार्टमेंट अच्छे से काम करेंगे तो काम भी ठीक से होगा। ठीक उसी तरह यहां पर भी "
+    },
+    {
+      "query_id": "c_real_time_os__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What is a real-time operating system?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "os types",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "280c2744-c8bb-5f78-854b-52e3b77c8613"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Air-traffic-control example used to define a real-time OS as one that must guarantee task completion within a fixed time constraint.",
+      "chunk_text_excerpt": "एयरक्राफ्ट का या मान लीजिए एग्जांपल है एटीसी का। है ना? किसी भी समय इंडियन एयर स्पेस के अंदर मान लीजिए देयर आर थाउजेंड्स ऑफ़ एयरक्राफ्ट। मान के लीजिए रियलिटी है भाई थाउजेंड्स ऑफ़ एयरक्राफ्ट होते हैं। तो क्या हमारा सिस्टम हैंग हो सकता है? या अगर कोई एयरक्राफ्ट हमसे रिसोंड करने के लिए बोल रहा है क्या उस"
+    },
+    {
+      "query_id": "c_real_time_os__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "रियल टाइम ऑपरेटिंग सिस्टम क्या होता है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "os types",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "280c2744-c8bb-5f78-854b-52e3b77c8613"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Air-traffic-control example used to define a real-time OS as one that must guarantee task completion within a fixed time constraint.",
+      "chunk_text_excerpt": "एयरक्राफ्ट का या मान लीजिए एग्जांपल है एटीसी का। है ना? किसी भी समय इंडियन एयर स्पेस के अंदर मान लीजिए देयर आर थाउजेंड्स ऑफ़ एयरक्राफ्ट। मान के लीजिए रियलिटी है भाई थाउजेंड्स ऑफ़ एयरक्राफ्ट होते हैं। तो क्या हमारा सिस्टम हैंग हो सकता है? या अगर कोई एयरक्राफ्ट हमसे रिसोंड करने के लिए बोल रहा है क्या उस"
+    },
+    {
+      "query_id": "c_real_time_os__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Real time operating system kya hota hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "os types",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "280c2744-c8bb-5f78-854b-52e3b77c8613"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Air-traffic-control example used to define a real-time OS as one that must guarantee task completion within a fixed time constraint.",
+      "chunk_text_excerpt": "एयरक्राफ्ट का या मान लीजिए एग्जांपल है एटीसी का। है ना? किसी भी समय इंडियन एयर स्पेस के अंदर मान लीजिए देयर आर थाउजेंड्स ऑफ़ एयरक्राफ्ट। मान के लीजिए रियलिटी है भाई थाउजेंड्स ऑफ़ एयरक्राफ्ट होते हैं। तो क्या हमारा सिस्टम हैंग हो सकता है? या अगर कोई एयरक्राफ्ट हमसे रिसोंड करने के लिए बोल रहा है क्या उस"
+    },
+    {
+      "query_id": "c_process_stack_contents__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What does the stack section of a process contain?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "process management",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "factual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "States data section = global variables, heap = runtime dynamic allocation, stack (activation record) = parameters/return addresses/local variables. Same underlying concept as c_process_vs_program's English PDF chunk, kept separate -- see also c_process_memory_cross_document_hard below.",
+      "chunk_text_excerpt": "का जितना कोड है वो पूरा कोड है। पीसीबी इससे अलग है। है ना? मैं मेमोरी में आपको प्रोसेस किस तरह से दिखेगा उसकी इमेज दिखा रहा हूं। देन उसके ऊपर आपको मिलेगा डेटा सेक्शन जहां पे ग्लोबल वेरिएबल्स जो है हमारे हैं वो डिक्लेअर होते हैं। उससे ऊपर आपको मिलेगा हीप जहां पे रन टाइम पे अगर डायनेमिक मेमोरी एलोकेशन"
+    },
+    {
+      "query_id": "c_process_stack_contents__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "एक प्रोसेस के स्टैक सेक्शन में क्या होता है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "process management",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "factual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "States data section = global variables, heap = runtime dynamic allocation, stack (activation record) = parameters/return addresses/local variables. Same underlying concept as c_process_vs_program's English PDF chunk, kept separate -- see also c_process_memory_cross_document_hard below.",
+      "chunk_text_excerpt": "का जितना कोड है वो पूरा कोड है। पीसीबी इससे अलग है। है ना? मैं मेमोरी में आपको प्रोसेस किस तरह से दिखेगा उसकी इमेज दिखा रहा हूं। देन उसके ऊपर आपको मिलेगा डेटा सेक्शन जहां पे ग्लोबल वेरिएबल्स जो है हमारे हैं वो डिक्लेअर होते हैं। उससे ऊपर आपको मिलेगा हीप जहां पे रन टाइम पे अगर डायनेमिक मेमोरी एलोकेशन"
+    },
+    {
+      "query_id": "c_process_stack_contents__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Process ke stack section mein kya hota hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "process management",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "factual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "States data section = global variables, heap = runtime dynamic allocation, stack (activation record) = parameters/return addresses/local variables. Same underlying concept as c_process_vs_program's English PDF chunk, kept separate -- see also c_process_memory_cross_document_hard below.",
+      "chunk_text_excerpt": "का जितना कोड है वो पूरा कोड है। पीसीबी इससे अलग है। है ना? मैं मेमोरी में आपको प्रोसेस किस तरह से दिखेगा उसकी इमेज दिखा रहा हूं। देन उसके ऊपर आपको मिलेगा डेटा सेक्शन जहां पे ग्लोबल वेरिएबल्स जो है हमारे हैं वो डिक्लेअर होते हैं। उससे ऊपर आपको मिलेगा हीप जहां पे रन टाइम पे अगर डायनेमिक मेमोरी एलोकेशन"
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Why is the Shortest Job First (SJF) scheduling algorithm difficult to implement in practice?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "cpu scheduling",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "States SJF is not implementable because a process's own CPU burst time is not known in advance, and is used only as a theoretical reference point. Same underlying concept as c_sjf_difficulty's English PDF chunk, kept separate -- see also c_sjf_cross_document_hard below.",
+      "chunk_text_excerpt": "ह ै । थ ् य ो र ि ट ि कल आईड ि य ा ह ै । आप ब ो ल े ं ग े इ ं प ् ल ी म े ं ट े बल क ् य ो ं नह ी ं ह ै? भाई सोचो पूरा का पूरा जो एल्गोरिदम है वो इस बात पे टिका हुआ है कि किसका बस टाइम क्या है? लेकिन सवाल ये है जब प्रोसेस एग्जीक्यूशन के लिए आता है क्या प्रोसेस को पहले से पता होता है मेरा बस टाइम क्य"
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "शॉर्टेस्ट जॉब फर्स्ट (SJF) शेड्यूलिंग एल्गोरिदम को व्यवहार में लागू करना कठिन क्यों है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "cpu scheduling",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "States SJF is not implementable because a process's own CPU burst time is not known in advance, and is used only as a theoretical reference point. Same underlying concept as c_sjf_difficulty's English PDF chunk, kept separate -- see also c_sjf_cross_document_hard below.",
+      "chunk_text_excerpt": "ह ै । थ ् य ो र ि ट ि कल आईड ि य ा ह ै । आप ब ो ल े ं ग े इ ं प ् ल ी म े ं ट े बल क ् य ो ं नह ी ं ह ै? भाई सोचो पूरा का पूरा जो एल्गोरिदम है वो इस बात पे टिका हुआ है कि किसका बस टाइम क्या है? लेकिन सवाल ये है जब प्रोसेस एग्जीक्यूशन के लिए आता है क्या प्रोसेस को पहले से पता होता है मेरा बस टाइम क्य"
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "SJF scheduling algorithm ko practically implement karna mushkil kyu hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "cpu scheduling",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "States SJF is not implementable because a process's own CPU burst time is not known in advance, and is used only as a theoretical reference point. Same underlying concept as c_sjf_difficulty's English PDF chunk, kept separate -- see also c_sjf_cross_document_hard below.",
+      "chunk_text_excerpt": "ह ै । थ ् य ो र ि ट ि कल आईड ि य ा ह ै । आप ब ो ल े ं ग े इ ं प ् ल ी म े ं ट े बल क ् य ो ं नह ी ं ह ै? भाई सोचो पूरा का पूरा जो एल्गोरिदम है वो इस बात पे टिका हुआ है कि किसका बस टाइम क्या है? लेकिन सवाल ये है जब प्रोसेस एग्जीक्यूशन के लिए आता है क्या प्रोसेस को पहले से पता होता है मेरा बस टाइम क्य"
+    },
+    {
+      "query_id": "c_page_fault_definition__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What is a page fault?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "de102609-87b3-5d1d-b5d6-78591df889cd"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Explains the valid/invalid bit in the page table and defines a page fault as referencing a page whose bit is invalid (not currently in main memory).",
+      "chunk_text_excerpt": "म े र ा क ौ न स ा प े ज अभ ी म े न म े म ो र ी म े ं क ौ न स ा नह ी ं ह ै । त ो हम क ् य ा करत े ह ै ं? पेज टेबल के अंदर ही एक एडिशनल बिट लगा देते हैं जिसे बोलते हैं वैलिड इनवैलिड बिट। तो जहां-जहां वैलिड बिट की वैल्यू लेट मी से वैलिड है। लेट मी से वन है वहां मान लेते हैं कि ये पेज अभी है। और अगर इनव"
+    },
+    {
+      "query_id": "c_page_fault_definition__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "पेज फॉल्ट क्या होता है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "de102609-87b3-5d1d-b5d6-78591df889cd"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Explains the valid/invalid bit in the page table and defines a page fault as referencing a page whose bit is invalid (not currently in main memory).",
+      "chunk_text_excerpt": "म े र ा क ौ न स ा प े ज अभ ी म े न म े म ो र ी म े ं क ौ न स ा नह ी ं ह ै । त ो हम क ् य ा करत े ह ै ं? पेज टेबल के अंदर ही एक एडिशनल बिट लगा देते हैं जिसे बोलते हैं वैलिड इनवैलिड बिट। तो जहां-जहां वैलिड बिट की वैल्यू लेट मी से वैलिड है। लेट मी से वन है वहां मान लेते हैं कि ये पेज अभी है। और अगर इनव"
+    },
+    {
+      "query_id": "c_page_fault_definition__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Page fault kya hota hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "de102609-87b3-5d1d-b5d6-78591df889cd"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Explains the valid/invalid bit in the page table and defines a page fault as referencing a page whose bit is invalid (not currently in main memory).",
+      "chunk_text_excerpt": "म े र ा क ौ न स ा प े ज अभ ी म े न म े म ो र ी म े ं क ौ न स ा नह ी ं ह ै । त ो हम क ् य ा करत े ह ै ं? पेज टेबल के अंदर ही एक एडिशनल बिट लगा देते हैं जिसे बोलते हैं वैलिड इनवैलिड बिट। तो जहां-जहां वैलिड बिट की वैल्यू लेट मी से वैलिड है। लेट मी से वन है वहां मान लेते हैं कि ये पेज अभी है। और अगर इनव"
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What is a drawback of the FCFS disk scheduling algorithm?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "disk scheduling",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Explains FCFS serves disk requests strictly in arrival order regardless of track position, causing more physical head movement than necessary.",
+      "chunk_text_excerpt": "टल आईड ि य ा ह ो सकत ा ह ै द ै ट इज़ एफस ी एफएस ज ो हर जगह हम य ू ज़ करत े आए ह ै ं । त ो एफस ी एफएस क ् य ा ब ो ल े ग ा सर? वो यह बोलेगा कि फॉर एग्जांपल अगर यह हमारे पास सारे ट्रैक नंबर हैं तो मैं जैसे यहां शायद दिख भी रहा है। मेरे को फर्क नहीं पड़ता कि आपका कौन सा ट्रैक नंबर आगे है, कौन सा पीछे है य"
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "FCFS डिस्क शेड्यूलिंग एल्गोरिदम की एक कमी क्या है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "disk scheduling",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Explains FCFS serves disk requests strictly in arrival order regardless of track position, causing more physical head movement than necessary.",
+      "chunk_text_excerpt": "टल आईड ि य ा ह ो सकत ा ह ै द ै ट इज़ एफस ी एफएस ज ो हर जगह हम य ू ज़ करत े आए ह ै ं । त ो एफस ी एफएस क ् य ा ब ो ल े ग ा सर? वो यह बोलेगा कि फॉर एग्जांपल अगर यह हमारे पास सारे ट्रैक नंबर हैं तो मैं जैसे यहां शायद दिख भी रहा है। मेरे को फर्क नहीं पड़ता कि आपका कौन सा ट्रैक नंबर आगे है, कौन सा पीछे है य"
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "FCFS disk scheduling algorithm ka ek drawback kya hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "disk scheduling",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Explains FCFS serves disk requests strictly in arrival order regardless of track position, causing more physical head movement than necessary.",
+      "chunk_text_excerpt": "टल आईड ि य ा ह ो सकत ा ह ै द ै ट इज़ एफस ी एफएस ज ो हर जगह हम य ू ज़ करत े आए ह ै ं । त ो एफस ी एफएस क ् य ा ब ो ल े ग ा सर? वो यह बोलेगा कि फॉर एग्जांपल अगर यह हमारे पास सारे ट्रैक नंबर हैं तो मैं जैसे यहां शायद दिख भी रहा है। मेरे को फर्क नहीं पड़ता कि आपका कौन सा ट्रैक नंबर आगे है, कौन सा पीछे है य"
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What is locality of reference in the context of memory hierarchy?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "2c1abf3a-9337-5167-8b7c-e6fb816f20cc",
+        "1e2576b8-b408-5ded-9144-2d977076f961"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "RESOLVED (final live-Qdrant correction): the original chunk (2c1abf3a-9337-5167-8b7c-e6fb816f20cc) introduces 'locality of reference' and gives memory-size-ratio context but is cut off before explaining it. Its live-verified continuation chunk (1e2576b8-b408-5ded-9144-2d977076f961, same document/workspace, immediately following start_timestamp) picks up the exact cut-off sentence and completes the explanation with a showroom/godown/factory analogy, explicitly naming both temporal locality and spatial locality. Both chunks are now listed as relevant; together they fully support the query. A third chunk sharing the same start_timestamp (29d10e3f-8811-5937-999e-db01f7019a02) was inspected and confirmed to be an unrelated topic (variable-size memory partitioning) -- deliberately NOT included.",
+      "chunk_text_excerpt": "प्राइमरी मेमोरी अलग-अलग नाम जिनसे हम सब बुलाते हैं। अगर कैश में नहीं मिलता तो उधर जाते हैं। एंड वर्स्ट स्कैन सिनेरियो अगर उधर भी नहीं मिलता तो देखो CPU डायरेक्ट इधर नहीं जाता। हम सेकेंडरी मेमोरी या लॉजिकल मेमोरी या वर्चुअल मेमोरी या ऑिलरी मेमोरी सर्च करते हैं और डेटा को इधर लोड करते हैं। तो दैट इज़ द",
+      "review_flag": "RE_VERIFIED_SUFFICIENT"
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "मेमोरी हायरार्की के संदर्भ में लोकैलिटी ऑफ रेफरेंस क्या है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "2c1abf3a-9337-5167-8b7c-e6fb816f20cc",
+        "1e2576b8-b408-5ded-9144-2d977076f961"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "RESOLVED (final live-Qdrant correction): the original chunk (2c1abf3a-9337-5167-8b7c-e6fb816f20cc) introduces 'locality of reference' and gives memory-size-ratio context but is cut off before explaining it. Its live-verified continuation chunk (1e2576b8-b408-5ded-9144-2d977076f961, same document/workspace, immediately following start_timestamp) picks up the exact cut-off sentence and completes the explanation with a showroom/godown/factory analogy, explicitly naming both temporal locality and spatial locality. Both chunks are now listed as relevant; together they fully support the query. A third chunk sharing the same start_timestamp (29d10e3f-8811-5937-999e-db01f7019a02) was inspected and confirmed to be an unrelated topic (variable-size memory partitioning) -- deliberately NOT included.",
+      "chunk_text_excerpt": "प्राइमरी मेमोरी अलग-अलग नाम जिनसे हम सब बुलाते हैं। अगर कैश में नहीं मिलता तो उधर जाते हैं। एंड वर्स्ट स्कैन सिनेरियो अगर उधर भी नहीं मिलता तो देखो CPU डायरेक्ट इधर नहीं जाता। हम सेकेंडरी मेमोरी या लॉजिकल मेमोरी या वर्चुअल मेमोरी या ऑिलरी मेमोरी सर्च करते हैं और डेटा को इधर लोड करते हैं। तो दैट इज़ द",
+      "review_flag": "RE_VERIFIED_SUFFICIENT"
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Memory hierarchy ke context mein locality of reference kya hoti hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "2c1abf3a-9337-5167-8b7c-e6fb816f20cc",
+        "1e2576b8-b408-5ded-9144-2d977076f961"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "RESOLVED (final live-Qdrant correction): the original chunk (2c1abf3a-9337-5167-8b7c-e6fb816f20cc) introduces 'locality of reference' and gives memory-size-ratio context but is cut off before explaining it. Its live-verified continuation chunk (1e2576b8-b408-5ded-9144-2d977076f961, same document/workspace, immediately following start_timestamp) picks up the exact cut-off sentence and completes the explanation with a showroom/godown/factory analogy, explicitly naming both temporal locality and spatial locality. Both chunks are now listed as relevant; together they fully support the query. A third chunk sharing the same start_timestamp (29d10e3f-8811-5937-999e-db01f7019a02) was inspected and confirmed to be an unrelated topic (variable-size memory partitioning) -- deliberately NOT included.",
+      "chunk_text_excerpt": "प्राइमरी मेमोरी अलग-अलग नाम जिनसे हम सब बुलाते हैं। अगर कैश में नहीं मिलता तो उधर जाते हैं। एंड वर्स्ट स्कैन सिनेरियो अगर उधर भी नहीं मिलता तो देखो CPU डायरेक्ट इधर नहीं जाता। हम सेकेंडरी मेमोरी या लॉजिकल मेमोरी या वर्चुअल मेमोरी या ऑिलरी मेमोरी सर्च करते हैं और डेटा को इधर लोड करते हैं। तो दैट इज़ द",
+      "review_flag": "RE_VERIFIED_SUFFICIENT"
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "How does holding a resource while waiting for another cause a deadlock?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "deadlocks",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "d487a846-1937-5a17-a6f6-f0fe58575fca"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Explains the informal hold-and-wait scenario: a process holds an acquired resource while waiting for another, and if every process behaves this way, deadlock results.",
+      "chunk_text_excerpt": "ो ग े त ो ह ो सकत ा ह ै ब ा द म े ं प ् ल े ट भ ी न ा म ि ल े । त ो य ू ज ु अल ी हम क ् य ा कर े ं ग े? जो रिसोर्स मिल रहा है उसको होल्ड करके रख लेंगे। फिर दूसरे रिसोर्स के लिए वेट करेंगे। और यूजुअली हर प्रोसेस का यही नेचर होता है। तो अगर हर कोई ऐसा सोचता है तो डेड लॉक लगे। अगर लोग समझदार हो जाए कि "
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "एक रिसोर्स को पकड़े रखते हुए दूसरे के लिए इंतज़ार करना डेडलॉक का कारण कैसे बनता है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "deadlocks",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "d487a846-1937-5a17-a6f6-f0fe58575fca"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Explains the informal hold-and-wait scenario: a process holds an acquired resource while waiting for another, and if every process behaves this way, deadlock results.",
+      "chunk_text_excerpt": "ो ग े त ो ह ो सकत ा ह ै ब ा द म े ं प ् ल े ट भ ी न ा म ि ल े । त ो य ू ज ु अल ी हम क ् य ा कर े ं ग े? जो रिसोर्स मिल रहा है उसको होल्ड करके रख लेंगे। फिर दूसरे रिसोर्स के लिए वेट करेंगे। और यूजुअली हर प्रोसेस का यही नेचर होता है। तो अगर हर कोई ऐसा सोचता है तो डेड लॉक लगे। अगर लोग समझदार हो जाए कि "
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Ek resource ko hold karke rakhna aur dusre resource ka wait karna deadlock ka reason kaise banta hai?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "deadlocks",
+      "source_type": "youtube",
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "d487a846-1937-5a17-a6f6-f0fe58575fca"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Explains the informal hold-and-wait scenario: a process holds an acquired resource while waiting for another, and if every process behaves this way, deadlock results.",
+      "chunk_text_excerpt": "ो ग े त ो ह ो सकत ा ह ै ब ा द म े ं प ् ल े ट भ ी न ा म ि ल े । त ो य ू ज ु अल ी हम क ् य ा कर े ं ग े? जो रिसोर्स मिल रहा है उसको होल्ड करके रख लेंगे। फिर दूसरे रिसोर्स के लिए वेट करेंगे। और यूजुअली हर प्रोसेस का यही नेचर होता है। तो अगर हर कोई ऐसा सोचता है तो डेड लॉक लगे। अगर लोग समझदार हो जाए कि "
+    },
+    {
+      "query_id": "c_sql_null__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "How does SQL evaluate comparisons involving NULL values?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "sql",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "b1766d23-6160-5557-82a0-6e03804af525"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explains three-valued logic (true/false/unknown) for comparisons and boolean connectives involving NULL, and the IS NULL / IS NOT NULL operators.",
+      "chunk_text_excerpt": "SQL provides a special column value called null to use in such situations. We use null when the column value is either unknown or inapplicable. Using our Sailor table definition, we might enter the row 〈98, Dan, null, 39〉 to represent Dan. The presence of null values complicates many issues, and we "
+    },
+    {
+      "query_id": "c_sql_null__q_hindi",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "SQL में NULL वैल्यू वाले तुलनात्मक एक्सप्रेशन का मूल्यांकन कैसे होता है?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "sql",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "b1766d23-6160-5557-82a0-6e03804af525"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explains three-valued logic (true/false/unknown) for comparisons and boolean connectives involving NULL, and the IS NULL / IS NOT NULL operators.",
+      "chunk_text_excerpt": "SQL provides a special column value called null to use in such situations. We use null when the column value is either unknown or inapplicable. Using our Sailor table definition, we might enter the row 〈98, Dan, null, 39〉 to represent Dan. The presence of null values complicates many issues, and we "
+    },
+    {
+      "query_id": "c_sql_null__q_hinglish",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "SQL mein NULL value wale comparisons ka result kya hota hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "sql",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "b1766d23-6160-5557-82a0-6e03804af525"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explains three-valued logic (true/false/unknown) for comparisons and boolean connectives involving NULL, and the IS NULL / IS NOT NULL operators.",
+      "chunk_text_excerpt": "SQL provides a special column value called null to use in such situations. We use null when the column value is either unknown or inapplicable. Using our Sailor table definition, we might enter the row 〈98, Dan, null, 39〉 to represent Dan. The presence of null values complicates many issues, and we "
+    },
+    {
+      "query_id": "c_sql_transaction_end__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "How does a transaction end in SQL?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "transactions",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "581137a9-893e-58a0-9137-43c8cd89d235"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states a transaction ends via COMMIT WORK or ROLLBACK WORK, and that statements implicitly commit unless autocommit is disabled.",
+      "chunk_text_excerpt": "Transaction Definition in SQL  Data manipulation language must include a construct for specifying the set of actions that comprise a transaction.  In SQL, a transaction begins implicitly.  A transaction in SQL ends by: Commit work commits current transaction and begins a new one. Rollback work "
+    },
+    {
+      "query_id": "c_sql_transaction_end__q_hindi",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "SQL में एक ट्रांजैक्शन कैसे समाप्त होता है?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "transactions",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "581137a9-893e-58a0-9137-43c8cd89d235"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states a transaction ends via COMMIT WORK or ROLLBACK WORK, and that statements implicitly commit unless autocommit is disabled.",
+      "chunk_text_excerpt": "Transaction Definition in SQL  Data manipulation language must include a construct for specifying the set of actions that comprise a transaction.  In SQL, a transaction begins implicitly.  A transaction in SQL ends by: Commit work commits current transaction and begins a new one. Rollback work "
+    },
+    {
+      "query_id": "c_sql_transaction_end__q_hinglish",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "SQL mein transaction kaise end hota hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "transactions",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "581137a9-893e-58a0-9137-43c8cd89d235"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states a transaction ends via COMMIT WORK or ROLLBACK WORK, and that statements implicitly commit unless autocommit is disabled.",
+      "chunk_text_excerpt": "Transaction Definition in SQL  Data manipulation language must include a construct for specifying the set of actions that comprise a transaction.  In SQL, a transaction begins implicitly.  A transaction in SQL ends by: Commit work commits current transaction and begins a new one. Rollback work "
+    },
+    {
+      "query_id": "c_transaction_manager_role__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "What is the role of the transaction manager in a database system?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "dbms architecture",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "97a78d80-630a-5912-a47d-b606ef7f06fc"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states the transaction manager ensures the database remains consistent despite system/transaction failures and that concurrent executions don't conflict.",
+      "chunk_text_excerpt": "18 · Authorization and integrity manager, which tests for the satisfaction of integrity constraints and checks the authority of users to access data. · Transaction manager, which ensures that the database remains in a consistent (correct) state despite system failures, and that concurrent transactio"
+    },
+    {
+      "query_id": "c_transaction_manager_role__q_hindi",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "डेटाबेस सिस्टम में ट्रांजैक्शन मैनेजर की भूमिका क्या है?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "dbms architecture",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "97a78d80-630a-5912-a47d-b606ef7f06fc"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states the transaction manager ensures the database remains consistent despite system/transaction failures and that concurrent executions don't conflict.",
+      "chunk_text_excerpt": "18 · Authorization and integrity manager, which tests for the satisfaction of integrity constraints and checks the authority of users to access data. · Transaction manager, which ensures that the database remains in a consistent (correct) state despite system failures, and that concurrent transactio"
+    },
+    {
+      "query_id": "c_transaction_manager_role__q_hinglish",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "Database system mein transaction manager ka role kya hota hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "dbms architecture",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "97a78d80-630a-5912-a47d-b606ef7f06fc"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states the transaction manager ensures the database remains consistent despite system/transaction failures and that concurrent executions don't conflict.",
+      "chunk_text_excerpt": "18 · Authorization and integrity manager, which tests for the satisfaction of integrity constraints and checks the authority of users to access data. · Transaction manager, which ensures that the database remains in a consistent (correct) state despite system failures, and that concurrent transactio"
+    },
+    {
+      "query_id": "c_relational_join__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "How is the join operation defined in relational algebra?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "relational algebra",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "conceptual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "11dd0510-55ca-592d-8c90-89a1600eb565"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk gives the formal condition-join definition R join_c S = selection_c(R x S), a cross-product followed by a selection.",
+      "chunk_text_excerpt": "Joins The join operation is one of the most useful operations in relational algebra and is the most commonly used way to combine information from two or more relations. Although a join can be defined as a cross-product followed by selections and projections, joins arise much more frequently in pract"
+    },
+    {
+      "query_id": "c_relational_join__q_hindi",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "रिलेशनल अलजेब्रा में जॉइन ऑपरेशन को कैसे परिभाषित किया जाता है?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "relational algebra",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "conceptual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "11dd0510-55ca-592d-8c90-89a1600eb565"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk gives the formal condition-join definition R join_c S = selection_c(R x S), a cross-product followed by a selection.",
+      "chunk_text_excerpt": "Joins The join operation is one of the most useful operations in relational algebra and is the most commonly used way to combine information from two or more relations. Although a join can be defined as a cross-product followed by selections and projections, joins arise much more frequently in pract"
+    },
+    {
+      "query_id": "c_relational_join__q_hinglish",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "Relational algebra mein join operation ko kaise define kiya jata hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "relational algebra",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "conceptual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "11dd0510-55ca-592d-8c90-89a1600eb565"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk gives the formal condition-join definition R join_c S = selection_c(R x S), a cross-product followed by a selection.",
+      "chunk_text_excerpt": "Joins The join operation is one of the most useful operations in relational algebra and is the most commonly used way to combine information from two or more relations. Although a join can be defined as a cross-product followed by selections and projections, joins arise much more frequently in pract"
+    },
+    {
+      "query_id": "c_sql_query_evaluation_steps__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "What are the conceptual evaluation steps for a basic SQL query?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "sql",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "9f59b5fd-98d8-595f-9be6-fbc47b2725db"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk lists the four conceptual steps: cross-product of FROM tables, filter by WHERE, project SELECT columns, then DISTINCT if specified.",
+      "chunk_text_excerpt": "SELECT S. sid, S. sname, S. rating, S. age FROM Sailors AS S WHERE S. rating > 7 We now consider the syntax of a basic SQL query in more detail.  The from-list in the FROM clause is a list of table names. A table name can be followed by a range variable; a range variable is particularly useful when",
+      "review_flag": "RE_VERIFIED_SUFFICIENT"
+    },
+    {
+      "query_id": "c_sql_query_evaluation_steps__q_hindi",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "एक बेसिक SQL क्वेरी के लिए कॉन्सेप्चुअल मूल्यांकन चरण क्या हैं?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "sql",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "9f59b5fd-98d8-595f-9be6-fbc47b2725db"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk lists the four conceptual steps: cross-product of FROM tables, filter by WHERE, project SELECT columns, then DISTINCT if specified.",
+      "chunk_text_excerpt": "SELECT S. sid, S. sname, S. rating, S. age FROM Sailors AS S WHERE S. rating > 7 We now consider the syntax of a basic SQL query in more detail.  The from-list in the FROM clause is a list of table names. A table name can be followed by a range variable; a range variable is particularly useful when",
+      "review_flag": "RE_VERIFIED_SUFFICIENT"
+    },
+    {
+      "query_id": "c_sql_query_evaluation_steps__q_hinglish",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "Basic SQL query ke conceptual evaluation steps kya hote hain?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "sql",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "9f59b5fd-98d8-595f-9be6-fbc47b2725db"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk lists the four conceptual steps: cross-product of FROM tables, filter by WHERE, project SELECT columns, then DISTINCT if specified.",
+      "chunk_text_excerpt": "SELECT S. sid, S. sname, S. rating, S. age FROM Sailors AS S WHERE S. rating > 7 We now consider the syntax of a basic SQL query in more detail.  The from-list in the FROM clause is a list of table names. A table name can be followed by a range variable; a range variable is particularly useful when",
+      "review_flag": "RE_VERIFIED_SUFFICIENT"
+    },
+    {
+      "query_id": "c_transaction_isolation_levels__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "What are the different transaction isolation levels in SQL, and how do they differ?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "concurrency control",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "comparison",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "04d1ab4b-8edd-5290-b5d7-7261aa5f1c5e"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk lists READ UNCOMMITTED / READ COMMITTED / REPEATABLE READ / SERIALIZABLE and their dirty-read/unrepeatable-read/phantom exposure.",
+      "chunk_text_excerpt": "Transaction Characteristics -Prepared by M V Kamal, Associate Professor, CSE Dept Every transaction has three characteristics: access mode, diagnostics size, and isolation level. The diagnostics size determines the number of error conditions that can be recorded. If the access mode is READ ONLY, the",
+      "review_flag": "RE_VERIFIED_SUFFICIENT"
+    },
+    {
+      "query_id": "c_transaction_isolation_levels__q_hindi",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "SQL में विभिन्न ट्रांजैक्शन आइसोलेशन लेवल क्या हैं, और वे एक-दूसरे से कैसे अलग हैं?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "concurrency control",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "comparison",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "04d1ab4b-8edd-5290-b5d7-7261aa5f1c5e"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk lists READ UNCOMMITTED / READ COMMITTED / REPEATABLE READ / SERIALIZABLE and their dirty-read/unrepeatable-read/phantom exposure.",
+      "chunk_text_excerpt": "Transaction Characteristics -Prepared by M V Kamal, Associate Professor, CSE Dept Every transaction has three characteristics: access mode, diagnostics size, and isolation level. The diagnostics size determines the number of error conditions that can be recorded. If the access mode is READ ONLY, the",
+      "review_flag": "RE_VERIFIED_SUFFICIENT"
+    },
+    {
+      "query_id": "c_transaction_isolation_levels__q_hinglish",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "SQL mein different transaction isolation levels kya hote hain, aur ye ek dusre se kaise alag hain?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "concurrency control",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "comparison",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "04d1ab4b-8edd-5290-b5d7-7261aa5f1c5e"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk lists READ UNCOMMITTED / READ COMMITTED / REPEATABLE READ / SERIALIZABLE and their dirty-read/unrepeatable-read/phantom exposure.",
+      "chunk_text_excerpt": "Transaction Characteristics -Prepared by M V Kamal, Associate Professor, CSE Dept Every transaction has three characteristics: access mode, diagnostics size, and isolation level. The diagnostics size determines the number of error conditions that can be recorded. If the access mode is READ ONLY, the",
+      "review_flag": "RE_VERIFIED_SUFFICIENT"
+    },
+    {
+      "query_id": "c_decomposition_redundancy__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "Why would a database designer decompose a relation into smaller relations?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "schema design",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "0f600426-b53c-5002-b897-e1564f6688dc"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explains redundancy from an unnatural attribute association can be fixed by decomposing into smaller relations, with a worked Hourly_Emps/Wages example.",
+      "chunk_text_excerpt": "15. 1. 2 Use of Decompositions Intuitively, redundancy arises when a relational schema forces an association between attributes that is not natural. Functional dependencies (and, for that matter, other ICs) can be used to identify such situations and to suggest refinements to the schema. The essenti"
+    },
+    {
+      "query_id": "c_decomposition_redundancy__q_hindi",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "एक डेटाबेस डिज़ाइनर एक रिलेशन को छोटे रिलेशनों में क्यों विभाजित करेगा?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "schema design",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "0f600426-b53c-5002-b897-e1564f6688dc"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explains redundancy from an unnatural attribute association can be fixed by decomposing into smaller relations, with a worked Hourly_Emps/Wages example.",
+      "chunk_text_excerpt": "15. 1. 2 Use of Decompositions Intuitively, redundancy arises when a relational schema forces an association between attributes that is not natural. Functional dependencies (and, for that matter, other ICs) can be used to identify such situations and to suggest refinements to the schema. The essenti"
+    },
+    {
+      "query_id": "c_decomposition_redundancy__q_hinglish",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "Database designer ek relation ko chhote relations mein kyu decompose karega?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "schema design",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "cause_reason",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "0f600426-b53c-5002-b897-e1564f6688dc"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk explains redundancy from an unnatural attribute association can be fixed by decomposing into smaller relations, with a worked Hourly_Emps/Wages example.",
+      "chunk_text_excerpt": "15. 1. 2 Use of Decompositions Intuitively, redundancy arises when a relational schema forces an association between attributes that is not natural. Functional dependencies (and, for that matter, other ICs) can be used to identify such situations and to suggest refinements to the schema. The essenti"
+    },
+    {
+      "query_id": "c_schema_vs_instance__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "What is the difference between a relation schema and a relation instance?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "database fundamentals",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "comparison",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "bdf57cce-bdec-5276-a29e-e7898de07418"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states schema corresponds to a type definition (does not change), while an instance corresponds to a variable's value (changes over time).",
+      "chunk_text_excerpt": "27 instant in time. The concept of a relation corresponds to the programming-language notion of a variable, while the concept of a relation schema corresponds to the programming-language notion of type definition. In general, a relation schema consists of a list of attributes and their corresponding"
+    },
+    {
+      "query_id": "c_schema_vs_instance__q_hindi",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "रिलेशन स्कीमा और रिलेशन इंस्टेंस में क्या अंतर है?",
+      "query_language": "hindi",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "database fundamentals",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "comparison",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "bdf57cce-bdec-5276-a29e-e7898de07418"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states schema corresponds to a type definition (does not change), while an instance corresponds to a variable's value (changes over time).",
+      "chunk_text_excerpt": "27 instant in time. The concept of a relation corresponds to the programming-language notion of a variable, while the concept of a relation schema corresponds to the programming-language notion of type definition. In general, a relation schema consists of a list of attributes and their corresponding"
+    },
+    {
+      "query_id": "c_schema_vs_instance__q_hinglish",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "query": "Relation schema aur relation instance mein kya difference hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "database fundamentals",
+      "source_type": "pdf",
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "query_type": "comparison",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "bdf57cce-bdec-5276-a29e-e7898de07418"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Chunk states schema corresponds to a type definition (does not change), while an instance corresponds to a variable's value (changes over time).",
+      "chunk_text_excerpt": "27 instant in time. The concept of a relation corresponds to the programming-language notion of a variable, while the concept of a relation schema corresponds to the programming-language notion of type definition. In general, a relation schema consists of a list of attributes and their corresponding"
+    },
+    {
+      "query_id": "c_sjf_cross_document_hard__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "Across the course materials, why is Shortest Job First (SJF) scheduling considered difficult or practically impossible to implement?",
+      "query_language": "english",
+      "source_language": "mixed",
+      "domain": "operating systems",
+      "subject": "cpu scheduling",
+      "source_type": "mixed",
+      "document_id": "6aa72dae16cbab6b27d5f508",
+      "document_ids": [
+        "6aa72dae16cbab6b27d5f508",
+        "6aaa7e8c81e2b76728b76bb6"
+      ],
+      "query_type": "multi_document",
+      "difficulty": "hard",
+      "relevant_chunk_ids": [
+        "ae88f902-a448-573d-a7ea-a7ea2b4191f5",
+        "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "The same underlying reason (a process's own future CPU burst time is not knowable in advance) is independently explained in the English PDF (c_sjf_difficulty) and the Hindi YouTube lecture (c_sjf_not_implementable) -- two different documents, two different source languages, one workspace. A workspace-aware retriever should be able to surface either or both pieces of evidence for this broader phrasing of the question, not just whichever single document happens to match keywords best.",
+      "chunk_text_excerpt": "the minimum average waiting time for a given set of processes. By moving a short process before a long one, the waiting time of the short process decreases more than it increases the waiting time of the long process. Consequently, the average waiting time decreases. The real difficulty with the SJF "
+    },
+    {
+      "query_id": "c_process_memory_cross_document_hard__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "How is a process's memory layout (stack, heap, data section) described across the course materials?",
+      "query_language": "english",
+      "source_language": "mixed",
+      "domain": "operating systems",
+      "subject": "process management",
+      "source_type": "mixed",
+      "document_id": "6aa72e4416cbab6b27d5f50b",
+      "document_ids": [
+        "6aa72e4416cbab6b27d5f50b",
+        "6aaa7e8c81e2b76728b76bb6"
+      ],
+      "query_type": "multi_document",
+      "difficulty": "hard",
+      "relevant_chunk_ids": [
+        "8bde1fee-6475-5709-b3d3-df7cc009e665",
+        "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "CORRECTED (Phase 3.1): on re-reading the COMPLETE chunk text, the Hindi video chunk (c_process_stack_contents) is ALREADY comprehensive on its own -- it covers the data section (globals), heap (dynamic allocation), AND stack (parameters/return addresses/local variables). The English PDF chunk (c_process_vs_program) covers only two of the three regions (stack, data section) and does not mention the heap. The original rationale overstated this as 'neither chunk is fully complete' -- corrected here: this is a genuine multi-document case (2 real documents, 2 languages, both genuinely relevant), but a retriever returning ONLY the Hindi chunk would already fully answer the question; the English chunk is valid corroborating partial evidence, not a strictly required second piece. Kept as a multi-document hard case per instruction not to remove valid cross-language cases merely because they are difficult, with this rationale now stating the real evidence relationship accurately instead of overclaiming necessity.",
+      "chunk_text_excerpt": "Lecture #6(UNIT-II) Process Concept  Informally, a process is a program in execution. A process is more than the program code, which is sometimes known as the text section. It also includes the current activity, as represented by the value of the program counter and the contents of the processor's "
+    },
+    {
+      "query_id": "c_workspace_wide_scheduling_algorithms__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "query": "What scheduling algorithms are discussed in this workspace's course materials?",
+      "query_language": "english",
+      "source_language": "mixed",
+      "domain": "operating systems",
+      "subject": "scheduling",
+      "source_type": "mixed",
+      "document_id": null,
+      "document_ids": [
+        "6aa72dae16cbab6b27d5f508",
+        "6aa846698a7bd709c53a5f4e",
+        "6aaa7e8c81e2b76728b76bb6"
+      ],
+      "query_type": "workspace_wide",
+      "difficulty": "hard",
+      "relevant_chunk_ids": [
+        "ae88f902-a448-573d-a7ea-a7ea2b4191f5",
+        "e866b283-ab34-5320-96b0-882be0919ba1",
+        "7d131130-e14e-597a-9cb1-f3dc5dad183e",
+        "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+      ],
+      "status": "CANDIDATE_NOT_VALIDATED",
+      "rationale": "Deliberately workspace-wide, not document-specific: this workspace's materials discuss SJF CPU scheduling (both in the English PDF and the Hindi video), Round Robin CPU scheduling (English PDF), and FCFS DISK scheduling (Hindi video). The query was corrected from 'CPU scheduling algorithms' to the broader 'scheduling algorithms' because the evidence set legitimately spans both CPU and disk scheduling contexts -- the original wording was narrower than the evidence it cited. `document_id` is intentionally null -- no single document answers this on its own; see `document_ids` for the three real documents actually contributing evidence. This is the hardest case in this dataset: it requires retrieving across 3 documents, 2 source types (pdf/youtube), and 2 source languages (english/hindi) for one query.",
+      "chunk_text_excerpt": "the minimum average waiting time for a given set of processes. By moving a short process before a long one, the waiting time of the short process decreases more than it increases the waiting time of the long process. Consequently, the average waiting time decreases. The real difficulty with the SJF "
+    }
+  ]
+}

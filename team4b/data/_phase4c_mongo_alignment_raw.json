@@ -1,0 +1,192 @@
+[
+  {
+    "document_id": "6aa72dae16cbab6b27d5f508",
+    "qdrant_chunk_count": 115,
+    "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+    "qdrant_source_type": "pdf",
+    "qdrant_source_language_inferred": "english",
+    "qdrant_ingestion_generation_values": [
+      1
+    ],
+    "sample_title": "0b83b5b1563f4addaec8f1fab5d00934.pdf",
+    "mongo_record_exists": false,
+    "mongo_workspace_id": null,
+    "mongo_user_id": null,
+    "mongo_type": null,
+    "mongo_status": null,
+    "mongo_current_ingestion_generation": null,
+    "mongo_created_at": null,
+    "generation_authority_would_allow": false
+  },
+  {
+    "document_id": "6aa72df916cbab6b27d5f50a",
+    "qdrant_chunk_count": 120,
+    "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+    "qdrant_source_type": "pdf",
+    "qdrant_source_language_inferred": "english",
+    "qdrant_ingestion_generation_values": [
+      1
+    ],
+    "sample_title": "176998435ea940a8bdfc010ffad14f2b.pdf",
+    "mongo_record_exists": false,
+    "mongo_workspace_id": null,
+    "mongo_user_id": null,
+    "mongo_type": null,
+    "mongo_status": null,
+    "mongo_current_ingestion_generation": null,
+    "mongo_created_at": null,
+    "generation_authority_would_allow": false
+  },
+  {
+    "document_id": "6aa72e4416cbab6b27d5f50b",
+    "qdrant_chunk_count": 115,
+    "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+    "qdrant_source_type": "pdf",
+    "qdrant_source_language_inferred": "english",
+    "qdrant_ingestion_generation_values": [
+      1
+    ],
+    "sample_title": "7124de8d0cd24a97a2343d91929bcb9e.pdf",
+    "mongo_record_exists": false,
+    "mongo_workspace_id": null,
+    "mongo_user_id": null,
+    "mongo_type": null,
+    "mongo_status": null,
+    "mongo_current_ingestion_generation": null,
+    "mongo_created_at": null,
+    "generation_authority_would_allow": false
+  },
+  {
+    "document_id": "6aa8457c8a7bd709c53a5f46",
+    "qdrant_chunk_count": 250,
+    "qdrant_workspace_id": "6a8de2d7e43679cbe2ee243d",
+    "qdrant_source_type": "pdf",
+    "qdrant_source_language_inferred": "english",
+    "qdrant_ingestion_generation_values": [
+      1
+    ],
+    "sample_title": "e1829b2a3a1649579d4d47c0839b697d.pdf",
+    "mongo_record_exists": true,
+    "mongo_workspace_id": "6a8de2d7e43679cbe2ee243d",
+    "mongo_user_id": "6a8898b42a813283b77345ab",
+    "mongo_type": "pdf",
+    "mongo_status": "ready",
+    "mongo_current_ingestion_generation": 1,
+    "mongo_created_at": "2026-09-14 19:05:32.472000",
+    "generation_authority_would_allow": true
+  },
+  {
+    "document_id": "6aa846698a7bd709c53a5f4e",
+    "qdrant_chunk_count": 115,
+    "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+    "qdrant_source_type": "pdf",
+    "qdrant_source_language_inferred": "english",
+    "qdrant_ingestion_generation_values": [
+      1
+    ],
+    "sample_title": "85a124991c5e48d48f40d9061e708599.pdf",
+    "mongo_record_exists": false,
+    "mongo_workspace_id": null,
+    "mongo_user_id": null,
+    "mongo_type": null,
+    "mongo_status": null,
+    "mongo_current_ingestion_generation": null,
+    "mongo_created_at": null,
+    "generation_authority_would_allow": false
+  },
+  {
+    "document_id": "6aa90d9f4ac03b89c7624cc8",
+    "qdrant_chunk_count": 115,
+    "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+    "qdrant_source_type": "pdf",
+    "qdrant_source_language_inferred": "english",
+    "qdrant_ingestion_generation_values": [
+      1
+    ],
+    "sample_title": "66cb0b8c1d7d46448006e2e8b58d231b.pdf",
+    "mongo_record_exists": false,
+    "mongo_workspace_id": null,
+    "mongo_user_id": null,
+    "mongo_type": null,
+    "mongo_status": null,
+    "mongo_current_ingestion_generation": null,
+    "mongo_created_at": null,
+    "generation_authority_would_allow": false
+  },
+  {
+    "document_id": "6aa90e314ac03b89c7624ccb",
+    "qdrant_chunk_count": 115,
+    "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+    "qdrant_source_type": "pdf",
+    "qdrant_source_language_inferred": "english",
+    "qdrant_ingestion_generation_values": [
+      1
+    ],
+    "sample_title": "1e1cc3ee158545db96e1a3dd32e89a6e.pdf",
+    "mongo_record_exists": true,
+    "mongo_workspace_id": "6a912a1883f46878932e0eec",
+    "mongo_user_id": "6a8898b42a813283b77345ab",
+    "mongo_type": "pdf",
+    "mongo_status": "ready",
+    "mongo_current_ingestion_generation": 1,
+    "mongo_created_at": "2026-09-15 09:21:53.809000",
+    "generation_authority_would_allow": true
+  },
+  {
+    "document_id": "6aa90eb64ac03b89c7624cce",
+    "qdrant_chunk_count": 1,
+    "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+    "qdrant_source_type": "mp4",
+    "qdrant_source_language_inferred": "english",
+    "qdrant_ingestion_generation_values": [
+      1
+    ],
+    "sample_title": "974c0a3172454bbaaeeedf83091a723d.mp4",
+    "mongo_record_exists": false,
+    "mongo_workspace_id": null,
+    "mongo_user_id": null,
+    "mongo_type": null,
+    "mongo_status": null,
+    "mongo_current_ingestion_generation": null,
+    "mongo_created_at": null,
+    "generation_authority_would_allow": false
+  },
+  {
+    "document_id": "6aaa4cd56eee7990194e5168",
+    "qdrant_chunk_count": 527,
+    "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+    "qdrant_source_type": "youtube",
+    "qdrant_source_language_inferred": "english",
+    "qdrant_ingestion_generation_values": [
+      1
+    ],
+    "sample_title": "Introduction to Operating System and its Functions | Operating System | Lecture 1",
+    "mongo_record_exists": true,
+    "mongo_workspace_id": "6a912a1883f46878932e0eec",
+    "mongo_user_id": "6a8898b42a813283b77345ab",
+    "mongo_type": "youtube_url",
+    "mongo_status": "ready",
+    "mongo_current_ingestion_generation": 1,
+    "mongo_created_at": "2026-09-16 08:01:25.799000",
+    "generation_authority_would_allow": true
+  },
+  {
+    "document_id": "6aaa7e8c81e2b76728b76bb6",
+    "qdrant_chunk_count": 177,
+    "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+    "qdrant_source_type": "youtube",
+    "qdrant_source_language_inferred": "hindi",
+    "qdrant_ingestion_generation_values": [
+      1
+    ],
+    "sample_title": "Operating System OS in 100 Minutes | Complete Placement Revision | One-Shot by Sanchit Sir",
+    "mongo_record_exists": true,
+    "mongo_workspace_id": "6a912a1883f46878932e0eec",
+    "mongo_user_id": "6a8898b42a813283b77345ab",
+    "mongo_type": "youtube_url",
+    "mongo_status": "ready",
+    "mongo_current_ingestion_generation": 1,
+    "mongo_created_at": "2026-09-16 11:33:33.001000",
+    "generation_authority_would_allow": true
+  }
+]

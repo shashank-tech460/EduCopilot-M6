@@ -1,0 +1,14 @@
+# Team 4B — dev/test dependencies (not part of the runtime image).
+
+-r requirements.txt
+pytest
+pytest-asyncio
+hypothesis
+mypy
+
+# pyyaml: used only by tests/test_deployment.py (Task 11.1) to parse
+# and validate docker-compose.yml/docker-compose.dev.yml -- never
+# imported by application code, so it is a dev/test-only dependency,
+# correctly absent from requirements.txt/the runtime image.
+pyyaml
+types-PyYAML

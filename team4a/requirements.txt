@@ -1,0 +1,86 @@
+# Team 4A — Multi-Modal Data Ingestion
+# Dependencies as specified in the official requirements/design document.
+
+fastapi
+uvicorn
+celery
+redis
+qdrant-client
+pymupdf
+yt-dlp
+youtube-transcript-api
+openai-whisper
+sentence-transformers
+pydantic
+python-multipart
+
+# Required to back app/config/settings.py (BaseSettings moved out of
+# pydantic core in Pydantic v2). Not one of the explicitly listed
+# dependencies, so flagged here for visibility rather than added silently.
+pydantic-settings
+
+# Phase 1 (Rev.4.4 §15/§16): the narrow, explicitly-scoped Mongo
+# generation-authority read/write (File.currentIngestionGeneration only,
+# keyed by document_id). Not a general Mongo ORM/access layer -- see
+# app/pipeline/mongo_authority.py for the single, narrow client this
+# backs. Flagged here, not added silently, per this project's own
+# established convention for every other new dependency.
+pymongo
+
+# Phase 2B (Rev.4.4 internal service JWT foundation): ES256 verification
+# of short-lived internal JWTs Team 4C mints. `cryptography` is PyJWT's
+# own documented extra for asymmetric algorithms (ES256/RS256) -- pulled
+# in explicitly here rather than relying on it being present transitively.
+# 4A holds ONLY public verification keys -- see app/security/service_jwt.py.
+pyjwt
+cryptography
+
+# Test runner used for local verification of this and later tasks.
+pytest
+
+# Property-based testing (Task 3.2), used only in tests/test_video_processor_properties.py
+# to generate input-invariant test cases (durations, interval values, chunk
+# pass/fail combinations) for VideoProcessor's correctness properties.
+# DEV/TEST ONLY -- not imported by any app/ module, not a production dependency.
+hypothesis
+
+# Phase 1 test-only doubles for the new Redis-lock and Mongo-authority
+# mechanics (tests/test_ingestion_lock.py, tests/test_mutation_authority.py):
+# fakeredis provides a real, in-memory Redis-protocol server (including Lua
+# EVAL support, via the lua extra) so the atomic Lua scripts are exercised
+# for real, not hand-mocked; mongomock provides an in-memory
+# pymongo-compatible database so find_one_and_update's atomic
+# filter-plus-update semantics are exercised for real. Neither is imported
+# by any app/ module -- DEV/TEST ONLY, exactly the same convention already
+# used for hypothesis above.
+fakeredis[lua]
+mongomock
+
+# ------------------------------------------------------------------
+# SYSTEM (non-pip) DEPENDENCY REQUIRED BY TASK 3.1
+# ------------------------------------------------------------------
+# The Video_Processor (app/processors/video_processor.py) shells out to the
+# `ffmpeg` and `ffprobe` command-line binaries for media probing, audio
+# extraction, and keyframe extraction. These are NOT Python packages and
+# cannot be installed via pip -- install them via your OS package manager:
+#   Debian/Ubuntu: apt-get install ffmpeg
+#   macOS:         brew install ffmpeg
+#   Windows:       https://ffmpeg.org/download.html (add the bin/ dir to PATH)
+# VideoProcessor.process() raises a clear RuntimeError naming any missing
+# binary rather than failing with an opaque error if these aren't on PATH.
+
+# Phase 2C-R (secure file_url retrieval), CORRECTED: `urllib3` used
+# directly rather than `requests`. The initial version used `requests`
+# with a process-global monkeypatch of
+# `urllib3.util.connection.create_connection` for IP pinning -- an audit
+# correctly identified this as unsafe under concurrent requests (shared
+# mutable global state). The corrected design constructs a fresh,
+# request-local `urllib3.HTTPConnectionPool`/`HTTPSConnectionPool` per
+# call, with the validated IP passed directly as that pool's own `host`
+# argument -- no global state, no monkeypatching, safe under concurrency
+# by construction (each call's pool is local to its own stack frame).
+# `urllib3` was already present transitively (it underlies `requests`,
+# which many other dependencies pull in); it is now the sole, explicit,
+# directly-used HTTP layer for this one feature -- see
+# app/pipeline/remote_source_resolver.py.
+urllib3

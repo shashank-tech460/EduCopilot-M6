@@ -1,0 +1,198 @@
+{
+  "per_query": [
+    {
+      "query_id": "c_os_modules__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 30.77190549997613
+    },
+    {
+      "query_id": "c_os_modules__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "hit_top10": true,
+      "rank": 1,
+      "latency_seconds": 3.105235700000776
+    },
+    {
+      "query_id": "c_os_modules__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 3.030165300006047
+    },
+    {
+      "query_id": "c_real_time_os__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 3.0808774999750312
+    },
+    {
+      "query_id": "c_real_time_os__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "hit_top10": true,
+      "rank": 7,
+      "latency_seconds": 3.0632500000065193
+    },
+    {
+      "query_id": "c_real_time_os__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 3.0204668999940623
+    },
+    {
+      "query_id": "c_process_stack_contents__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 3.4197495999978855
+    },
+    {
+      "query_id": "c_process_stack_contents__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "hit_top10": true,
+      "rank": 1,
+      "latency_seconds": 3.1551289000199176
+    },
+    {
+      "query_id": "c_process_stack_contents__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 3.5037214000185486
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 3.5218157000199426
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 3.4483985000115354
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 3.3943693000182975
+    },
+    {
+      "query_id": "c_page_fault_definition__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 2.452563700004248
+    },
+    {
+      "query_id": "c_page_fault_definition__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "hit_top10": true,
+      "rank": 1,
+      "latency_seconds": 1.829966899997089
+    },
+    {
+      "query_id": "c_page_fault_definition__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 2.787916299974313
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 5.2304044000047725
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 5.220585899980506
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 5.175702400010778
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 3.8595539999951143
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "hit_top10": true,
+      "rank": 1,
+      "latency_seconds": 4.918243199994322
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 4.663261700014118
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 5.45207530001062
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 5.1251242000143975
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "hit_top10": false,
+      "rank": null,
+      "latency_seconds": 5.356645199994091
+    }
+  ],
+  "total_seconds": 118.58791939998628,
+  "mean_latency_seconds": 4.9411633083327615
+}

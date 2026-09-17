@@ -1,0 +1,934 @@
+{
+  "phase": "4C",
+  "point_count_before": 1650,
+  "point_count_after": 1650,
+  "part_a_mongo_qdrant_alignment": [
+    {
+      "document_id": "6aa72dae16cbab6b27d5f508",
+      "qdrant_chunk_count": 115,
+      "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+      "qdrant_source_type": "pdf",
+      "qdrant_source_language_inferred": "english",
+      "qdrant_ingestion_generation_values": [
+        1
+      ],
+      "sample_title": "0b83b5b1563f4addaec8f1fab5d00934.pdf",
+      "mongo_record_exists": false,
+      "mongo_workspace_id": null,
+      "mongo_user_id": null,
+      "mongo_type": null,
+      "mongo_status": null,
+      "mongo_current_ingestion_generation": null,
+      "mongo_created_at": null,
+      "generation_authority_would_allow": false
+    },
+    {
+      "document_id": "6aa72df916cbab6b27d5f50a",
+      "qdrant_chunk_count": 120,
+      "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+      "qdrant_source_type": "pdf",
+      "qdrant_source_language_inferred": "english",
+      "qdrant_ingestion_generation_values": [
+        1
+      ],
+      "sample_title": "176998435ea940a8bdfc010ffad14f2b.pdf",
+      "mongo_record_exists": false,
+      "mongo_workspace_id": null,
+      "mongo_user_id": null,
+      "mongo_type": null,
+      "mongo_status": null,
+      "mongo_current_ingestion_generation": null,
+      "mongo_created_at": null,
+      "generation_authority_would_allow": false
+    },
+    {
+      "document_id": "6aa72e4416cbab6b27d5f50b",
+      "qdrant_chunk_count": 115,
+      "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+      "qdrant_source_type": "pdf",
+      "qdrant_source_language_inferred": "english",
+      "qdrant_ingestion_generation_values": [
+        1
+      ],
+      "sample_title": "7124de8d0cd24a97a2343d91929bcb9e.pdf",
+      "mongo_record_exists": false,
+      "mongo_workspace_id": null,
+      "mongo_user_id": null,
+      "mongo_type": null,
+      "mongo_status": null,
+      "mongo_current_ingestion_generation": null,
+      "mongo_created_at": null,
+      "generation_authority_would_allow": false
+    },
+    {
+      "document_id": "6aa8457c8a7bd709c53a5f46",
+      "qdrant_chunk_count": 250,
+      "qdrant_workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "qdrant_source_type": "pdf",
+      "qdrant_source_language_inferred": "english",
+      "qdrant_ingestion_generation_values": [
+        1
+      ],
+      "sample_title": "e1829b2a3a1649579d4d47c0839b697d.pdf",
+      "mongo_record_exists": true,
+      "mongo_workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "mongo_user_id": "6a8898b42a813283b77345ab",
+      "mongo_type": "pdf",
+      "mongo_status": "ready",
+      "mongo_current_ingestion_generation": 1,
+      "mongo_created_at": "2026-09-14 19:05:32.472000",
+      "generation_authority_would_allow": true
+    },
+    {
+      "document_id": "6aa846698a7bd709c53a5f4e",
+      "qdrant_chunk_count": 115,
+      "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+      "qdrant_source_type": "pdf",
+      "qdrant_source_language_inferred": "english",
+      "qdrant_ingestion_generation_values": [
+        1
+      ],
+      "sample_title": "85a124991c5e48d48f40d9061e708599.pdf",
+      "mongo_record_exists": false,
+      "mongo_workspace_id": null,
+      "mongo_user_id": null,
+      "mongo_type": null,
+      "mongo_status": null,
+      "mongo_current_ingestion_generation": null,
+      "mongo_created_at": null,
+      "generation_authority_would_allow": false
+    },
+    {
+      "document_id": "6aa90d9f4ac03b89c7624cc8",
+      "qdrant_chunk_count": 115,
+      "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+      "qdrant_source_type": "pdf",
+      "qdrant_source_language_inferred": "english",
+      "qdrant_ingestion_generation_values": [
+        1
+      ],
+      "sample_title": "66cb0b8c1d7d46448006e2e8b58d231b.pdf",
+      "mongo_record_exists": false,
+      "mongo_workspace_id": null,
+      "mongo_user_id": null,
+      "mongo_type": null,
+      "mongo_status": null,
+      "mongo_current_ingestion_generation": null,
+      "mongo_created_at": null,
+      "generation_authority_would_allow": false
+    },
+    {
+      "document_id": "6aa90e314ac03b89c7624ccb",
+      "qdrant_chunk_count": 115,
+      "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+      "qdrant_source_type": "pdf",
+      "qdrant_source_language_inferred": "english",
+      "qdrant_ingestion_generation_values": [
+        1
+      ],
+      "sample_title": "1e1cc3ee158545db96e1a3dd32e89a6e.pdf",
+      "mongo_record_exists": true,
+      "mongo_workspace_id": "6a912a1883f46878932e0eec",
+      "mongo_user_id": "6a8898b42a813283b77345ab",
+      "mongo_type": "pdf",
+      "mongo_status": "ready",
+      "mongo_current_ingestion_generation": 1,
+      "mongo_created_at": "2026-09-15 09:21:53.809000",
+      "generation_authority_would_allow": true
+    },
+    {
+      "document_id": "6aa90eb64ac03b89c7624cce",
+      "qdrant_chunk_count": 1,
+      "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+      "qdrant_source_type": "mp4",
+      "qdrant_source_language_inferred": "english",
+      "qdrant_ingestion_generation_values": [
+        1
+      ],
+      "sample_title": "974c0a3172454bbaaeeedf83091a723d.mp4",
+      "mongo_record_exists": false,
+      "mongo_workspace_id": null,
+      "mongo_user_id": null,
+      "mongo_type": null,
+      "mongo_status": null,
+      "mongo_current_ingestion_generation": null,
+      "mongo_created_at": null,
+      "generation_authority_would_allow": false
+    },
+    {
+      "document_id": "6aaa4cd56eee7990194e5168",
+      "qdrant_chunk_count": 527,
+      "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+      "qdrant_source_type": "youtube",
+      "qdrant_source_language_inferred": "english",
+      "qdrant_ingestion_generation_values": [
+        1
+      ],
+      "sample_title": "Introduction to Operating System and its Functions | Operating System | Lecture 1",
+      "mongo_record_exists": true,
+      "mongo_workspace_id": "6a912a1883f46878932e0eec",
+      "mongo_user_id": "6a8898b42a813283b77345ab",
+      "mongo_type": "youtube_url",
+      "mongo_status": "ready",
+      "mongo_current_ingestion_generation": 1,
+      "mongo_created_at": "2026-09-16 08:01:25.799000",
+      "generation_authority_would_allow": true
+    },
+    {
+      "document_id": "6aaa7e8c81e2b76728b76bb6",
+      "qdrant_chunk_count": 177,
+      "qdrant_workspace_id": "6a912a1883f46878932e0eec",
+      "qdrant_source_type": "youtube",
+      "qdrant_source_language_inferred": "hindi",
+      "qdrant_ingestion_generation_values": [
+        1
+      ],
+      "sample_title": "Operating System OS in 100 Minutes | Complete Placement Revision | One-Shot by Sanchit Sir",
+      "mongo_record_exists": true,
+      "mongo_workspace_id": "6a912a1883f46878932e0eec",
+      "mongo_user_id": "6a8898b42a813283b77345ab",
+      "mongo_type": "youtube_url",
+      "mongo_status": "ready",
+      "mongo_current_ingestion_generation": 1,
+      "mongo_created_at": "2026-09-16 11:33:33.001000",
+      "generation_authority_would_allow": true
+    }
+  ],
+  "part_a_orphaned_document_ids": [
+    "6aa72dae16cbab6b27d5f508",
+    "6aa72df916cbab6b27d5f50a",
+    "6aa72e4416cbab6b27d5f50b",
+    "6aa846698a7bd709c53a5f4e",
+    "6aa90d9f4ac03b89c7624cc8",
+    "6aa90eb64ac03b89c7624cce"
+  ],
+  "part_a_ground_truth_entries_referencing_orphaned_documents": [
+    {
+      "query_id": "c_process_vs_program__q_english",
+      "orphaned_document_ids": [
+        "6aa72e4416cbab6b27d5f50b"
+      ]
+    },
+    {
+      "query_id": "c_process_vs_program__q_hindi",
+      "orphaned_document_ids": [
+        "6aa72e4416cbab6b27d5f50b"
+      ]
+    },
+    {
+      "query_id": "c_process_vs_program__q_hinglish",
+      "orphaned_document_ids": [
+        "6aa72e4416cbab6b27d5f50b"
+      ]
+    },
+    {
+      "query_id": "c_semaphore_wait_signal__q_english",
+      "orphaned_document_ids": [
+        "6aa846698a7bd709c53a5f4e"
+      ]
+    },
+    {
+      "query_id": "c_semaphore_wait_signal__q_hindi",
+      "orphaned_document_ids": [
+        "6aa846698a7bd709c53a5f4e"
+      ]
+    },
+    {
+      "query_id": "c_semaphore_wait_signal__q_hinglish",
+      "orphaned_document_ids": [
+        "6aa846698a7bd709c53a5f4e"
+      ]
+    },
+    {
+      "query_id": "c_user_level_threads__q_english",
+      "orphaned_document_ids": [
+        "6aa72e4416cbab6b27d5f50b"
+      ]
+    },
+    {
+      "query_id": "c_user_level_threads__q_hindi",
+      "orphaned_document_ids": [
+        "6aa72e4416cbab6b27d5f50b"
+      ]
+    },
+    {
+      "query_id": "c_user_level_threads__q_hinglish",
+      "orphaned_document_ids": [
+        "6aa72e4416cbab6b27d5f50b"
+      ]
+    },
+    {
+      "query_id": "c_sjf_difficulty__q_english",
+      "orphaned_document_ids": [
+        "6aa72dae16cbab6b27d5f508"
+      ]
+    },
+    {
+      "query_id": "c_sjf_difficulty__q_hindi",
+      "orphaned_document_ids": [
+        "6aa72dae16cbab6b27d5f508"
+      ]
+    },
+    {
+      "query_id": "c_sjf_difficulty__q_hinglish",
+      "orphaned_document_ids": [
+        "6aa72dae16cbab6b27d5f508"
+      ]
+    },
+    {
+      "query_id": "c_ipc_direct_vs_indirect__q_english",
+      "orphaned_document_ids": [
+        "6aa72dae16cbab6b27d5f508"
+      ]
+    },
+    {
+      "query_id": "c_ipc_direct_vs_indirect__q_hindi",
+      "orphaned_document_ids": [
+        "6aa72dae16cbab6b27d5f508"
+      ]
+    },
+    {
+      "query_id": "c_ipc_direct_vs_indirect__q_hinglish",
+      "orphaned_document_ids": [
+        "6aa72dae16cbab6b27d5f508"
+      ]
+    },
+    {
+      "query_id": "c_lru_page_replacement__q_english",
+      "orphaned_document_ids": [
+        "6aa72dae16cbab6b27d5f508"
+      ]
+    },
+    {
+      "query_id": "c_lru_page_replacement__q_hindi",
+      "orphaned_document_ids": [
+        "6aa72dae16cbab6b27d5f508"
+      ]
+    },
+    {
+      "query_id": "c_lru_page_replacement__q_hinglish",
+      "orphaned_document_ids": [
+        "6aa72dae16cbab6b27d5f508"
+      ]
+    },
+    {
+      "query_id": "c_sjf_cross_document_hard__q_english",
+      "orphaned_document_ids": [
+        "6aa72dae16cbab6b27d5f508"
+      ]
+    },
+    {
+      "query_id": "c_process_memory_cross_document_hard__q_english",
+      "orphaned_document_ids": [
+        "6aa72e4416cbab6b27d5f50b"
+      ]
+    },
+    {
+      "query_id": "c_workspace_wide_scheduling_algorithms__q_english",
+      "orphaned_document_ids": [
+        "6aa72dae16cbab6b27d5f508",
+        "6aa846698a7bd709c53a5f4e"
+      ]
+    }
+  ],
+  "part_bcd_stage_by_stage": {
+    "bm25_refresh_seconds": 1.3571553999790922,
+    "chunk_count": 1650,
+    "production_threshold": 0.3,
+    "mean_latencies_seconds": {
+      "semantic": 0.8474734208333151,
+      "bm25": 0.13691698333180588,
+      "rrf_00": 0.12872577916641603,
+      "rerank_pool40": 3.3515507166691045,
+      "rerank_pool100": 6.087972658334668
+    },
+    "real_generation_authority_result_for_hindi_doc": {
+      "6aaa7e8c81e2b76728b76bb6": 1
+    },
+    "per_query": [
+      {
+        "query_id": "c_os_modules__q_english",
+        "query": "Why does an operating system have separate modules for tasks like file management, process management, and networking?",
+        "query_language": "english",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "f404ac22-88f5-591d-b20f-e0502be6ef96"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 996,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_os_modules__q_hindi",
+        "query": "ऑपरेटिंग सिस्टम में फाइल मैनेजमेंट, प्रोसेस मैनेजमेंट और नेटवर्किंग जैसे कार्यों के लिए अलग-अलग मॉड्यूल क्यों होते हैं?",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "f404ac22-88f5-591d-b20f-e0502be6ef96"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 1,
+        "bm25_raw_score": 69.38193366019239,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": 58,
+        "rrf_threshold_production_rank": 58,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": 1
+      },
+      {
+        "query_id": "c_os_modules__q_hinglish",
+        "query": "Operating system mein file management, process management aur networking ke liye alag-alag modules kyu hote hain?",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "f404ac22-88f5-591d-b20f-e0502be6ef96"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 737,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_real_time_os__q_english",
+        "query": "What is a real-time operating system?",
+        "query_language": "english",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "280c2744-c8bb-5f78-854b-52e3b77c8613"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 1260,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_real_time_os__q_hindi",
+        "query": "रियल टाइम ऑपरेटिंग सिस्टम क्या होता है?",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "280c2744-c8bb-5f78-854b-52e3b77c8613"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": 27,
+        "semantic_top100_raw_cosine_score": 0.45459288,
+        "bm25_rank": 1,
+        "bm25_raw_score": 31.401810212353844,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": 2,
+        "rrf_threshold_production_rank": 2,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": true,
+        "final_top10_hit_reranked_pool40": true,
+        "reranked_pool100_rank": 2
+      },
+      {
+        "query_id": "c_real_time_os__q_hinglish",
+        "query": "Real time operating system kya hota hai?",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "280c2744-c8bb-5f78-854b-52e3b77c8613"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 1203,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_process_stack_contents__q_english",
+        "query": "What does the stack section of a process contain?",
+        "query_language": "english",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 1166,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_process_stack_contents__q_hindi",
+        "query": "एक प्रोसेस के स्टैक सेक्शन में क्या होता है?",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": 32,
+        "semantic_top100_raw_cosine_score": 0.44187433,
+        "bm25_rank": 3,
+        "bm25_raw_score": 29.050103384453415,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": 2,
+        "rrf_threshold_production_rank": 2,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": true,
+        "final_top10_hit_reranked_pool40": true,
+        "reranked_pool100_rank": 1
+      },
+      {
+        "query_id": "c_process_stack_contents__q_hinglish",
+        "query": "Process ke stack section mein kya hota hai?",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "15197ab2-7fc0-5cc8-9860-5c0409be66ba"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": 84,
+        "semantic_top100_raw_cosine_score": 0.29312283,
+        "bm25_rank": 935,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": 98,
+        "rrf_threshold_production_rank": 98,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": 70
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_english",
+        "query": "Why is the Shortest Job First (SJF) scheduling algorithm difficult to implement in practice?",
+        "query_language": "english",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 1070,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_hindi",
+        "query": "शॉर्टेस्ट जॉब फर्स्ट (SJF) शेड्यूलिंग एल्गोरिदम को व्यवहार में लागू करना कठिन क्यों है?",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 7,
+        "bm25_raw_score": 27.16663926315267,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": 62,
+        "rrf_threshold_production_rank": 62,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": 9
+      },
+      {
+        "query_id": "c_sjf_not_implementable__q_hinglish",
+        "query": "SJF scheduling algorithm ko practically implement karna mushkil kyu hai?",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "b15a9c9f-c3c6-54ee-a865-5b328b74f755"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 485,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_page_fault_definition__q_english",
+        "query": "What is a page fault?",
+        "query_language": "english",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "de102609-87b3-5d1d-b5d6-78591df889cd"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 917,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_page_fault_definition__q_hindi",
+        "query": "पेज फॉल्ट क्या होता है?",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "de102609-87b3-5d1d-b5d6-78591df889cd"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 1,
+        "bm25_raw_score": 25.30629034129812,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": 46,
+        "rrf_threshold_production_rank": 46,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": 1
+      },
+      {
+        "query_id": "c_page_fault_definition__q_hinglish",
+        "query": "Page fault kya hota hai?",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "de102609-87b3-5d1d-b5d6-78591df889cd"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 643,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_english",
+        "query": "What is a drawback of the FCFS disk scheduling algorithm?",
+        "query_language": "english",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 1375,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_hindi",
+        "query": "FCFS डिस्क शेड्यूलिंग एल्गोरिदम की एक कमी क्या है?",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": 87,
+        "semantic_top100_raw_cosine_score": 0.422578,
+        "bm25_rank": 184,
+        "bm25_raw_score": 3.7729872006258685,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": 60,
+        "rrf_threshold_production_rank": 60,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": 14
+      },
+      {
+        "query_id": "c_fcfs_disk_scheduling__q_hinglish",
+        "query": "FCFS disk scheduling algorithm ka ek drawback kya hai?",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "7d131130-e14e-597a-9cb1-f3dc5dad183e"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 1341,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_english",
+        "query": "What is locality of reference in the context of memory hierarchy?",
+        "query_language": "english",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "1e2576b8-b408-5ded-9144-2d977076f961",
+          "2c1abf3a-9337-5167-8b7c-e6fb816f20cc"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 986,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_hindi",
+        "query": "मेमोरी हायरार्की के संदर्भ में लोकैलिटी ऑफ रेफरेंस क्या है?",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "1e2576b8-b408-5ded-9144-2d977076f961",
+          "2c1abf3a-9337-5167-8b7c-e6fb816f20cc"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": 29,
+        "semantic_top100_raw_cosine_score": 0.4745073,
+        "bm25_rank": 1,
+        "bm25_raw_score": 22.253586496962104,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": 1,
+        "rrf_threshold_production_rank": 1,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": true,
+        "final_top10_hit_reranked_pool40": true,
+        "reranked_pool100_rank": 1
+      },
+      {
+        "query_id": "c_memory_hierarchy_locality__q_hinglish",
+        "query": "Memory hierarchy ke context mein locality of reference kya hoti hai?",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "1e2576b8-b408-5ded-9144-2d977076f961",
+          "2c1abf3a-9337-5167-8b7c-e6fb816f20cc"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 761,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_english",
+        "query": "How does holding a resource while waiting for another cause a deadlock?",
+        "query_language": "english",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "d487a846-1937-5a17-a6f6-f0fe58575fca"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 951,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_hindi",
+        "query": "एक रिसोर्स को पकड़े रखते हुए दूसरे के लिए इंतज़ार करना डेडलॉक का कारण कैसे बनता है?",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "d487a846-1937-5a17-a6f6-f0fe58575fca"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": 58,
+        "semantic_top100_raw_cosine_score": 0.49044424,
+        "bm25_rank": 12,
+        "bm25_raw_score": 26.15151141468454,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": 15,
+        "rrf_threshold_production_rank": 15,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": true,
+        "reranked_pool100_rank": 1
+      },
+      {
+        "query_id": "c_hold_and_wait_deadlock__q_hinglish",
+        "query": "Ek resource ko hold karke rakhna aur dusre resource ka wait karna deadlock ka reason kaise banta hai?",
+        "query_language": "hinglish",
+        "source_language": "hindi",
+        "relevant_chunk_ids": [
+          "d487a846-1937-5a17-a6f6-f0fe58575fca"
+        ],
+        "present_in_canonical_corpus": true,
+        "semantic_top100_rank": null,
+        "semantic_top100_raw_cosine_score": null,
+        "bm25_rank": 614,
+        "bm25_raw_score": 0.0,
+        "bm25_corpus_size_this_workspace": 1400,
+        "rrf_threshold0_rank": null,
+        "rrf_threshold_production_rank": null,
+        "eliminated_by_threshold": false,
+        "final_top10_hit_no_rerank": false,
+        "final_top10_hit_reranked_pool40": false,
+        "reranked_pool100_rank": null
+      }
+    ]
+  },
+  "part_d_chunk_quality_notes": {
+    "f404ac22-88f5-591d-b20f-e0502be6ef96": {
+      "concept": "c_os_modules",
+      "approx_word_count": 150,
+      "asr_letter_spacing_artifact_present": true,
+      "artifact_location": "first ~15 words (\"नम े ं ट ऑफ इ ं ड ि य ा क ा ग ो ल ह ै\"), clean thereafter",
+      "concept_split_across_chunks": false,
+      "semantically_complete_for_its_own_question": true
+    },
+    "280c2744-c8bb-5f78-854b-52e3b77c8613": {
+      "concept": "c_real_time_os",
+      "approx_word_count": 150,
+      "asr_letter_spacing_artifact_present": false,
+      "artifact_location": null,
+      "concept_split_across_chunks": false,
+      "semantically_complete_for_its_own_question": true
+    },
+    "15197ab2-7fc0-5cc8-9860-5c0409be66ba": {
+      "concept": "c_process_stack_contents",
+      "approx_word_count": 150,
+      "asr_letter_spacing_artifact_present": false,
+      "artifact_location": null,
+      "concept_split_across_chunks": false,
+      "semantically_complete_for_its_own_question": true
+    },
+    "b15a9c9f-c3c6-54ee-a865-5b328b74f755": {
+      "concept": "c_sjf_not_implementable",
+      "approx_word_count": 150,
+      "asr_letter_spacing_artifact_present": true,
+      "artifact_location": "first ~10 words, clean thereafter",
+      "concept_split_across_chunks": false,
+      "semantically_complete_for_its_own_question": true
+    },
+    "de102609-87b3-5d1d-b5d6-78591df889cd": {
+      "concept": "c_page_fault_definition",
+      "approx_word_count": 150,
+      "asr_letter_spacing_artifact_present": true,
+      "artifact_location": "first ~12 words, clean thereafter",
+      "concept_split_across_chunks": false,
+      "semantically_complete_for_its_own_question": true
+    },
+    "7d131130-e14e-597a-9cb1-f3dc5dad183e": {
+      "concept": "c_fcfs_disk_scheduling",
+      "approx_word_count": 150,
+      "asr_letter_spacing_artifact_present": true,
+      "artifact_location": "first ~10 words, clean thereafter",
+      "concept_split_across_chunks": false,
+      "semantically_complete_for_its_own_question": true
+    },
+    "2c1abf3a-9337-5167-8b7c-e6fb816f20cc": {
+      "concept": "c_memory_hierarchy_locality (part 1 of 2)",
+      "approx_word_count": 140,
+      "asr_letter_spacing_artifact_present": false,
+      "artifact_location": null,
+      "concept_split_across_chunks": true,
+      "split_note": "concept genuinely spans this chunk + 1e2576b8-... (confirmed and fixed in Phase 3.1)",
+      "semantically_complete_for_its_own_question": false
+    },
+    "1e2576b8-b408-5ded-9144-2d977076f961": {
+      "concept": "c_memory_hierarchy_locality (part 2 of 2)",
+      "approx_word_count": 140,
+      "asr_letter_spacing_artifact_present": false,
+      "artifact_location": null,
+      "concept_split_across_chunks": true,
+      "split_note": "continuation chunk added in Phase 3.1 final correction",
+      "semantically_complete_for_its_own_question": false
+    },
+    "d487a846-1937-5a17-a6f6-f0fe58575fca": {
+      "concept": "c_hold_and_wait_deadlock",
+      "approx_word_count": 150,
+      "asr_letter_spacing_artifact_present": false,
+      "artifact_location": null,
+      "concept_split_across_chunks": false,
+      "semantically_complete_for_its_own_question": true
+    }
+  }
+}

@@ -1,0 +1,47 @@
+# Team 4B Docker build context exclusions (Task 11.1).
+#
+# Keep the build context small and avoid ever sending secrets, VCS
+# metadata, or generated artifacts into the image build. The Dockerfile
+# itself only explicitly COPYs app/, requirements.txt, docs/, and
+# README.md, so most of this is defense-in-depth rather than strictly
+# load-bearing -- but a smaller build context also makes `docker build`
+# faster and easier to audit.
+
+# Version control
+.git
+.gitignore
+
+# Python virtual environments / local interpreter state
+.venv
+venv
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# Tests -- not part of the runtime image
+tests
+
+# Secrets / local environment overrides -- NEVER baked into the image.
+# Only *.example files (placeholders only) are ever meant to ship.
+.env
+.env.*
+!.env.example
+!.env.docker.example
+
+# Generated runtime artifacts (Task 9.1's JSONLEvaluationStore output;
+# the container creates its own copy of this path fresh, per the
+# Dockerfile's own `mkdir -p /app/data`)
+data
+
+# IDE / OS metadata
+.vscode
+.idea
+.DS_Store
+
+# Docs about this exact packaging step's own review process, not needed
+# inside the image itself
+*.md.bak

@@ -1,0 +1,93 @@
+# Team 4B — Advanced RAG & Semantic Search (Task 11.1)
+#
+# DEVELOPMENT-ONLY compose file. Referenced from docker-compose.yml's
+# own header comment -- this is the file that fills that reference.
+#
+# Unlike docker-compose.yml (production-oriented: Team 4B's API
+# container only, connecting to Team 4A's real, already-running
+# Qdrant/Redis and an external Ollama), this file bundles a COMPLETE,
+# ISOLATED stack -- its own Qdrant, its own Redis, its own Ollama -- so
+# a developer can run and exercise Team 4B end-to-end WITHOUT touching
+# Team 4A's real infrastructure at all. Distinct container/volume/network
+# names throughout, so this can safely run alongside Team 4A's own
+# `4a-service-*` stack on the same machine without any collision.
+#
+# This stack starts genuinely empty (no Team 4A-ingested data, no
+# pulled Ollama model) -- it is for exercising the Team 4B API/health/
+# metrics/query-shape surface, not for reproducing Team 4A's real
+# ingested content. Pull a model into the `team4b-dev-ollama` container
+# after startup, e.g.: `docker compose -f docker-compose.dev.yml exec
+# team4b-dev-ollama ollama pull llama3`.
+#
+# Usage:
+#     docker compose -f docker-compose.dev.yml up --build
+#
+# NOT verified by an actual `docker compose up` in the sandbox this was
+# authored in (no `docker` binary installed there -- see this task's
+# report). YAML syntax was validated directly (`python -c "import
+# yaml; yaml.safe_load(open('docker-compose.dev.yml'))"`) and every
+# environment variable below is cross-checked against
+# app/core/config.py's real Settings fields, not invented.
+
+services:
+  team4b-dev-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: team4b-api:dev
+    ports:
+      - "${TEAM4B_DEV_HOST_PORT:-8000}:8000"
+    environment:
+      # Service DNS names within THIS compose project's own network --
+      # never localhost (Task 11.1's explicit requirement for
+      # inter-container communication).
+      QDRANT_URL: http://team4b-dev-qdrant:6333
+      QDRANT_COLLECTION_NAME: ${QDRANT_COLLECTION_NAME:-team4b_shared_production_chunks}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-384}
+      EMBEDDING_DISTANCE: ${EMBEDDING_DISTANCE:-Cosine}
+      EMBEDDING_MODEL_NAME: ${EMBEDDING_MODEL_NAME:-all-MiniLM-L6-v2}
+      REDIS_URL: redis://team4b-dev-redis:6379/0
+      OLLAMA_URL: http://team4b-dev-ollama:11434
+      OLLAMA_MODEL_NAME: ${OLLAMA_MODEL_NAME:-llama3}
+      ENVIRONMENT: local
+      LOG_LEVEL: ${LOG_LEVEL:-DEBUG}
+    volumes:
+      - team4b-dev-evaluation-data:/app/data
+    depends_on:
+      - team4b-dev-qdrant
+      - team4b-dev-redis
+      - team4b-dev-ollama
+    # `depends_on` here only orders container STARTUP, not service
+    # READINESS (Task 11.1's own point 19) -- this application already
+    # handles a not-yet-ready dependency at the request level (every
+    # VectorStoreUnavailableError/ConversationStoreUnavailableError/
+    # LLMUnavailableError maps to a clean 503, per Tasks 2.1/4.1/6.1/8.1
+    # -- confirmed by inspection, not assumed), so no extra startup
+    # sleep/wait script was added here.
+
+  team4b-dev-qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "${TEAM4B_DEV_QDRANT_HOST_PORT:-6343}:6333"
+    volumes:
+      - team4b-dev-qdrant-storage:/qdrant/storage
+
+  team4b-dev-redis:
+    image: redis:7-alpine
+    ports:
+      - "${TEAM4B_DEV_REDIS_HOST_PORT:-6390}:6379"
+    volumes:
+      - team4b-dev-redis-data:/data
+
+  team4b-dev-ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "${TEAM4B_DEV_OLLAMA_HOST_PORT:-11444}:11434"
+    volumes:
+      - team4b-dev-ollama-models:/root/.ollama
+
+volumes:
+  team4b-dev-evaluation-data:
+  team4b-dev-qdrant-storage:
+  team4b-dev-redis-data:
+  team4b-dev-ollama-models:

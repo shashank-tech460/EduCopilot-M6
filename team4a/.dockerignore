@@ -1,0 +1,11 @@
+# Keep the build context/image lean -- none of this is needed at runtime.
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+tests/
+requirements.txt.orig
+.git/
+.gitignore
+*.md
+.env

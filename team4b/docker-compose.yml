@@ -1,0 +1,80 @@
+# Team 4B — Advanced RAG & Semantic Search (Task 11.1)
+#
+# PRODUCTION-ORIENTED compose file: ONLY the Team 4B API container.
+#
+# Deliberately does NOT include Qdrant, Redis, or Ollama services here.
+# The approved architecture treats all three as EXTERNAL infrastructure
+# Team 4B connects to via configured URLs (Settings.qdrant_url/
+# redis_url/ollama_url) -- Team 4A already owns and runs the real,
+# shared Qdrant + Redis stack (containers `4a-service-qdrant-1`,
+# `4a-service-redis-1`, already independently verified per this task's
+# brief), and Ollama has been an external, host-level dependency
+# throughout this whole project (never something Team 4B "owns" -- see
+# app/services/llm_generator.py). Bundling separate qdrant/redis/ollama
+# containers into THIS compose file would create a second, disconnected
+# set of infrastructure and risk exactly the "conflicting architecture"
+# this task's brief explicitly warns against.
+#
+# For fully standalone Team 4B development/testing (no Team 4A stack
+# required, isolated containers/ports/volumes), see docker-compose.dev.yml
+# instead -- a SEPARATE file, not merged with this one, so production and
+# development configurations never get silently conflated.
+#
+# CONNECTING TO TEAM 4A'S REAL STACK: see README.md's "Docker Deployment"
+# section for the two supported options (join Team 4A's Docker network,
+# or reach its host-exposed ports) -- this file does not hardcode either
+# choice; set QDRANT_URL/REDIS_URL/OLLAMA_URL (and, only if joining Team
+# 4A's network, TEAM4A_NETWORK_NAME) via your own .env file.
+
+services:
+  team4b-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: team4b-api:latest
+    # No container_name -- per this task's own instruction to prefer
+    # Compose service discovery/explicit networking over hardcoded
+    # container names, avoiding any collision with Team 4A's existing
+    # `4a-service-*` container names.
+    ports:
+      # Host port is the only side of this mapping that's "yours" to
+      # change; the container always listens on 8000 internally
+      # (matches the Dockerfile's EXPOSE/CMD). Change the host side
+      # (left of the colon) if 8000 is already in use on the host.
+      - "${TEAM4B_HOST_PORT:-8000}:8000"
+    environment:
+      # Every value below is read by app/core/config.py's Settings --
+      # nothing here is a NEW configuration surface invented for Docker.
+      # Defaults shown are this project's own established defaults
+      # (Task 1.1); override any of them via a .env file alongside this
+      # compose file. NONE of these should ever be "localhost" for
+      # inter-container communication -- see README.md for exactly how
+      # to point QDRANT_URL/REDIS_URL at Team 4A's real, already-running
+      # stack from inside this container.
+      QDRANT_URL: ${QDRANT_URL:?Set QDRANT_URL to Team 4A's Qdrant endpoint, reachable from this container -- see README.md}
+      QDRANT_COLLECTION_NAME: ${QDRANT_COLLECTION_NAME:-team4b_shared_production_chunks}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-384}
+      EMBEDDING_DISTANCE: ${EMBEDDING_DISTANCE:-Cosine}
+      EMBEDDING_MODEL_NAME: ${EMBEDDING_MODEL_NAME:-all-MiniLM-L6-v2}
+      REDIS_URL: ${REDIS_URL:?Set REDIS_URL to Team 4A's Redis endpoint, reachable from this container -- see README.md}
+      OLLAMA_URL: ${OLLAMA_URL:?Set OLLAMA_URL to your Ollama endpoint, reachable from this container -- see README.md}
+      OLLAMA_MODEL_NAME: ${OLLAMA_MODEL_NAME:-llama3}
+      ENVIRONMENT: ${ENVIRONMENT:-production}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      # Persists Requirement 8's timestamped evaluation output
+      # (Settings.evaluation_results_path) across container
+      # replacement/restart. Not required for the API/query/history
+      # paths, which hold no local state of their own -- Redis/Qdrant
+      # (external, Team 4A-owned) are where THAT state actually lives.
+      - team4b-evaluation-data:/app/data
+    restart: unless-stopped
+    # No `privileged`, no extra `cap_add`, no host networking -- the
+    # container runs as the non-root `appuser` the Dockerfile creates,
+    # with only the one host port above exposed.
+
+volumes:
+  team4b-evaluation-data:
+    # A Team-4B-owned, distinctly-named volume -- never touches, renames,
+    # or overlaps with Team 4A's own `4a-service_qdrant_storage` /
+    # `4a-service_redis_data` volumes.
