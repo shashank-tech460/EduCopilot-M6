@@ -15,14 +15,18 @@ so tests override them with `app.dependency_overrides[get_rag_service] = ...`
 or Ollama is ever required to exercise the API boundary. See
 `tests/test_api.py`.
 
-SCOPE NOTE: this module does not implement BM25 corpus population
-(`HybridRetriever.refresh_bm25_corpus()`) -- BM25 freshness/rebuild
-strategy remains explicitly out of scope here, per the already-flagged,
-still-unresolved technical debt from Task 3.1/3.2 (not something Task
-8.1 is responsible for solving). The wired `HybridRetriever` will simply
-have an empty BM25 corpus until something else calls that method; this
-does not block Task 8.1's own scope (the HTTP boundary), which is
-functionally correct regardless of when/whether BM25 has been refreshed.
+SCOPE NOTE (superseded by PHASE 5C-2): this module itself still does not
+call `HybridRetriever.refresh_bm25_corpus()` -- ongoing BM25
+freshness/rebuild strategy (e.g. re-refreshing after new ingestion)
+remains out of scope here, unchanged. What HAS changed: the
+long-standing gap where NOTHING in the live application ever called
+`refresh_bm25_corpus()` at all (confirmed in
+team4b/data/m6_phase5b_retrieval_reliability_diagnosis.md -- the BM25
+corpus was permanently empty in every deployed process) is now closed
+by `app/api/main.py`'s `lifespan` handler, which calls
+`get_hybrid_retriever().refresh_bm25_corpus()` exactly once at process
+startup, using this module's own existing, cached `HybridRetriever`
+instance -- no second instance, no duplicated BM25 wiring here.
 
 TASK 10.1 ADDITIONS: `get_vector_store_manager()`, `get_bm25_index()`,
 and `get_embedder()` were extracted out of `get_hybrid_retriever()`'s

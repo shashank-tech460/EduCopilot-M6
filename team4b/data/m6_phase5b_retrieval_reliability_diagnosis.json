@@ -1,0 +1,312 @@
+{
+  "phase": "5B",
+  "title": "RAG Retrieval Reliability Investigation -- Diagnosis Only (No Fix Implemented)",
+  "investigation_date": "2026-09-21",
+  "git_branch": "phase5-cross-script-retrieval",
+  "scope": "Read-only forensic investigation of the 10 confirmed zero-candidate retrieval failures from the Phase 5A/round-2 product validation. No production code, canonical data, or validation collection was modified. No production/validation service was restarted or reconfigured. The 123-question battery was NOT rerun.",
+  "executive_summary": "The previously-suspected root cause (a mis-tuned relevance score_threshold) is DEFINITIVELY REJECTED as the explanation for the 10 confirmed zero-candidate failures. Direct, reproducible tracing of the real production retrieval code (HybridRetriever, BM25Index, VectorStoreManager, GenerationAuthorityClient) against the live, read-only validation Qdrant collection and MongoDB shows that for all 10 failing queries, retrieval never runs at all. The actual root cause is a PRE-RETRIEVAL QUERY-TRANSFORMATION defect: app/services/followup_context.py's is_elliptical_query() classifies a query as 'needs prior conversation context' whenever ANY of 8 pronoun/demonstrative words (it, this, that, them, these, those, its, their) appears ANYWHERE in the query text -- including grammatically self-contained uses such as relative pronouns ('a query THAT finds...'), possessives referring to a noun in the SAME sentence ('...into ITS component parts'), and object pronouns referring to a same-sentence antecedent ('...deliver THEM to the IP layer'). When this misfires on the FIRST message of a fresh conversation (no previous user turn to enrich with), RAGService.handle_query() takes an explicit 'missing_followup_context' branch that SKIPS HybridRetriever.retrieve() ENTIRELY and returns a scripted, ungrounded clarifying-question response via LLMGenerator.generate_conversational() -- the exact same code path used for casual greetings like 'Hi'. This was verified with 100% precision: all 19 confirmed zero-citation failures across BOTH validation rounds (10 from round 2's clean corpus, 9 from round 1) contain at least one of the 8 trigger words; 0 of 9 sampled confirmed-passing control queries do. A second, independent, and previously-unknown defect was also discovered and confirmed via code inspection plus live-process log verification across this engagement's entire runtime: HybridRetriever.refresh_bm25_corpus() is never called anywhere in the running application (no startup hook, no route, no scheduler) -- only in standalone evaluation scripts. The live BM25 index has therefore been permanently empty in every Team4A/4B process throughout this engagement, meaning 'hybrid' search mode has been running as semantic-only in every real query, and the RRF score-normalization formula (which assumes two contributing ranked lists) has been silently capping every citation's relevance_score at roughly half its intended scale -- exactly matching the 0.5/0.492/0.484/0.477/0.469 score sequence observed in nearly every successful citation across both validation rounds. This is not the cause of the 10 zero-citation failures (which never reach the fusion stage at all), but it is a separate, real, systemic gap that degrades ranking quality broadly and means Phase 4's own hybrid-retrieval evaluation metrics (which used scripts that DO call refresh_bm25_corpus()) do not reflect actual production behavior. The one forensic case explicitly requested (B-tree node splitting) is a THIRD, distinct, genuine ranking failure: the correct chunk (page 128, confirmed present) IS found by Qdrant's semantic search, at rank 29 of 100, with a normalized score (0.343) that clears the 0.3 threshold -- it is excluded only because the system keeps just the top 5.",
+  "root_cause_categories": {
+    "primary_root_cause": {
+      "name": "Query transformation failure (pre-retrieval elliptical-query misclassification)",
+      "component": "team4b/app/services/followup_context.py::is_elliptical_query(), combined with team4b/app/services/rag_service.py::RAGService.handle_query()'s missing-context branch",
+      "affects": "10/10 confirmed round-2 zero-candidate failures; 9/9 confirmed round-1 zero-candidate failures; 19/19 total, 100% of the failure set investigated",
+      "mechanism": "is_elliptical_query() returns True if ANY whole word in the query is in {it, this, that, them, these, those, its, their}, regardless of grammatical role or sentence position. For a first-message (fresh-conversation) query, RAGService.handle_query() then takes the explicit 'previous_user_turn is None' branch, which does NOT call the retriever at all -- retrieval_results is set to the literal empty list [] and an ungrounded clarifying-question reply is generated instead.",
+      "confidence": "CONFIRMED -- reproduced with 100% precision (19/19 failures match, 0/9 passing controls match) by calling the real, unmodified is_elliptical_query() function directly against every confirmed failure and a sample of confirmed successes."
+    },
+    "secondary_root_cause_btree_case": {
+      "name": "Semantic/embedding candidate ranking failure (present-but-outranked)",
+      "component": "team4b/app/services/hybrid_retriever.py::_retrieve_hybrid()'s top-K selection after RRF",
+      "affects": "DS-11 specifically (and structurally, any query whose single best answer is topically narrow within a workspace dominated by closely related content)",
+      "mechanism": "The correct chunk IS present in Qdrant's own top-100 semantic candidates (rank 29, raw cosine similarity 0.4612) and its normalized RRF score (0.3427) clears the 0.3 relevance threshold -- it is excluded solely because HybridRetriever keeps only the top 5 results and 28 other, topically-adjacent-but-less-precise chunks (general Binary Search Tree content from the same PDF) rank higher by pure cosine similarity.",
+      "confidence": "CONFIRMED -- directly measured via live re-computation of the real embedding, the real Qdrant search, and the real RRF/threshold math against the actual chunk."
+    },
+    "systemic_finding_bm25_never_populated": {
+      "name": "Hybrid/RRF ranking degradation (BM25 leg permanently empty in production)",
+      "component": "team4b/app/services/hybrid_retriever.py::refresh_bm25_corpus() -- never invoked by team4b/app/api/main.py, app/api/routes.py, or app/api/dependencies.py",
+      "affects": "Every hybrid-mode query ever issued against the live Team4A/4B services (both production and validation instances) throughout this entire engagement, though it is NOT the cause of the 10 confirmed zero-citation failures (those never reach this stage).",
+      "mechanism": "BM25Index.rebuild()/refresh_bm25_corpus() has no caller anywhere in the running FastAPI application (confirmed by full static search of app/api/*.py and by grepping 'BM25 corpus refreshed' -- the only log line that method emits -- against team4b_validation.log and team4b_prod.log across their entire history: zero matches). Consequently HybridRetriever._bm25_index.search() always operates on an empty in-memory corpus and returns []. reciprocal_rank_fusion() then only ever has one non-empty input list (the vector leg), so every final relevance_score is silently capped near 0.5 (the theoretical max for a single-list contribution against a formula normalized for two lists) -- exactly the 0.5/0.492/0.484/0.477/0.469 sequence observed in nearly every successful citation in both validation rounds. BM25's lexical-match signal never has a chance to rescue a semantically-adjacent-but-lexically-precise correct answer (as it plausibly would for the B-tree case, where 'B-tree' and 'splitting' are exact terms).",
+      "confidence": "CONFIRMED via two independent methods: (1) static analysis of every route/dependency/startup path in the live application finds no caller; (2) grep of the actual running processes' own log files for the unique 'BM25 corpus refreshed' log line the method emits shows zero occurrences across the full runtime of both the production and validation Team4B processes."
+    },
+    "ruled_out": [
+      {
+        "hypothesis": "Relevance score_threshold too high",
+        "verdict": "REJECTED",
+        "evidence": "For the 10 confirmed failures, retrieval never runs, so no threshold is ever evaluated. For DS-11, the correct chunk's normalized score (0.343-0.73 depending on fusion assumptions) is comfortably above the 0.3 threshold in every scenario tested."
+      },
+      {
+        "hypothesis": "Generation-authority (Mongo) exclusion",
+        "verdict": "REJECTED",
+        "evidence": "Direct live re-computation of get_current_generations() for every traced candidate's document_id resolved successfully in every case checked; no candidate was excluded by this stage."
+      },
+      {
+        "hypothesis": "Workspace/document filtering error",
+        "verdict": "REJECTED",
+        "evidence": "All candidates traced belong to the correct workspace and, where checked, the correct document; the Phase 4E-F1 collection_filter threading into both legs is confirmed intact by direct code reading (both _retrieve_hybrid's BM25 future and its vector future receive collection_filter, matching the Phase 4E-F1 fix's own description)."
+      },
+      {
+        "hypothesis": "Qdrant retrieval failure (empty semantic leg)",
+        "verdict": "REJECTED for the 10 confirmed failures (never reached); NOT the cause for DS-11 either (100 candidates returned)."
+      },
+      {
+        "hypothesis": "Context assembly failure (chunks found but dropped before reaching the LLM)",
+        "verdict": "REJECTED for the 10 confirmed failures -- retrieval_results is an actual empty list by design (is_elliptical_query short-circuit), not a non-empty list that gets discarded later."
+      }
+    ]
+  },
+  "the_10_failures": [
+    {
+      "test_id": "DS-10",
+      "workspace": "Data Structures",
+      "query": "How do you construct a binary tree from its in-order and pre-order traversal sequences?",
+      "stage_of_failure": "query_transformation",
+      "trigger_word": "its",
+      "content_confirmed_present_and_would_have_ranked_top5": true,
+      "counterfactual_top5_pages": [
+        116,
+        117,
+        121,
+        109,
+        113
+      ]
+    },
+    {
+      "test_id": "CN-06",
+      "workspace": "Computer Networks",
+      "query": "How does TCP group bytes into segments and deliver them to the IP layer?",
+      "stage_of_failure": "query_transformation",
+      "trigger_word": "them",
+      "content_confirmed_present_and_would_have_ranked_top5": true,
+      "counterfactual_top5_pages": [
+        139,
+        201,
+        206,
+        144,
+        203
+      ]
+    },
+    {
+      "test_id": "CN-11",
+      "workspace": "Computer Networks",
+      "query": "Can you walk me through, in detail, what happens at the data link layer when a raw bit stream needs to be delivered reliably to a destination, including how framing fits into this?",
+      "stage_of_failure": "query_transformation",
+      "trigger_word": "this",
+      "content_confirmed_present_and_would_have_ranked_top5": true,
+      "counterfactual_top5_pages": [
+        40,
+        41,
+        42,
+        43,
+        43
+      ]
+    },
+    {
+      "test_id": "MA-08",
+      "workspace": "Mathematics",
+      "query": "How can trigonometry be used to find the height of the Qutub Minar without measuring it directly?",
+      "stage_of_failure": "query_transformation",
+      "trigger_word": "it",
+      "content_confirmed_present_and_would_have_ranked_top5": true,
+      "counterfactual_top5_pages": [
+        1,
+        2,
+        5,
+        14,
+        7
+      ],
+      "note": "Content found comfortably above threshold even without RRF (raw cosine rank 1 score 0.6335)."
+    },
+    {
+      "test_id": "MA-10",
+      "workspace": "Mathematics",
+      "query": "Why is the hypotenuse always the longest side in a right triangle, and how does that limit the value of sin A?",
+      "stage_of_failure": "query_transformation",
+      "trigger_word": "that",
+      "content_confirmed_present_and_would_have_ranked_top5": true,
+      "counterfactual_top5_pages": [
+        6,
+        14,
+        3,
+        12,
+        5
+      ]
+    },
+    {
+      "test_id": "DB-01",
+      "workspace": "DBMS",
+      "query": "What is a DBMS and what are its key features?",
+      "stage_of_failure": "query_transformation",
+      "trigger_word": "its",
+      "content_confirmed_present_and_would_have_ranked_top5": true,
+      "counterfactual_top5_pages": [
+        1,
+        6,
+        1,
+        5,
+        12
+      ]
+    },
+    {
+      "test_id": "DB-02",
+      "workspace": "DBMS",
+      "query": "What is normalization in a database and why is it needed?",
+      "stage_of_failure": "query_transformation",
+      "trigger_word": "it",
+      "content_confirmed_present_and_would_have_ranked_top5": true,
+      "counterfactual_top5_pages": [
+        53,
+        41,
+        52,
+        54,
+        3
+      ]
+    },
+    {
+      "test_id": "DB-08",
+      "workspace": "DBMS",
+      "query": "Give an example SQL query that finds sailors who have not reserved a red boat.",
+      "stage_of_failure": "query_transformation",
+      "trigger_word": "that (relative pronoun: 'a query THAT finds')",
+      "content_confirmed_present_and_would_have_ranked_top5": true,
+      "counterfactual_top5_pages": [
+        56,
+        59,
+        60,
+        58,
+        42
+      ]
+    },
+    {
+      "test_id": "OS-01",
+      "workspace": "Operating Systems",
+      "query": "What is an operating system and what does it manage?",
+      "stage_of_failure": "query_transformation",
+      "trigger_word": "it",
+      "content_confirmed_present_and_would_have_ranked_top5": false,
+      "note": "This workspace's semantic candidates are all weak (raw cosine 0.10-0.24) regardless -- see 'generalized_rag_implications' on the Operating-Systems-workspace-as-video-only limitation. Retrieval was never attempted, so it is impossible to know from this evidence alone whether fixing the query-transformation bug alone would have produced a good answer here; this is flagged as a SEPARATE, compounding concern (see below), not evidence against the primary root cause."
+    },
+    {
+      "test_id": "OS-04",
+      "workspace": "Operating Systems",
+      "query": "Do both operating-system videos in this workspace cover similar topics, or do they cover different aspects of operating systems?",
+      "stage_of_failure": "query_transformation",
+      "trigger_word": "this",
+      "content_confirmed_present_and_would_have_ranked_top5": false,
+      "note": "Same weak-candidate caveat as OS-01. Also a meta-question about the workspace itself, which no RAG chunk could answer regardless of ranking -- likely still 'insufficient evidence' even after a query-transformation fix, but that would be an honest, evidence-based non-answer rather than the current scripted clarification."
+    }
+  ],
+  "successful_vs_failed_comparison": {
+    "method": "Directly called the real, unmodified is_elliptical_query() against every confirmed failing query (both rounds) and a representative sample of confirmed-passing queries from the same workspaces.",
+    "result": "19/19 (100%) of confirmed failures contain a trigger pronoun word; 0/9 (0%) of the sampled passing queries do. The single smallest reproducible difference that separates a passing and failing version of what is otherwise nearly the same question is the presence of exactly one of {it, this, that, them, these, those, its, their} anywhere in the query text -- for example, round 1's passing 'How can trigonometry be used to find the height of a tower like Qutub Minar?' vs. round 2's failing 'How can trigonometry be used to find the height of the Qutub Minar without measuring IT directly?' (the only material difference is the added trailing clause introducing the word 'it').",
+    "candidate_pool_comparison": "For every one of the 10 failures where retrieval was manually re-run in this investigation, the semantic leg alone (bypassing the query-transformation bug) returned strong, correctly-ranked, topically precise top-5 candidates comfortably above the 0.3 threshold -- retrieval quality itself was never in question for 8 of the 10 cases (OS-01/OS-04 are the two exceptions, where the underlying Operating-Systems-workspace video content is itself weakly matched regardless)."
+  },
+  "btree_forensic_analysis": {
+    "target_chunk_id": "a5adc1b7-8bb8-59d2-a4c7-1115daaa1442",
+    "target_document": "Data Structures Full Notes.pdf (document_id 6aaefc09580657828a5feee8)",
+    "page_number": 128,
+    "chunk_text_excerpt": "3. Key Order: Keys are stored in sorted order, and child pointers split the key ranges. 4. Node Capacity: A node contains at least ceil(m/2)-1 keys and at most m-1 keys (except the root, which can have fewer keys). Operations: 1. Search: similar to binary search but extended to multiple keys per node. 2. Insertion: insert the key into the appropriate leaf node. If the node overflows (more than m-1 keys), split the node into two and promote the middle key to the parent.",
+    "content_existence_proof": "Independently located via direct, read-only PyMuPDF extraction of the source PDF (not via the RAG pipeline) AND independently re-confirmed present in this exact chunk via a live Qdrant scroll of the validation collection.",
+    "query": "What is a B-tree and how does node splitting work during insertion?",
+    "is_elliptical_query_result": false,
+    "semantic_leg": {
+      "raw_cosine_similarity": 0.4612,
+      "rank_among_100_candidates": 29,
+      "normalized_score_semantic_only": 0.7306
+    },
+    "bm25_leg_actual_production": {
+      "candidates_returned": 0,
+      "reason": "BM25 index is always empty in the live process (see systemic_finding_bm25_never_populated above)."
+    },
+    "bm25_leg_counterfactual_if_populated": {
+      "note": "Using a diagnostic-only, in-memory BM25Index populated from the same validation collection (never touching the live server's own, separately-empty index), the target chunk's actual BM25 rank/score was also computed as part of this trace."
+    },
+    "rrf_fusion_actual_production_bm25_always_empty": {
+      "fused_rank": 29,
+      "raw_rrf_score": 0.01124,
+      "normalized_score": 0.3427,
+      "score_threshold": 0.3,
+      "passes_threshold": true
+    },
+    "removed_by_filtering_or_thresholding": false,
+    "reaches_llm_context": false,
+    "why_it_does_not_reach_the_llm": "It clears every filter and the relevance threshold, but HybridRetriever._retrieve_hybrid() only keeps the first `selection_size` (=top_k=5, since no reranker is configured) results from the fused, threshold-passed, descending-score list. 28 other chunks from the same PDF (all genuinely about trees/BSTs, but not specifically B-tree node splitting) rank higher by cosine similarity and fill all 5 slots first.",
+    "generation_authority_check": {
+      "document_id_resolved": true,
+      "excluded_by_authority": false
+    },
+    "classification": "SEMANTIC/EMBEDDING CANDIDATE RANKING FAILURE -- content found, correctly attributed, correctly scored above threshold, but outranked. Distinct from the query-transformation failure affecting the other 10 cases."
+  },
+  "architecture_inspection_findings": {
+    "HybridRetriever.retrieve()": "Correctly routes hybrid/semantic/keyword modes per Property 4; correctly threads workspace_id, document_ids, and collection_filter into both legs before fusion (Phase 4E-F1 fix confirmed intact by direct code reading -- both the vector_future and bm25_future in _retrieve_hybrid() receive collection_filter).",
+    "semantic_candidate_limits": "pool_size = max(top_k, hybrid_candidate_pool_size=100, selection_size) = 100 in every traced case -- generous, not a limiting factor for any of the 11 cases investigated.",
+    "bm25_candidate_limits": "BM25Index.search(top_k=None) requests the full ranked corpus by design -- not a limiting factor when populated. The limiting factor is that it is never populated at all in production (see systemic finding above).",
+    "RRF_implementation": "reciprocal_rank_fusion() and its normalization (_max_possible_rrf_score, assuming num_lists=2) are implemented exactly as the module's own docstring describes and match the observed production score sequence (0.5/0.492/0.484/0.477/0.469 for BM25-empty rank 1-5) -- the formula itself is not defective; it is being fed only one of its two intended inputs.",
+    "relevance_threshold_placement": "Applied AFTER normalization, on the [0,1] scale, exactly as documented (Requirement 7's own stated intent) -- confirmed not the bottleneck for any traced case.",
+    "workspace_filtering": "Mandatory, keyword-only, threaded into both legs before fusion -- confirmed correct in every traced case (no cross-workspace candidate observed anywhere in this investigation).",
+    "document_filtering": "document_ids=None/[]/[...] contract confirmed correct by direct code reading (empty list narrows to zero, matching the already-validated round-2 DI-01/DI-02/DI-03 findings from the prior validation).",
+    "empty_result_behavior": "For a genuinely empty semantic leg (not observed in this investigation's 11 traced cases), the hybrid path would correctly return [] -- but this was never the actual mechanism for any of the 10 confirmed failures, which short-circuit even earlier, before HybridRetriever.retrieve() is ever called.",
+    "generation_authority": "Fail-closed by design (undocumented Mongo failure -> exclude everything); confirmed NOT triggered for any traced candidate in this investigation (all document_ids resolved). The single, batched Mongo lookup per retrieve() call is workspace-scoped and correctly matches File.workspaceId; not a bottleneck here.",
+    "post_RRF_filtering": "None beyond the documented threshold + top_k selection; no undocumented filtering stage found.",
+    "score_normalization": "_normalize_cosine_similarity and _normalize_bm25_score both confirmed monotonic (order-preserving) as documented; the RRF normalization's num_lists=2 assumption is the one place normalization silently produces a systematically LOW (not wrong-order, just compressed) score scale when only one leg contributes -- see systemic finding above.",
+    "phase_4e_f1_source_filtering_fix": "CONFIRMED INTACT -- collection_filter is threaded into both the vector and BM25 legs of _retrieve_hybrid(), matching the fix's own description in the module docstring and the historical Phase 4E-F1 report."
+  },
+  "phase4_evidence_relevance": {
+    "phase4a_embedding_evaluation": {
+      "relevant": false,
+      "reason": "Phase 4A evaluated embedding-model choice/quality. Nothing in this investigation implicates the embedding model itself -- in every traced case, the correct content's raw cosine similarity was a strong, sensible value (0.46-0.80) when retrieval actually ran. The failures are upstream (query transformation) or a top-K cutoff issue (DS-11), not an embedding-quality issue."
+    },
+    "phase4b_reranker_evaluation": {
+      "relevant": "Partially",
+      "reason": "A reranker (if enabled) operates on the post-RRF, post-threshold candidate pool and could in principle have rescued DS-11 (page 128, rank 29) by re-scoring within a wider pool (reranker_candidate_pool_size=40, still short of rank 29's position but a partial mitigation for less-extreme cases). It would NOT help the 10 confirmed failures at all, since they never reach HybridRetriever.retrieve() in the first place. Not recommended as the primary fix for that reason, but noted as a partial complementary option for ranking-position failures like DS-11."
+    },
+    "phase4c_candidate_recall_diagnosis": {
+      "relevant": true,
+      "reason": "This historical report's own part_bcd_stage_by_stage data records separate mean_latencies_seconds for 'semantic', 'bm25', and 'rrf_00' stages (0.847s, 0.137s, 0.129s respectively) and a measured bm25_refresh_seconds value -- direct evidence that whatever script produced that report explicitly called refresh_bm25_corpus() itself, exactly like this investigation's own diagnostic harness had to. This corroborates, from an independent historical source, that BM25 has only ever been exercised by standalone evaluation scripts, never by the live API service -- Phase 4C's own historical recall numbers describe a BM25-populated system that production has never actually run."
+    },
+    "phase4d_cross_lingual_evaluation": {
+      "relevant": false,
+      "reason": "Cross-lingual retrieval quality is a separate concern (documented in the round-2 validation report as F2) from the query-transformation and BM25-population defects found here. None of the 10 confirmed failures in this investigation were cross-language queries."
+    },
+    "phase4e_f1_workspace_source_safety": {
+      "relevant": true,
+      "reason": "This investigation explicitly re-confirmed the Phase 4E-F1 collection_filter threading fix remains intact in the current code (see architecture_inspection_findings above) -- no regression found."
+    },
+    "explicit_non_recommendation": "This investigation does NOT recommend an embedding migration. Nothing found here implicates embedding quality; multilingual retrieval weakness (a genuine, separately-documented, pre-existing limitation) is not implicated in any of the 10 confirmed failures investigated in this phase."
+  },
+  "generalized_rag_implications": {
+    "is_elliptical_query_fix_must_remain_domain_agnostic": "The function already IS domain-agnostic (closed-class English function words only, no subject vocabulary) -- the defect is a PRECISION problem (matching too broadly), not a domain-coupling problem. A fix (e.g., requiring the pronoun to appear in a position more indicative of genuine anaphora, or -- more robustly -- changing the 'no previous turn' fallback to attempt plain retrieval instead of skipping it outright) requires no subject-specific code and applies identically to a brand-new workspace/subject with zero changes.",
+    "bm25_refresh_fix_must_remain_domain_agnostic": "Populating/scheduling refresh_bm25_corpus() is a lifecycle/infrastructure concern, entirely orthogonal to subject matter -- fixing it changes nothing about the BM25 tokenizer or ranking logic already deployed, which are already properly domain/language-agnostic (see bm25_index.py's own Hindi/Devanagari support).",
+    "os_workspace_weak_candidate_caveat": "OS-01/OS-04's semantic candidates were weak (raw cosine 0.10-0.24) even before considering the query-transformation bug -- this traces to the Operating Systems workspace containing only two YouTube-transcript videos (confirmed, in the prior validation, to have genuinely mixed/ML-adjacent content for parts of one video) and no PDF. This is a corpus-composition characteristic of this specific validation workspace, not a subject-specific code path, and does not require or imply any OS-specific fix."
+  },
+  "recommended_fix_options": [
+    {
+      "option": "A -- Narrow is_elliptical_query()'s pronoun match to reduce false positives",
+      "description": "Require the pronoun word to appear in a position/role more indicative of genuine cross-turn anaphora (e.g., only match when the pronoun is the first or second token of the query, or only when it is NOT immediately preceded by a preposition/verb that would make it a same-sentence object/relative reference). A precise rule requires careful design to avoid under-matching genuine follow-ups like 'What about it?'.",
+      "risk": "Any hand-written heuristic refinement risks new false negatives (genuine elliptical follow-ups no longer detected) or new false positives (different sentence patterns still misclassified) -- would need a representative test corpus of both true elliptical and true self-contained pronoun-containing questions to validate against.",
+      "acceptance_criteria": "All 19 confirmed-failing queries from both validation rounds are classified elliptical=False; all genuine elliptical follow-ups already covered by existing tests (test_followup_context.py) remain classified elliptical=True."
+    },
+    {
+      "option": "B -- Change the missing-context fallback to attempt plain retrieval instead of skipping it",
+      "description": "When is_elliptical_query() is True but previous_user_turn is None, call HybridRetriever.retrieve() with the ORIGINAL, unenriched query (exactly what build_enriched_retrieval_query() already does when previous_user_turn is None -- it returns the query unchanged) instead of bypassing retrieval entirely. If retrieval finds strong, on-topic candidates (as it does for 8 of the 10 confirmed cases), the LLM can answer normally; if retrieval genuinely finds nothing relevant, the existing grounded-answer prompt's own 'insufficient evidence' handling (already confirmed working correctly in the out-of-scope tests) takes over -- a more honest failure mode than the current scripted clarification.",
+      "risk": "Lower risk than Option A -- this does not change the classifier's precision/recall at all, only what happens after a (possibly still occasionally over-broad) elliptical classification with no prior turn. A residual risk: a query that IS genuinely elliptical with truly no resolvable referent (e.g., literally 'How does it work?' with nothing else in the message) would now retrieve on a low-signal query and potentially get a low-quality but non-empty result rather than a clean clarifying question -- needs evaluation against DS-17-style genuinely-ambiguous cases.",
+      "acceptance_criteria": "All 19 confirmed-failing queries now return grounded, cited answers (verified against the specific correct content this investigation independently confirmed is retrievable for 8 of the 10). Genuinely ambiguous single-word/no-antecedent queries (e.g., 'How does it work?' with truly nothing else) still produce a reasonable response, whether a clarifying question or an honest 'insufficient evidence' grounded non-answer -- not required to be identical to current behavior, but must not regress into fabrication."
+    },
+    {
+      "option": "C -- Combine A and B (defense in depth)",
+      "description": "Narrow the classifier's precision AND change the fallback behavior, so a residual false positive from an imperfect classifier still degrades gracefully to plain retrieval rather than a hard failure.",
+      "risk": "Most implementation effort of the three options; lowest residual risk.",
+      "acceptance_criteria": "Both A and B's acceptance criteria."
+    },
+    {
+      "option": "D -- Populate the BM25 corpus in production (independent of A/B/C)",
+      "description": "Add a call to HybridRetriever.refresh_bm25_corpus() at service startup (and/or after ingestion, and/or on a schedule) so hybrid mode actually fuses semantic and lexical signals as originally designed, restoring the RRF normalization's intended two-list scale and giving lexical matching a chance to rescue precision-relevant chunks like the B-tree case.",
+      "risk": "Purely additive -- does not touch retrieval logic, scoring formulas, or thresholds. Main risks are operational: corpus-refresh cost/latency at startup (measured historically at ~1.36s for 1650 chunks in the Phase 4C report, would scale with corpus size), and the already-documented, pre-existing 'staleness' trade-off (BM25 won't see newly-ingested content until the next refresh) -- both already flagged as known, accepted trade-offs in the module's own docstring, just never actually wired up.",
+      "acceptance_criteria": "BM25 corpus refreshed on service startup (verified via the existing 'BM25 corpus refreshed' log line actually appearing in production logs); citation relevance_score distribution in hybrid mode shifts to reflect genuine two-leg fusion (no longer capped near 0.5 for every top-1 result); DS-11's B-tree chunk rank improves measurably (this investigation's own counterfactual trace showed it moving from rank 29 toward the top of the fused list when BM25 was populated diagnostically)."
+    }
+  ],
+  "not_recommended": [
+    "Recalibrating score_threshold: would not fix any of the 10 confirmed failures (retrieval never runs) and is not needed for DS-11 (already clears threshold).",
+    "Enabling the reranker as a primary fix: operates too late in the pipeline to help the 10 confirmed failures at all, and only partially helps ranking-position cases like DS-11 within its own pool-size limits.",
+    "An embedding migration: no evidence found in this investigation implicates embedding quality.",
+    "Any subject-specific, keyword-specific, or document-specific exception: would violate the generalized-RAG requirement and was not considered for any of the fix options above."
+  ]
+}

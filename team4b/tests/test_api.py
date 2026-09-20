@@ -1614,18 +1614,27 @@ class TestM6FollowUpContextAtTheRoute:
     through the real /api/v1/query route, and citation integrity
     re-confirmed for an enriched follow-up specifically."""
 
-    def test_elliptical_followup_produces_citations_from_actual_retrieval_only(self):
+    def test_elliptical_query_with_no_history_still_retrieves_on_the_original_query(self):
+        """PHASE 5C-1 correction: `is_elliptical_query()` is a coarse,
+        domain-agnostic heuristic (any pronoun word anywhere in the
+        query) with confirmed false positives on self-contained
+        questions -- see
+        team4b/data/m6_phase5b_retrieval_reliability_diagnosis.md. A
+        positive match with no prior history to enrich from must no
+        longer skip retrieval outright: `build_enriched_retrieval_query()`
+        already returns the query unchanged when there's no previous
+        turn, so this now falls through to plain, unenriched retrieval
+        on the original query, exactly like any self-contained question
+        -- real citations from real retrieval, not an empty list."""
+
         retriever = FakeHybridRetriever(results=[_chunk("c1", "process scheduling content")])
         client, retriever, _conv, _llm = _client(retriever=retriever)
 
         response = client.post("/api/v1/query", json={"query": "Explain it simply."})
 
-        # No prior history in this fake client's default conversation
-        # manager -- this specific case exercises the missing-context
-        # branch, not enrichment, and must produce zero citations.
         assert response.status_code == 200
-        assert response.json()["source_attributions"] == []
-        assert retriever.calls == []
+        assert len(response.json()["source_attributions"]) == 1
+        assert retriever.calls[0]["query"] == "Explain it simply."
 
     def test_self_contained_question_through_the_real_route_is_unaffected(self):
         retriever = FakeHybridRetriever(results=[_chunk("c1", "operating systems content")])

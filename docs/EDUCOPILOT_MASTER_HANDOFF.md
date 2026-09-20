@@ -1,5 +1,16 @@
 # EduCopilot --- Master Engineering Handoff
 
+> **STATUS NOTE (added Phase 5L, 2026-09-21):** this document was written
+> before the Phase 5D–5K RAG validation arc and its "Roadmap"/"Confirmed
+> RAG Weaknesses"/completion-status sections are now historical, not
+> current — several items this document lists as not-started (e.g. Phase
+> 1 BM25 Devanagari support, Phase 2 multilingual evaluation) were
+> completed afterward. For **current, authoritative status**, see
+> `docs/M6_STATUS.md`, `docs/RAG_ARCHITECTURE.md`,
+> `docs/RAG_VALIDATION.md`, `docs/SECURITY_ARCHITECTURE.md`, and
+> `docs/KNOWN_LIMITATIONS.md`. The engineering-rules and early-history
+> sections below remain useful background and were not rewritten.
+
 ## Purpose
 
 Single source of truth for Claude Code and future engineering work on

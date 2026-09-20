@@ -665,16 +665,31 @@ class TestFollowUpContextEnrichment:
         user_turns = [content for (_sid, role, content) in conversation.append_calls if role == "user"]
         assert user_turns == ["Explain it simply."]
 
-    def test_missing_context_fresh_conversation_skips_retrieval_and_asks_for_clarification(self):
+    def test_missing_context_fresh_conversation_still_attempts_plain_retrieval(self):
+        """PHASE 5C-1 correction: `is_elliptical_query()` is a coarse,
+        domain-agnostic heuristic with confirmed false positives on
+        fully self-contained questions that merely happen to contain a
+        pronoun word (see team4b/data/m6_phase5b_retrieval_reliability_diagnosis.md).
+        A positive match with no previous user turn to enrich from must
+        no longer skip retrieval outright -- `build_enriched_retrieval_query()`
+        already returns the query unchanged when there's no previous
+        turn, so this now falls through to plain, unenriched retrieval
+        on the original query, exactly like any other query. A genuinely
+        context-dependent query with truly no resolvable referent still
+        gets an honest, ungrounded-fabrication-free outcome downstream:
+        the real `LLMGenerator.generate()` returns
+        `INSUFFICIENT_CONTEXT_MESSAGE` without an LLM call when
+        `retrieved_results` is empty (see test_llm_generator.py) -- not
+        exercised by this fake, which is why this test only asserts
+        retrieval was attempted, not what the fake LLM returns."""
+
         service, retriever, conversation, llm = _service()
 
-        result = service.handle_query("Explain it.", session_id="s1", workspace_id="ws-1")
+        service.handle_query("Explain it.", session_id="s1", workspace_id="ws-1")
 
-        assert retriever.calls == []
-        assert llm.calls == []
-        assert llm.conversational_calls[0]["query"] == "Explain it."
-        assert result.retrieval_results == []
-        assert result.retrieval_metadata["missing_followup_context"] is True
+        assert retriever.calls[0]["query"] == "Explain it."
+        assert llm.calls[0]["query"] == "Explain it."
+        assert llm.conversational_calls == []
 
     def test_missing_context_turn_is_still_persisted(self):
         service, _retriever, conversation, _llm = _service()

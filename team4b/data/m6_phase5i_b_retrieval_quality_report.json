@@ -1,0 +1,176 @@
+{
+  "phase": "M6 Phase 5I-B - Current-Corpus Generalized Retrieval Quality + Cross-Language Improvement",
+  "status": "FORENSIC/EVALUATION COMPLETE - no production code changed",
+  "decision": {
+    "embedding_migration": "Category C - NO SAFE IMPROVEMENT FOUND",
+    "reranker": "Category B - PROMISING BUT INSUFFICIENT EVIDENCE, not enabled",
+    "threshold_change": "Category C - NO SAFE IMPROVEMENT FOUND",
+    "topk_change": "Category D - data/corpus-dependent tradeoff, not evaluated for generation-quality impact",
+    "production_code_changed": false
+  },
+  "executive_summary": "Using only the trustworthy 19-entry Phase 5I-A current-corpus ground truth, computed real Recall@k/MRR for semantic/BM25/hybrid retrieval, diagnosed all 3 misses to exact root cause, and evaluated two improvement candidates offline. Baseline hybrid R@5=84.2%, R@10=89.5%. Hybrid measurably beats semantic-only and BM25-only at every k. All 3 misses diagnosed with concrete stage-by-stage evidence: Miss 1 (EN->EN) is a mild RRF ranking issue (rank 8); Miss 2 (Hinglish->Hindi) is BM25 cross-script failure (raw score literally 0.0); Miss 3 (EN->Hindi) is genuine embedding cross-language weakness, absent from the top-100 pool entirely. The multilingual embedding experiment is the phase's key methodological result: it looked like a clear win in semantic-only isolation (fixed Miss 3, no English regression) but when simulated through the FULL hybrid+RRF pipeline using the same real BM25 rankings, that fix evaporates (Miss 3 remains unresolved) and a new Hindi->Hindi regression appears (100%->66.7%) in a category the current system already handles perfectly. Overall hybrid R@5 unchanged, R@10 worse. This directly demonstrates the exact trap the task warned against. The reranker fixes 2 of 3 misses but introduces a new regression and adds real latency, and cannot help Miss 3 at all (candidate never generated). No production change implemented.",
+  "baseline_configuration": {
+    "branch": "phase5-cross-script-retrieval",
+    "commit": "6f8a93377fdaf7ebca3ef3b8851ff541fb2b14d8",
+    "canonical_points": 542,
+    "validation_points": 4938,
+    "config": {
+      "default_top_k": 5, "default_score_threshold": 0.3, "default_search_mode": "hybrid",
+      "rrf_k": 60, "hybrid_candidate_pool_size": 100, "reranker_enabled": false,
+      "embedding_model_name": "all-MiniLM-L6-v2"
+    }
+  },
+  "ground_truth_status": {
+    "primary_file": "team4b/data/phase5i_a_current_corpus_ground_truth_candidate.json",
+    "entries": 19,
+    "status": "CANDIDATE, not human-validated",
+    "stale_files_not_used": ["phase2_ground_truth_approved.json", "phase3_generalized_ground_truth_candidate.json"],
+    "new_supplement_this_phase": {
+      "file": "team4b/data/phase5i_b_generalization_supplement_candidate.json",
+      "entries": 2,
+      "subjects": ["Data Structures", "Computer Networks"],
+      "collection": "educopilot_chunks_product_validation",
+      "live_verification": "2/2 hit at rank 1"
+    }
+  },
+  "overall_recall_mrr": {
+    "semantic_only": {"R@1": 0.421, "R@3": 0.526, "R@5": 0.632, "R@10": 0.737, "MRR_at_10": 0.5049},
+    "bm25_only": {"R@1": 0.474, "R@3": 0.737, "R@5": 0.789, "R@10": 0.895, "MRR_at_10": 0.6208},
+    "hybrid_production": {"R@1": 0.474, "R@3": 0.789, "R@5": 0.842, "R@10": 0.895, "MRR_at_10": 0.625},
+    "conclusion": "Hybrid outperforms semantic-only at every k, matches-or-beats BM25-only at every k - BM25 is genuinely useful on this dataset"
+  },
+  "language_matrix_hybrid_k5": [
+    {"direction": "english_query->english_source", "n": 11, "R@1": 0.727, "R@3": 0.818, "R@5": 0.909, "R@10": 1.0},
+    {"direction": "hinglish_query->english_source", "n": 3, "R@1": 0.0, "R@3": 1.0, "R@5": 1.0, "R@10": 1.0},
+    {"direction": "hindi_query->hindi_source", "n": 3, "R@1": 0.333, "R@3": 1.0, "R@5": 1.0, "R@10": 1.0},
+    {"direction": "hinglish_query->hindi_source", "n": 1, "R@1": 0.0, "R@3": 0.0, "R@5": 0.0, "R@10": 0.0, "note": "n=1, too small for general conclusion"},
+    {"direction": "english_query->hindi_source", "n": 1, "R@1": 0.0, "R@3": 0.0, "R@5": 0.0, "R@10": 0.0, "note": "n=1, too small for general conclusion"}
+  ],
+  "miss_analysis": [
+    {
+      "query_id": "ci_os_process_definition__q_english",
+      "semantic_rank": 4, "semantic_score": 0.669,
+      "bm25_rank": 10, "bm25_score": 10.29,
+      "rrf_rank": 8,
+      "in_top100_pool": true,
+      "chunk_quality": "clean, on-topic English PDF text",
+      "classification": "CANDIDATE_POOL / RRF - mild ranking miss, resolves at top_k>=10"
+    },
+    {
+      "query_id": "ci_os_race_condition__q_hinglish",
+      "semantic_rank": 48, "semantic_score": 0.314,
+      "bm25_rank": 36, "bm25_score": 0.0,
+      "rrf_rank": 14,
+      "in_top100_pool": true,
+      "chunk_quality": "clean, on-topic Hindi text, verified not garbled",
+      "classification": "BM25 (cross-script token mismatch) - zero lexical overlap between Latin-script query and Devanagari source; resolves at top_k>=20"
+    },
+    {
+      "query_id": "ci_os_virtual_memory__q_english_over_hindi_source",
+      "semantic_rank": 180, "bm25_rank": 127, "bm25_score": 0.0,
+      "rrf_rank_uncapped": 133,
+      "in_top100_pool": false,
+      "chunk_quality": "clean, on-topic Hindi text, verified not garbled",
+      "classification": "EMBEDDING (cross-language semantic weakness) - most severe miss, unrecoverable by top_k or threshold tuning alone"
+    }
+  ],
+  "chunk_quality_conclusion": "For both Hindi-source misses, actual current chunk text was read directly and confirmed clean, readable, on-topic Devanagari Hindi - not the garbled variant documented elsewhere in the same source video (Phase 5I-A). Chunk/Team4A-extraction quality explicitly ruled out as the cause of these 3 misses specifically.",
+  "topk_experiment_hybrid_threshold0.3": {
+    "k=5": {"recall": 0.842, "mrr": 0.618},
+    "k=10": {"recall": 0.895, "mrr": 0.625},
+    "k=20": {"recall": 0.947, "mrr": 0.629},
+    "k=40": {"recall": 0.947, "mrr": 0.629},
+    "k=100": {"recall": 0.947, "mrr": 0.629},
+    "conclusion": "Recall plateaus at 94.7% from k=20 onward - Miss 3 never resolves even at k=100, confirming genuine absence from the candidate pool"
+  },
+  "threshold_experiment_hybrid_k5": {
+    "threshold_0.0_to_0.7": {"recall": 0.842, "mrr": 0.618, "note": "completely flat across entire range, no threshold-driven effect on any miss or hit"}
+  },
+  "multilingual_embedding_experiment": {
+    "model": "paraphrase-multilingual-MiniLM-L12-v2",
+    "already_cached_locally": true,
+    "embedding_dim": 384,
+    "load_time_s": 8.62,
+    "index_time_542_chunks_s": 11.52,
+    "avg_query_latency_s": 0.0132,
+    "current_model_comparison": {"load_time_s": 6.65, "index_time_s": 11.61, "avg_query_latency_s": 0.0071},
+    "semantic_only_isolated_result": {
+      "note": "NOT representative of production - isolated embedding-only comparison",
+      "overall": {"R@1": 0.579, "R@3": 0.789, "R@5": 0.789, "R@10": 0.789},
+      "by_language_R5": {
+        "english->english": 1.0, "hinglish->english": 1.0, "hindi->hindi": 0.0,
+        "hinglish->hindi": 0.0, "english->hindi": 1.0
+      },
+      "apparent_conclusion_if_stopped_here": "MISLEADING - looks like a clear win, fixes Miss 3, no English regression"
+    },
+    "full_hybrid_simulated_result": {
+      "method": "New semantic rankings fused with the SAME real captured BM25 rankings via the real, unmodified reciprocal_rank_fusion(), no Qdrant writes",
+      "overall": {"R@1": 0.526, "R@3": 0.684, "R@5": 0.842, "R@10": 0.842},
+      "comparison_to_current_hybrid": {"R@5": "unchanged (0.842 = 0.842)", "R@10": "WORSE (0.842 vs 0.895)"},
+      "by_language_R5": {
+        "english->english": {"current": 0.909, "multilingual_hybrid": 1.0},
+        "hinglish->english": {"current": 1.0, "multilingual_hybrid": 1.0},
+        "hindi->hindi": {"current": 1.0, "multilingual_hybrid": 0.667, "verdict": "REGRESSION"},
+        "hinglish->hindi": {"current": 0.0, "multilingual_hybrid": 0.0, "verdict": "unchanged"},
+        "english->hindi_miss3": {"current": 0.0, "multilingual_hybrid": 0.0, "verdict": "still unresolved despite semantic-only fix"}
+      },
+      "mechanism": "Multilingual model's own semantic rank for Miss 3 improved dramatically (180->3) but BM25's independent rank for the same chunk stayed poor (127, unaffected by embedding model); RRF fusion of one strong + one weak signal was not enough to overcome the weak leg. Two of three genuine Hindi->Hindi cases got measurably worse semantic rankings under the new model."
+    },
+    "conclusion": "Category C - NO SAFE IMPROVEMENT FOUND, based on rigorous full-pipeline-simulated evidence, not the misleading isolated-language signal. Directly demonstrates why the task's explicit warning against concluding from single-language improvement was necessary."
+  },
+  "rrf_analysis": "Confirmed directly in miss analysis and multilingual simulation: RRF's equal-weighting of two independently-ranked legs means a genuine improvement in one leg can be substantially or fully neutralized when the other leg still performs poorly for the same case. No alternative RRF weighting or pool-size scheme implemented, per instruction not to implement candidates yet - documented as an architectural observation for future evaluation.",
+  "reranker_analysis": {
+    "model": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+    "pool_size": 20,
+    "never_enabled_in_production": true,
+    "recall_before_after": {
+      "k=1": {"before": 0.474, "after": 0.789},
+      "k=3": {"before": 0.789, "after": 0.895},
+      "k=5": {"before": 0.842, "after": 0.895},
+      "k=10": {"before": 0.895, "after": 0.947}
+    },
+    "miss1_fixed": "rank 8 -> 2",
+    "miss2_fixed": "rank 14 -> 1",
+    "miss3_unaffected": "rank None before and after - candidate never in top-20 pre-rerank pool, reranking cannot promote what retrieval never generated",
+    "new_regression_introduced": {"query_id": "ci_dbms_conflict_serializability__q_english", "rank_before": 4, "rank_after": 7, "note": "moved from a hit at k=5 to a miss at k=5"},
+    "avg_latency_s": 1.843,
+    "conclusion": "Category B - promising but insufficient evidence. Net Recall improves but with a real new failure mode, zero help for the most severe miss, and unquantified latency-at-scale risk. Remains disabled per instruction."
+  },
+  "generalization_analysis": {
+    "canonical_corpus_limitation": "19-entry ground truth limited to OS/DBMS - genuine corpus limitation, not fabricated or worked around",
+    "supplement_added": "2 entries (Data Structures, Computer Networks) against validation collection, both hit at rank 1 in live verification",
+    "conclusion": "Pipeline generalizes cleanly to additional subjects for genuinely in-scope, same-language queries",
+    "limitation": "Supplement intentionally small - most sampled Hindi content in other validation workspaces (Mathematics, Machine Learning) showed the same garbled-text quality issue documented for the canonical OS video; no clean Hindi samples found quickly enough to build genuine additional Hindi entries, disclosed not worked around"
+  },
+  "latency_performance": {
+    "baseline_retrieval_57_pools": "well under 1s/query average, small 542-point corpus",
+    "multilingual_embedding": "comparable load/index time to current model, ~2x query-embedding latency (13ms vs 7ms), negligible in absolute terms",
+    "reranker": "1.8-2.0s/query at pool=20, substantially worse at larger pool sizes per Phase 5H's separate finding (up to 286s at pool=100)",
+    "llm_generation_latency": "not touched this phase"
+  },
+  "english_regression_analysis": {
+    "multilingual_embedding": "No English regression - English->English hybrid-simulated R@5 improved slightly (0.909->1.0, within noise of n=11)",
+    "reranker": "One new English-language regression (ci_dbms_conflict_serializability__q_english, rank 4->7) alongside two English-language fixes - must be counted honestly, not a clean 'no regressions' result"
+  },
+  "security_isolation_impact": "Not independently re-tested this phase - no code affecting HybridRetriever's workspace/document filtering, ConversationManager, or Phase 5F/5G injection-defense code was touched. All retrieval scoped per-entry by ground truth's own workspace_id using the real, unmodified filtering path. No new isolation risk since no production code changed.",
+  "exact_recommended_next_step": [
+    "1. If the reranker is seriously considered: needs a larger ground truth (19 entries too small to be confident the one regression isn't representative), latency testing under realistic concurrent load, and a generation-quality check (not just Recall@k)",
+    "2. Do not pursue this specific multilingual embedding model further without first addressing BM25's demonstrated inability to bridge cross-script queries - any future embedding experiment should be evaluated the same rigorous full-hybrid-simulated way from the start",
+    "3. Investigate whether BM25's script-mismatch failure could be addressed by a language-agnostic, non-model-migration change (e.g. transliteration-aware tokenization) as a potentially more targeted fix - not evaluated this phase, flagged as a direction only",
+    "4. Expand the ground truth, particularly Hindi-source-content diversity (only 5/19 entries involve Hindi source, only 2 involve genuine cross-language directions) before drawing further quantitative cross-language conclusions"
+  ],
+  "files_created": [
+    "team4b/data/m6_phase5i_b_retrieval_quality_report.md",
+    "team4b/data/m6_phase5i_b_retrieval_quality_report.json",
+    "team4b/data/phase5i_b_generalization_supplement_candidate.json"
+  ],
+  "files_modified": [],
+  "data_safety": {
+    "canonical_educopilot_chunks": {"before": 542, "after": 542, "changed": false},
+    "validation_educopilot_chunks_product_validation": {"before": 4938, "after": 4938, "changed": false},
+    "team4b_test_suite": "1302 passed, 3 skipped, 1 known pre-existing failure - identical to every prior phase's baseline, zero regression, known failure neither fixed nor weakened",
+    "commit_made": false,
+    "push_made": false,
+    "pr_made": false
+  }
+}

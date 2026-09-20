@@ -207,7 +207,18 @@ volumes:
   uploads:
   # Qdrant's persistent data directory (Task 11.1 section 15: do not make
   # Qdrant data disappear on every stack restart).
+  #
+  # RECOVERY NOTE (2026-09-17): pinned to the pre-existing volume created
+  # under this stack's earlier "4a-service" Compose project name, which
+  # already holds the validated `educopilot_chunks` collection (1650
+  # points) and the Phase 2 evaluation collections. Without this pin,
+  # Compose's default naming (`<project>_<volume>`) would create/use a
+  # separate, empty `team4a_qdrant_storage` volume instead -- exactly
+  # what happened before this fix. `external: true` means Compose only
+  # attaches to this volume; it never creates, deletes, or overwrites it.
   qdrant_storage:
+    external: true
+    name: 4a-service_qdrant_storage
   # Redis's AOF/RDB data directory (Production Hardening Task 1): job
   # state (RedisJobStore), the Celery broker/result-backend queues, and
   # progress-mirroring keys all survive container restart/recreation.

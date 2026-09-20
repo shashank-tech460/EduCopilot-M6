@@ -236,32 +236,34 @@ class RAGService:
         # already what `generate()` receives as its "Current Question")
         # is never modified by any of this -- only the string handed to
         # `self._retriever.retrieve()` below can differ from it.
+        #
+        # PHASE 5C-1 CORRECTION: `is_elliptical_query()` is a coarse,
+        # domain-agnostic heuristic (any pronoun/demonstrative word
+        # anywhere in the query) -- it has confirmed false positives on
+        # plenty of fully self-contained questions (e.g. "What is a DBMS
+        # and what are ITS key features?", "...a query THAT finds...").
+        # Previously, a positive match with no previous user turn to
+        # enrich from short-circuited straight to an ungrounded
+        # clarification reply, skipping retrieval entirely -- correct
+        # for a genuinely context-dependent query ("How does it work?"
+        # with truly nothing else said), but silently wrong for a
+        # false-positive one, since the query was perfectly retrievable
+        # on its own. `build_enriched_retrieval_query()` already handles
+        # a missing `previous_user_turn` gracefully (returns the query
+        # unchanged) -- calling it unconditionally, rather than only
+        # when a previous turn exists, means a false positive now simply
+        # falls through to normal retrieval on the original query, and a
+        # genuine no-context elliptical query still reaches
+        # `LLMGenerator.generate()`, which already returns
+        # `INSUFFICIENT_CONTEXT_MESSAGE` (no LLM call, no fabrication)
+        # when `retrieval_results` is empty -- an honest non-answer
+        # instead of a scripted clarification, not a regression in
+        # safety. Genuine follow-ups (a real previous user turn exists)
+        # are completely unaffected: `build_enriched_retrieval_query()`
+        # enriches exactly as it always did.
         retrieval_query = query
         if is_elliptical_query(query):
             previous_user_turn = _most_recent_user_turn(history)
-            if previous_user_turn is None:
-                # No usable prior context to enrich with -- rather than
-                # retrieving on a bare pronoun (which would produce a
-                # poorly-matched, misleading result) or fabricating a
-                # topic, this is the explicit missing-context branch:
-                # zero retrieval, zero citations, a clarification reply
-                # via the SAME ungrounded-generation mechanism the
-                # casual gate already uses (see
-                # `_CASUAL_SYSTEM_INSTRUCTIONS`'s own updated docstring
-                # -- it now explicitly covers both this case and true
-                # casual pleasantries).
-                answer = self._llm_generator.generate_conversational(query, conversation_history=history)
-                self._conversation_manager.append_turn(resolved_session_id, "assistant", answer)
-                return RAGServiceResult(
-                    answer=answer,
-                    session_id=resolved_session_id,
-                    retrieval_results=[],
-                    retrieval_metadata={
-                        "chunks_retrieved": 0,
-                        "search_mode": config.search_mode.value,
-                        "missing_followup_context": True,
-                    },
-                )
             retrieval_query = build_enriched_retrieval_query(query, previous_user_turn)
 
         retrieval_results = self._retriever.retrieve(

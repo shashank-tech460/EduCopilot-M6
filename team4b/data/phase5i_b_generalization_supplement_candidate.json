@@ -1,0 +1,45 @@
+{
+  "_notice": "PHASE 5I-B GENERALIZATION SUPPLEMENT -- small, deliberately minimal candidate set built against the VALIDATION collection (educopilot_chunks_product_validation, 4938 points) to test subjects beyond the canonical corpus's OS/DBMS-only scope (Data Structures, Computer Networks shown here). NOT merged into phase5i_a_current_corpus_ground_truth_candidate.json (which is canonical-scoped) -- kept separate and clearly named. All entries CANDIDATE, not human-validated. Most sampled Hindi-language content in the other validation workspaces (Mathematics, Machine Learning) was found to have the same character-spaced/garbled-text quality issue already documented for the canonical OS video in Phase 5I-A -- no clean Hindi samples were found quickly enough this phase to build genuine Hindi entries here; this is recorded as an explicit coverage limitation, not silently worked around or fabricated.",
+  "entries": [
+    {
+      "query_id": "sup_ds_bubble_sort__q_english",
+      "workspace_id": "6aaefbf3580657828a5feee2",
+      "document_id": "6aaefc09580657828a5feee8",
+      "query": "How does bubble sort determine that an array is completely sorted?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "data structures",
+      "subject": "sorting algorithms",
+      "source_type": "pdf",
+      "query_type": "explanation",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "c16db850-093e-545e-8ec4-0a13d45501a3"
+      ],
+      "chunk_text_excerpt": "Notice that after each iteration, at least one value moves at the end. And when there's no swap required, bubble sort learns that an array is completely sorted.",
+      "rationale": "Chunk directly explains the no-swap-required termination condition for bubble sort.",
+      "status": "CANDIDATE",
+      "collection": "educopilot_chunks_product_validation"
+    },
+    {
+      "query_id": "sup_cn_rpc_stub__q_english",
+      "workspace_id": "6aaefbf3580657828a5feee3",
+      "document_id": "6aaefc48580657828a5feee9",
+      "query": "What happens when a client calls the client stub in RPC?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "computer networks",
+      "subject": "remote procedure call",
+      "source_type": "pdf",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "7548b1b0-e9dc-557c-b236-ed300259e806"
+      ],
+      "chunk_text_excerpt": "Step 1 is the client calling the client stub. This call is a local procedure call, with the parameters pushed onto the stack in the normal way. Step 2 is the client stub packing the parameters into a message...",
+      "rationale": "Chunk directly describes RPC Step 1 (client stub call) and Step 2 (marshaling).",
+      "status": "CANDIDATE",
+      "collection": "educopilot_chunks_product_validation"
+    }
+  ]
+}

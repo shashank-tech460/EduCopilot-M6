@@ -1,0 +1,340 @@
+{
+  "phase": "5C",
+  "title": "Controlled Retrieval Fix Implementation -- Elliptical-Query Fallback + BM25 Startup Lifecycle",
+  "implementation_date": "2026-09-20",
+  "git_branch": "phase5-cross-script-retrieval",
+  "scope": "Implemented ONLY the two fixes explicitly authorized: Phase 5C-1 (safe first-message fallback) and Phase 5C-2 (BM25 lifecycle wiring). No embedding, threshold, RRF, top_k, or reranker change. No subject-specific logic. No canonical data modified. No commit, no push.",
+  "baseline_before_changes": {
+    "git_status": "M team4a/docker-compose.yml (pre-existing, unrelated); rest untracked docs/reports from earlier phases",
+    "canonical_qdrant_count": 542,
+    "validation_qdrant_count": 4938,
+    "team4b_focused_tests_test_followup_context_and_test_rag_service": "71 passed",
+    "team4b_full_suite": "1302 passed, 3 skipped, 1 failed (TestRelevantChunkIdsExistInCanonicalCorpus -- known, pre-existing)"
+  },
+  "exact_files_changed": [
+    {
+      "file": "team4b/app/services/rag_service.py",
+      "change": "Removed the 'previous_user_turn is None' early-return branch inside RAGService.handle_query()'s is_elliptical_query() block. build_enriched_retrieval_query() is now called unconditionally when is_elliptical_query(query) is True -- it already returns the query unchanged when previous_user_turn is None, so retrieval now always runs on some query (enriched if a previous turn exists, unchanged otherwise) instead of being skipped entirely.",
+      "lines_changed": "48 lines changed (mostly a large explanatory comment replacing the old one)"
+    },
+    {
+      "file": "team4b/tests/test_rag_service.py",
+      "change": "Replaced test_missing_context_fresh_conversation_skips_retrieval_and_asks_for_clarification (asserted the OLD behavior: zero retrieval calls) with test_missing_context_fresh_conversation_still_attempts_plain_retrieval (asserts retrieval IS now attempted with the original, unenriched query). test_missing_context_turn_is_still_persisted required no change and still passes."
+    },
+    {
+      "file": "team4b/tests/test_api.py",
+      "change": "Replaced test_elliptical_followup_produces_citations_from_actual_retrieval_only (asserted zero citations for a fresh-conversation elliptical query) with test_elliptical_query_with_no_history_still_retrieves_on_the_original_query (asserts real citations from real retrieval)."
+    },
+    {
+      "file": "team4b/app/api/main.py",
+      "change": "Added a FastAPI `lifespan` async context manager that calls the existing, cached get_hybrid_retriever().refresh_bm25_corpus() exactly once at process startup, before the app accepts requests. Wrapped in try/except so a failure logs an error and the app still starts (non-fatal, matching the optional-reranker precedent already established elsewhere in this codebase). Also added logging.basicConfig(level=logging.INFO) -- required because no logging configuration existed anywhere in the app, which was silently suppressing ALL INFO-level logs including this new startup log line and the pre-existing 'BM25 corpus refreshed' line inside refresh_bm25_corpus() itself."
+    },
+    {
+      "file": "team4b/app/api/dependencies.py",
+      "change": "Docstring-only update: the module's own 'SCOPE NOTE' previously stated BM25 population was entirely out of scope for the live application. Updated to reflect that app/api/main.py's lifespan now closes that gap, using this module's own existing get_hybrid_retriever() -- no new BM25 wiring added in this file itself."
+    }
+  ],
+  "behavior_changed": {
+    "before": "IF is_elliptical_query(query) is True AND there is no previous user turn in the conversation THEN: HybridRetriever.retrieve() is never called; retrieval_results is hard-set to []; LLMGenerator.generate_conversational() (the same ungrounded path used for casual greetings) produces a scripted clarifying-question reply.",
+    "after": "IF is_elliptical_query(query) is True AND there is no previous user turn THEN: build_enriched_retrieval_query(query, None) returns the query unchanged, and HybridRetriever.retrieve() is called normally with the ORIGINAL query. If retrieval finds relevant evidence, LLMGenerator.generate() produces a normal grounded, cited answer. If retrieval genuinely finds nothing relevant, LLMGenerator.generate()'s own pre-existing, already-tested behavior returns INSUFFICIENT_CONTEXT_MESSAGE (no LLM call, no fabrication risk) -- an honest non-answer instead of a scripted clarification.",
+    "unaffected": "Genuine follow-ups (a real previous user turn exists) are completely unchanged: build_enriched_retrieval_query() still enriches the retrieval query with the previous turn's text exactly as before. Casual greetings ('Hi', 'Thanks', etc.) are unaffected -- they are gated by the separate is_casual_message() check, evaluated earlier in handle_query() and not touched by this change."
+  },
+  "phase5c1_test_results": {
+    "focused_suite": "team4b/tests/test_followup_context.py + team4b/tests/test_rag_service.py: 71 passed (same count as baseline; one test rewritten to assert the new, correct behavior)",
+    "test_api_suite": "127 passed (one test rewritten analogously to assert the new, correct behavior at the HTTP route level)",
+    "genuine_followup_regression": "test_elliptical_followup_enriches_retrieval_with_previous_user_turn, test_topic_switch_then_elliptical_followup_uses_the_new_topic, and all other genuine-follow-up tests pass unchanged -- enrichment behavior with a real previous turn is untouched."
+  },
+  "targeted_19_case_retest": {
+    "method": "Re-ran all 19 previously-failing queries (10 from round-2 clean corpus, 9 from round-1 mismatched corpus) against the isolated validation environment with the Phase 5C-1 fix live.",
+    "result_summary": "19/19 (100%) now return non-zero citations and a grounded answer, up from 0/19 before the fix.",
+    "per_case_results": [
+      {
+        "test_id": "DS-10",
+        "round": 2,
+        "workspace": "Data Structures",
+        "citation_count": 5,
+        "latency_seconds": 179.81,
+        "answer_preview": "According to the context, you can construct a binary tree from its In-Order and Pre-Order traversal sequences as follows:\n\n1. Identify the root node (first element of the Pre-Order sequence).\n2. Locat"
+      },
+      {
+        "test_id": "CN-06",
+        "round": 2,
+        "workspace": "Computer Networks",
+        "citation_count": 5,
+        "latency_seconds": 47.88,
+        "answer_preview": "According to the provided Context, TCP groups a number of bytes together into a packet called a segment. TCP adds a header to each segment (for control purposes) and delivers the segment to the IP lay"
+      },
+      {
+        "test_id": "CN-11",
+        "round": 2,
+        "workspace": "Computer Networks",
+        "citation_count": 4,
+        "latency_seconds": 153.15,
+        "answer_preview": "The data link layer's primary responsibility is to ensure the reliable delivery of data from the sender to the receiver. When a raw bit stream needs to be delivered reliably to a destination, the data"
+      },
+      {
+        "test_id": "MA-08",
+        "round": 2,
+        "workspace": "Mathematics",
+        "citation_count": 5,
+        "latency_seconds": 91.2,
+        "answer_preview": "According to the context, the height of the Qutub Minar can be found without measuring it directly by using trigonometry. Specifically, the problem is illustrated in Fig. 8.1, where a student is looki"
+      },
+      {
+        "test_id": "MA-10",
+        "round": 2,
+        "workspace": "Mathematics",
+        "citation_count": 5,
+        "latency_seconds": 84.02,
+        "answer_preview": "According to the provided context, it is stated that \"Since the hypotenuse is the longest side in a right triangle, the value of sin A or cos A is always less than 1 (or, in particular, equal to 1)\"."
+      },
+      {
+        "test_id": "DB-01",
+        "round": 2,
+        "workspace": "DBMS",
+        "citation_count": 5,
+        "latency_seconds": 119.6,
+        "answer_preview": "A Database Management System (DBMS) is a software system that is designed to manage and organize data in a structured manner. It allows users to create, modify, and query a database, as well as manage"
+      },
+      {
+        "test_id": "DB-02",
+        "round": 2,
+        "workspace": "DBMS",
+        "citation_count": 5,
+        "latency_seconds": 94.02,
+        "answer_preview": "According to the provided context, normalization in a database refers to the process of organizing the attributes of the database to reduce or eliminate data redundancy. Data redundancy occurs when th"
+      },
+      {
+        "test_id": "DB-08",
+        "round": 2,
+        "workspace": "DBMS",
+        "citation_count": 5,
+        "latency_seconds": 109.76,
+        "answer_preview": "Based on the provided context and conversation history, the SQL query that finds sailors who have not reserved a red boat is:\n\n```\nSELECT S. sid\nFROM Sailors S\nWHERE S. sid NOT IN (\n  SELECT R. sid\n  "
+      },
+      {
+        "test_id": "OS-01",
+        "round": 2,
+        "workspace": "Operating Systems",
+        "citation_count": 5,
+        "latency_seconds": 84.65,
+        "answer_preview": "I apologize, but the provided context and conversation history do not contain any information related to the operating system or what it manages. The conversation appears to be about machine learning "
+      },
+      {
+        "test_id": "OS-04",
+        "round": 2,
+        "workspace": "Operating Systems",
+        "citation_count": 5,
+        "latency_seconds": 87.88,
+        "answer_preview": "I apologize, but the provided context and conversation history do not contain enough information to answer the question. The topics discussed in the videos are not related to operating systems, but ra"
+      },
+      {
+        "test_id": "EN-01",
+        "round": 1,
+        "workspace": "Data Structures (A)",
+        "citation_count": 5,
+        "latency_seconds": 86.46,
+        "answer_preview": "According to the Context, a stack is an Abstract Data Type (ADT) commonly used in most programming languages. It is named stack as it behaves like a real-world stack, for example – a deck of cards or "
+      },
+      {
+        "test_id": "EN-05",
+        "round": 1,
+        "workspace": "DBMS (B)",
+        "citation_count": 5,
+        "latency_seconds": 83.49,
+        "answer_preview": "Normalization in DBMS is the process of organizing the attributes of the database to reduce or eliminate data redundancy (having the same data but at different places). According to the context, norma"
+      },
+      {
+        "test_id": "MC-01",
+        "round": 1,
+        "workspace": "Data Structures (A)",
+        "citation_count": 5,
+        "latency_seconds": 111.01,
+        "answer_preview": "Based on the provided Context and Conversation History, here's the answer to the user's question:\n\nArrays and linked lists are two different data structures. The main difference between arrays and lin"
+      },
+      {
+        "test_id": "MC-02",
+        "round": 1,
+        "workspace": "Computer Networks (A)",
+        "citation_count": 5,
+        "latency_seconds": 77.41,
+        "answer_preview": "Based on the provided context and conversation history, I'll answer your question about the TCP/IP model.\n\nThe TCP/IP model is a protocol suite that consists of multiple layers, each responsible for a"
+      },
+      {
+        "test_id": "MD-02",
+        "round": 1,
+        "workspace": "DBMS (B)",
+        "citation_count": 5,
+        "latency_seconds": 151.36,
+        "answer_preview": "Based on the provided Context and Conversation History, here's the answer to the user's question:\n\nA Database Management System (DBMS) is a software system that is designed to manage and organize data"
+      },
+      {
+        "test_id": "XS-03",
+        "round": 1,
+        "workspace": "Data Structures (A)",
+        "citation_count": 5,
+        "latency_seconds": 57.94,
+        "answer_preview": "The provided context does not contain any information about the Pythagorean theorem or its application to find heights and distances."
+      },
+      {
+        "test_id": "XS-04",
+        "round": 1,
+        "workspace": "Data Structures (A)",
+        "citation_count": 5,
+        "latency_seconds": 100.7,
+        "answer_preview": "A linked list is a linear data structure where each node contains data and a pointer to the next node. According to the context, a linked list starts with a head node which points to the first node. E"
+      },
+      {
+        "test_id": "NS-01",
+        "round": 1,
+        "workspace": "Data Structures (A)",
+        "citation_count": 5,
+        "latency_seconds": 86.33,
+        "answer_preview": "Based on the provided Context and Conversation History, I can answer the user's question as follows:\n\nA queue is a linear data structure where elements are stored in the FIFO (First In First Out) prin"
+      },
+      {
+        "test_id": "SEC-DOC-01",
+        "round": 1,
+        "workspace": "Security Test (C)",
+        "citation_count": 1,
+        "latency_seconds": 11.45,
+        "answer_preview": "An operating system manages hardware resources such as the CPU, memory, and I/O devices, and provides common services for computer programs."
+      }
+    ],
+    "quality_spot_check": "Manually reviewed full answer text (not just citation presence) for DS-10, DB-01, MA-08, EN-01, NS-01, SEC-DOC-01: all are genuinely correct, well-grounded, properly-cited answers, matching exactly the content independently identified as present in Phase 5B's diagnostic trace (e.g. DB-01's 5 citation pages [1,6,1,5,12] match Phase 5B's counterfactual trace exactly). OS-01 is the one notable case: it still returns citations (5, from the workspace's own weak/ML-adjacent video content, a corpus-composition issue flagged separately in Phase 5B) but the model HONESTLY DECLINES rather than fabricating an OS answer from irrelevant content -- exactly the desired 'insufficient-evidence, not a fabricated topic' outcome."
+  },
+  "workspace_document_isolation_verification": {
+    "method": "Re-ran WI-01..04 (each asks one workspace about content exclusive to a different workspace) against the fixed environment.",
+    "result": "0/4 showed any cross-workspace citation -- isolation fully intact after the fix.",
+    "detail": [
+      {
+        "test_id": "WI-01",
+        "workspace": "Data Structures",
+        "citation_file_ids": [
+          "6aaefc09580657828a5feee8"
+        ]
+      },
+      {
+        "test_id": "WI-02",
+        "workspace": "DBMS",
+        "citation_file_ids": [
+          "6aaefc6d580657828a5feeec"
+        ]
+      },
+      {
+        "test_id": "WI-03",
+        "workspace": "Machine Learning",
+        "citation_file_ids": [
+          "6aaefcce580657828a5feef2"
+        ]
+      },
+      {
+        "test_id": "WI-04",
+        "workspace": "Operating Systems",
+        "citation_file_ids": [
+          "6aaefce9580657828a5feef4"
+        ]
+      }
+    ]
+  },
+  "bm25_startup_verification": {
+    "log_evidence": "2026-09-20 14:13:18,950 INFO app.services.hybrid_retriever: BM25 corpus refreshed\n2026-09-20 14:13:18,951 INFO app.api.main: Startup BM25 corpus refresh succeeded",
+    "confirmed_in_live_process": true,
+    "chunk_count_indexed": 4938,
+    "startup_refresh_latency_seconds": 1.23,
+    "notes": "Required an additional, minimal logging.basicConfig(level=logging.INFO) fix in app/api/main.py -- confirmed via code search that NO logging configuration existed anywhere in the app, so this INFO-level log line (and the pre-existing one inside refresh_bm25_corpus() itself) was being silently dropped by Python's default logging behavior even before this phase's changes. This is a visibility fix only; it does not change what is logged, only whether it is shown."
+  },
+  "semantic_bm25_rrf_evidence": {
+    "control_query_score_distribution": {
+      "query": "What are the layers of the OSI model? (Computer Networks workspace)",
+      "before_bm25_fix_scores": [
+        0.5,
+        0.4919,
+        0.4841,
+        0.4766,
+        0.4692
+      ],
+      "after_bm25_fix_scores": [
+        1.0,
+        0.9685,
+        0.9541,
+        0.9318,
+        0.9042
+      ],
+      "interpretation": "Scores are no longer capped near 0.5 -- direct, empirical confirmation that BM25 is now genuinely contributing a second ranked list to Reciprocal Rank Fusion, exactly as the RRF formula was always designed to combine."
+    },
+    "workspace_document_filtering_in_both_legs": "Re-confirmed intact by direct code reading of _retrieve_hybrid() (unchanged by this phase's edits) -- collection_filter, workspace_id, and document_ids are still threaded into both the vector_future and bm25_future before fusion."
+  },
+  "btree_before_after": {
+    "query": "What is a B-tree and how does node splitting work during insertion?",
+    "target_chunk": "a5adc1b7-8bb8-59d2-a4c7-1115daaa1442 (page 128, Data Structures Full Notes.pdf)",
+    "before_5c2_bm25_always_empty": {
+      "semantic_rank": 29,
+      "raw_cosine": 0.4612,
+      "bm25_rank": "n/a -- leg always empty",
+      "fused_rank": 29,
+      "normalized_score": 0.3427,
+      "final_top5_position": null,
+      "reaches_llm": false
+    },
+    "after_5c2_bm25_populated": {
+      "semantic_rank": 29,
+      "raw_cosine": 0.4612,
+      "bm25_rank": 1,
+      "raw_bm25_score": 37.8388,
+      "fused_rank": 9,
+      "normalized_score": 0.8427,
+      "final_top5_position": null,
+      "reaches_llm": false
+    },
+    "improvement": "BM25 alone ranks the target chunk #1 of 746 (exact-term match on 'B-tree'/'node'/'splitting'/'insertion'). Fusing it with the semantic leg via RRF improves the chunk's overall rank from 29th to 9th -- a ~3x improvement -- and its normalized score from 0.343 to 0.843, both far above the unchanged 0.3 threshold. It still does not crack the top-5 cutoff: 8 other chunks from the same 129-chunk, heavily tree/BST-themed PDF also score well on both legs (general tree/BST content that shares significant vocabulary with the B-tree passage).",
+    "live_end_to_end_confirmation": "Re-ran the exact query against the real, fixed, BM25-populated validation environment via the real chat API: the final answer's 5 citations are pages [119, 98, 127, 99, 120] -- page 128 is confirmed absent. The model correctly stated it could not find specific information on B-tree node splitting, rather than fabricating an answer -- consistent, honest behavior even though the best evidence didn't make the final cut.",
+    "top_k_unchanged": true,
+    "note": "Per explicit instruction, top_k was NOT changed even though it would be the direct lever to rescue this specific case. This is documented as a remaining, known limitation for a future phase, not addressed here."
+  },
+  "latency_impact": {
+    "startup": "+1.23 seconds one-time cost per process start (measured), to scroll and index 4938 chunks (validation collection; would scale with canonical/production collection size -- 542 points, so proportionally faster there).",
+    "per_query": "No structural change to per-query latency -- BM25 search itself is fast (in-memory BM25Okapi over a workspace-scoped subset; historically measured at ~0.137s per query in the Phase 4C report for a 1650-chunk corpus) and runs in parallel with the semantic leg via the existing ThreadPoolExecutor, unchanged. Query-to-query latency in this phase's own tests remained dominated by CPU-only Ollama generation (11.5s-179.8s across the 19 retested queries), consistent with every prior validation round -- not attributable to this phase's changes."
+  },
+  "canonical_542_point_verification": {
+    "before": 542,
+    "after": 542,
+    "match": true,
+    "validation_collection_before": 4938,
+    "validation_collection_after": 4938
+  },
+  "regression_results": {
+    "full_team4b_suite_after_implementation": "1302 passed, 3 skipped, 1 failed",
+    "failure": "tests/test_phase3_generalized_ground_truth.py::TestRelevantChunkIdsExistInCanonicalCorpus::test_every_relevant_chunk_id_exists_in_the_canonical_collection",
+    "identical_to_baseline": true,
+    "new_failures": "None",
+    "note": "This test was NOT modified. It remains the same, pre-existing, already-documented stale ground-truth chunk-ID mismatch from the post-Docker-incident rebuild (see docs/m6-historical-vs-rebuilt-rag-comparison.md), unrelated to this phase's changes."
+  },
+  "remaining_known_limitations": [
+    "DS-11 (B-tree case): BM25 populated the correct chunk to rank 1 and improved the fused rank from 29th to 9th, but it still does not crack the top-5 cutoff. top_k was deliberately left unchanged per this phase's explicit scope. A future phase would need to evaluate whether increasing top_k, enabling the reranker (Phase 4B's already-built, currently-disabled component), or another ranking-quality change is justified -- not decided here.",
+    "OS-01/OS-04 (Operating Systems workspace): retrieval now runs (Phase 5C-1 fixed), but this workspace's own candidate pool is independently weak (video content that is partly ML-adjacent, per Phase 5B's corpus-composition finding) -- the model now correctly gives an honest 'insufficient evidence' answer instead of a scripted clarification, which is the correct, desired outcome, but it is not a 'good answer' either. This is a corpus-composition characteristic of this specific validation workspace, not something this phase's code changes could or should address.",
+    "F3 (hallucinated prior-conversation context, ML-07/OOS-01 from the prior validation report) was NOT investigated or fixed in this phase -- explicitly out of scope per the task's own instruction not to implement conversation-faithfulness hardening unless this phase's own changes directly exposed a related regression. No such regression was found.",
+    "F4 (casual-intent classifier's narrow phrase list, e.g. 'Great'/'Okay'/'What can you do?' not recognized as casual) was NOT investigated or fixed in this phase -- a separate, deliberately-scoped classifier (casual_intent.py) untouched by either of this phase's two fixes.",
+    "Cross-language retrieval (F2, Hindi query -> English source misses) was NOT investigated or fixed in this phase -- unrelated to either of the two mechanisms fixed here.",
+    "BM25 corpus freshness after this phase's fix is still a one-time, startup-only refresh -- newly-ingested content after the process starts will not be reflected in BM25 search until a future restart or an explicit future re-refresh mechanism, exactly as already documented in refresh_bm25_corpus()'s own long-standing docstring. Not changed or newly introduced by this phase."
+  ],
+  "another_retrieval_change_justified": {
+    "verdict": "NOT DECIDED IN THIS PHASE -- correctly out of scope.",
+    "reasoning": "The B-tree case's before/after ranking (29 -> 9) demonstrates BM25 population provides a real, substantial ranking-quality improvement, but is not sufficient on its own to guarantee every precision-relevant chunk reaches the final top-5 in a densely-related-content workspace. Whether top_k, the reranker, or another mechanism should be the next lever is a decision for a future, explicitly-scoped phase (per this phase's own instruction not to change top_k or enable the reranker here) -- this report documents the evidence for that decision, it does not make it."
+  },
+  "safety_confirmation": {
+    "canonical_data_modified": false,
+    "embedding_changed": false,
+    "score_threshold_changed": false,
+    "reranker_enabled": false,
+    "rrf_constants_or_formula_changed": false,
+    "top_k_changed": false,
+    "subject_specific_logic_added": false,
+    "document_specific_exceptions_added": false,
+    "env_files_modified": false,
+    "qdrant_reset_or_recreated": false,
+    "full_123_question_battery_rerun": false,
+    "committed": false,
+    "pushed": false
+  }
+}

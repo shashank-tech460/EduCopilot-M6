@@ -1,0 +1,200 @@
+{
+  "phase": "M6 Phase 5I-C - Generalized Script-Aware BM25 + Cross-Language Retrieval Experiment",
+  "status": "OFFLINE FORENSIC EXPERIMENT COMPLETE - no production code changed",
+  "decision": {
+    "classification": "Category C - NO SAFE IMPROVEMENT FOUND",
+    "production_code_changed": false,
+    "acceptance_criteria_met": {
+      "1_improved_cross_script_retrieval": false,
+      "2_no_unacceptable_english_regression": "marginal_violation",
+      "3_no_unacceptable_hindi_hinglish_regression": false,
+      "4_no_unacceptable_false_positive_increase": "marginal_violation",
+      "5_workspace_document_isolation_intact": true,
+      "6_no_subject_specific_logic": true,
+      "7_no_query_specific_mappings": true,
+      "8_acceptable_latency": false,
+      "9_full_hybrid_rrf_improvement_not_just_bm25": false,
+      "10_test_coverage_addable": "not_evaluated_moot",
+      "11_full_team4b_regression_clean": "not_exercised_no_code_change"
+    }
+  },
+  "executive_summary": "Tested whether deterministic Devanagari->Latin (Harvard-Kyoto scheme) transliteration, added as an additive extra BM25 token via indic_transliteration (an established, algorithmic, non-dictionary library), could improve cross-script lexical retrieval. At the production-relevant hybrid/top_k<=10 level, aggregate Recall@k/MRR are EXACTLY IDENTICAL between current production and the script-aware variant - zero net benefit. Underneath that flat aggregate, several sub-metrics are measurably negative: BM25-only aggregate recall/MRR decreased, the specific targeted miss (ci_os_race_condition__q_hinglish) got a WORSE RRF rank in the real hybrid pipeline (14->39) despite looking improved in isolated BM25-only view (the same isolated-leg-vs-full-pipeline trap Phase 5I-B's embedding experiment warned against, now independently reproduced with a different mechanism), BM25 leg latency increased ~4.9x, hybrid latency increased ~3.8x, and one out-of-scope query gained 8 new spurious matches from common Hindi function-word transliteration collisions. No production change made.",
+  "baseline_configuration": {
+    "branch": "phase5-cross-script-retrieval",
+    "commit": "6f8a933",
+    "canonical_points_before": 542,
+    "canonical_points_after": 542,
+    "validation_points_before": 4938,
+    "validation_points_after": 4938,
+    "production_hybrid_config": {
+      "top_k": 5, "score_threshold": 0.3, "search_mode": "hybrid",
+      "rrf_k": 60, "hybrid_candidate_pool_size": 100, "reranker_enabled": false,
+      "embedding_model": "all-MiniLM-L6-v2"
+    },
+    "phase5i_b_baseline_hybrid_metrics": {"R@1": 0.474, "R@3": 0.789, "R@5": 0.842, "R@10": 0.895, "MRR": 0.618}
+  },
+  "evaluation_dataset": {
+    "total_entries": 21,
+    "sources": [
+      {"file": "team4b/data/phase5i_a_current_corpus_ground_truth_candidate.json", "entries": 19, "collection": "educopilot_chunks", "status": "CANDIDATE, not human-approved"},
+      {"file": "team4b/data/phase5i_b_generalization_supplement_candidate.json", "entries": 2, "collection": "educopilot_chunks_product_validation", "status": "CANDIDATE"}
+    ],
+    "no_new_entries_fabricated_this_phase": true
+  },
+  "dataset_limitations": [
+    "Only 1 Hinglish->Hindi entry and 1 English->Hindi entry exist in the full 21-entry set - INSUFFICIENT SAMPLE SIZE for either direction",
+    "Both cross-script difficult entries are the same 2 of the 3 already-known Phase 5I-B misses - no independent confirmation example exists",
+    "Attempting to source more Hindi cross-script examples from other validation-collection subjects was already ruled out in Phase 5I-B (garbled source content)",
+    "19-entry canonical set remains CANDIDATE, not human-validated"
+  ],
+  "current_bm25_behavior": {
+    "file": "team4b/app/services/bm25_index.py",
+    "key_facts": [
+      "BM25Index.search() builds a FRESH, TEMPORARY, per-workspace BM25Okapi instance on every single call - no incremental index, no caching",
+      "workspace_id filtering (+ optional document_ids/collection_filter) happens BEFORE any BM25Okapi construction, so IDF statistics are always workspace-local",
+      "tokenizer is natively injectable via BM25Index(tokenizer=...), explicitly documented in the source for exactly this kind of substitution",
+      "default tokenizer already splits ASCII alnum runs and Devanagari runs as separate non-overlapping alternatives - Hindi tokenizes correctly today, but a Devanagari token can never lexically match a Latin token by construction"
+    ],
+    "hybrid_retriever_facts": {
+      "file": "team4b/app/services/hybrid_retriever.py",
+      "key_facts": [
+        "_retrieve_hybrid() runs semantic and BM25 legs concurrently, applies fail-closed generation-authority filtering to both BEFORE fusion",
+        "fusion uses the real reciprocal_rank_fusion(bm25_ranked, vector_candidates, k=rrf_k) - pure 1/(k+rank) sum",
+        "_retrieve_hybrid() passes BM25 top_k=None (entire unbounded, UN-TIE-BROKEN ranked list) into RRF, whereas _retrieve_keyword_only() re-sorts and tie-breaks by chunk_id before truncating - two different tie-break orders for the same tied scores, documented explicitly to avoid conflating Section 7 vs Section 9 rank numbers"
+      ]
+    }
+  },
+  "script_aware_algorithm": {
+    "library": "indic_transliteration (PyPI)",
+    "installed_where": "local experiment environment only, NOT added to requirements.txt, NOT imported by any application module",
+    "why_this_library": "established, deterministic, rule-based Sanskrit/Hindi transliteration engine, not a term dictionary; preferred over unidecode (cruder generic Unicode decomposition) and aksharamukha (not evaluated, indic_transliteration already directly fit-for-purpose)",
+    "algorithm_steps": [
+      "1. Tokenize exactly as default_tokenizer does today (same _TOKEN_PATTERN regex)",
+      "2. For every Devanagari token, deterministically transliterate to Harvard-Kyoto (HK) Latin scheme via sanscript.transliterate(tok, DEVANAGARI, HK), lowercase, append as an EXTRA token",
+      "3. Latin/ASCII tokens kept as-is - no reverse (Latin->Devanagari) transliteration attempted (informal Hinglish spelling has no single deterministic target)"
+    ],
+    "additive_property": "strict additive superset - every existing exact-token match (English<->English, Hindi<->Hindi) is completely unaffected",
+    "no_dictionary_confirmed": "zero subject terms, zero manually maintained Hindi<->English mappings, zero query-specific or document-specific special-casing in the tokenizer function",
+    "smoke_test_example": {
+      "input_devanagari": "रेस कंडीशन क्या होता है",
+      "hk_transliteration_lowercased": "resa kamdizana kya hota hai",
+      "finding": "function words kya/hota/hai transliterate to an EXACT match against casual Hinglish spelling; English loanwords phonetically spelled in Devanagari (kamdizana for 'condition') do NOT reconstruct original English spelling - this asymmetry is the phase's central finding"
+    }
+  },
+  "bm25_only_comparison": {
+    "system_a_current": {"R@1": 0.4762, "R@3": 0.7143, "R@5": 0.8095, "R@10": 0.9048, "MRR@10": 0.6188},
+    "system_b_script_aware": {"R@1": 0.4286, "R@3": 0.7143, "R@5": 0.8095, "R@10": 0.8571, "MRR@10": 0.5902},
+    "verdict": "aggregate recall and MRR strictly worse for System B at k=1, k=10, and MRR at every k",
+    "per_query_rank_changes": [
+      {"query_id": "ci_os_process_definition__q_english", "A": 10, "B": 12, "note": "collateral IDF/length-normalization shift, no Devanagari overlap in this query at all"},
+      {"query_id": "ci_os_race_condition__q_hinglish", "A": null, "B": 49, "note": "newly found - the mechanism's literal target case"},
+      {"query_id": "sup_ds_bubble_sort__q_english", "A": 1, "B": 2, "note": "same collateral shift pattern, different subject"}
+    ],
+    "only_3_of_21_queries_changed_rank_at_all": true
+  },
+  "hybrid_rrf_comparison": {
+    "system_d_current_production": {"R@1": 0.5238, "R@3": 0.8095, "R@5": 0.8571, "R@10": 0.9048, "MRR@10": 0.6607},
+    "system_e_script_aware": {"R@1": 0.5238, "R@3": 0.8095, "R@5": 0.8571, "R@10": 0.9048, "MRR@10": 0.6607},
+    "verdict": "EXACTLY IDENTICAL at every k - decisive result: zero net benefit at production-relevant top_k<=10 level",
+    "methodology_note": "both systems run the REAL, unmodified HybridRetriever._retrieve_hybrid() end-to-end - no hand-rolled RRF simulation needed, the tokenizer is a native injection point via BM25Index(tokenizer=...)",
+    "system_c_semantic_only_reference": {"R@1": 0.4762, "R@3": 0.5714, "R@5": 0.6667, "R@10": 0.7619, "note": "unaffected by BM25 tokenizer choice, included for reference; hybrid still outperforms semantic-only regardless"}
+  },
+  "three_miss_analysis": [
+    {
+      "miss": "Miss 1",
+      "query_id": "ci_os_process_definition__q_english",
+      "ranks": {"A_bm25": 10, "B_bm25": 12, "C_semantic": 4, "D_hybrid": 8, "E_hybrid": 8},
+      "verdict": "unchanged by System E, as expected - no Devanagari content in this query at all"
+    },
+    {
+      "miss": "Miss 2",
+      "query_id": "ci_os_race_condition__q_hinglish",
+      "ranks": {"A_bm25": null, "B_bm25": 49, "C_semantic": 48, "D_hybrid": 14, "E_hybrid": 39},
+      "verdict": "MOST IMPORTANT FINDING - isolated BM25-only view shows apparent improvement (not-found -> rank 49), but full hybrid/RRF pipeline shows the RRF rank got WORSE (14 -> 39). Mechanism: current System A's target chunk had a tied-zero raw BM25 score whose position in RRF's un-tie-broken insertion order happened to land favorably (rank ~14 contribution); System B gives the chunk a genuine non-zero partial match via kya/hota/hai, but several OTHER Devanagari chunks in the same workspace also match those same extremely common Hindi function words for unrelated reasons and accumulate MORE matches, outranking the target in the now-properly-sorted list (rank 49) - worse than the lucky zero-tie position it held before. Both ranks remain misses at every standard k (1/3/5/10), so this is invisible in the aggregate table but is a real, measured degradation and the OPPOSITE of the intended effect.",
+      "directly_answers_master_prompt_warning": "Do NOT claim script-aware BM25 fixes this merely because BM25 improves... If it does retrieve it, measure whether RRF actually promotes it. ANSWER: it does NOT promote it; it demotes it."
+    },
+    {
+      "miss": "Miss 3",
+      "query_id": "ci_os_virtual_memory__q_english_over_hindi_source",
+      "ranks": {"A_bm25": null, "B_bm25": null, "C_semantic": null, "D_hybrid": null, "E_hybrid": null},
+      "verdict": "confirmed unresolved by design, not bad luck - Devanagari phonetic spellings of English loanwords (varcuala memori for 'virtual memory') do not reconstruct original English spelling under any deterministic transliteration scheme. Fundamentally different failure mode than Miss 2; confirms Phase 5I-B's diagnosis that Miss 3 is a genuine embedding cross-language weakness, orthogonal to lexical matching mechanisms."
+    }
+  ],
+  "language_matrix_hybrid_k5": [
+    {"direction": "english->english", "n": 13, "D": {"recall": 0.9231, "mrr": 0.8269}, "E": {"recall": 0.9231, "mrr": 0.8269}, "identical": true},
+    {"direction": "hinglish->english", "n": 3, "D": {"recall": 1.0, "mrr": 0.4444}, "E": {"recall": 1.0, "mrr": 0.4444}, "identical": true},
+    {"direction": "hindi->hindi", "n": 3, "D": {"recall": 1.0, "mrr": 0.5556}, "E": {"recall": 1.0, "mrr": 0.5556}, "identical": true},
+    {"direction": "hinglish->hindi", "n": 1, "D": {"recall": 0.0}, "E": {"recall": 0.0}, "note": "INSUFFICIENT SAMPLE SIZE (n=1)"},
+    {"direction": "english->hindi", "n": 1, "D": {"recall": 0.0}, "E": {"recall": 0.0}, "note": "INSUFFICIENT SAMPLE SIZE (n=1)"}
+  ],
+  "generalization_analysis": {
+    "tested_subjects": ["Data Structures (bubble_sort)", "Computer Networks (rpc_stub)"],
+    "collection": "educopilot_chunks_product_validation",
+    "finding": "sup_ds_bubble_sort__q_english showed the same collateral BM25-only degradation pattern (rank 1->2) seen in OS/DBMS, with zero hybrid-level impact (rank 1->1 unchanged) - directionally consistent: the mechanism's side effects are genuinely subject-agnostic (workspace-wide IDF noise), not merely its intended matching behavior",
+    "no_subject_specific_logic_confirmed": "same script_aware_tokenizer function ran unmodified across 4 distinct subjects (OS, DBMS, Data Structures, Computer Networks) in 2 Qdrant collections",
+    "caveat": "genuine cross-script generalization evidence (a second independent Hinglish->Hindi or English->Hindi example outside OS) could not be obtained this phase - see dataset_limitations"
+  },
+  "source_type_analysis": {
+    "pdf": {"n": 16, "D_hybrid_k5": {"recall": 0.9375, "mrr": 0.7552}, "E_hybrid_k5": {"recall": 0.9375, "mrr": 0.7552}, "identical": true},
+    "youtube": {"n": 5, "D_hybrid_k5": {"recall": 0.6, "mrr": 0.3333}, "E_hybrid_k5": {"recall": 0.6, "mrr": 0.3333}, "identical": true},
+    "conclusion": "identical across both source types - mechanism operates purely on indexed text with no source-type-specific logic (tokenizer receives only text:str, no source-type parameter)"
+  },
+  "false_positive_analysis": {
+    "test_queries": [
+      {"label": "oos_biology_hindi_in_os_ws", "identical_ranking_A_vs_B": false, "new_chunk_ids_in_B": 1},
+      {"label": "oos_astronomy_english_in_dbms_ws", "identical_ranking_A_vs_B": true, "new_chunk_ids_in_B": 0},
+      {"label": "oos_cooking_hinglish_in_os_ws", "identical_ranking_A_vs_B": false, "new_chunk_ids_in_B": 8, "note": "query contains ubiquitous Hindi function words (kya, hai) shared with OS workspace's Devanagari content"},
+      {"label": "oos_history_hindi_in_dbms_ws", "identical_ranking_A_vs_B": true, "new_chunk_ids_in_B": 0}
+    ],
+    "conclusion": "queries sharing NO common function words with workspace content show zero difference (astronomy, history). The cooking query, sharing common Hindi function words, pulled in 8 new spurious candidates under System B. Disclosed nuance: System A already shows tied top-5 scores (all 1.0) for this query due to pre-existing BM25 min-max normalization behavior - not introduced by System B - but System B genuinely widens the pool of spuriously-matching candidates by making stopword-level transliteration matches possible at all. This is a real, generalized false-positive risk for queries dominated by common Hindi function words against any Devanagari-containing workspace, not subject- or query-specific."
+  },
+  "workspace_document_isolation": {
+    "tests": [
+      {"label": "miss2_query_against_wrong_workspace", "query": "race condition kya hota hai", "workspace_used": "DBMS (wrong)", "result": "System A and System B returned byte-identical chunk_id lists in both keyword and hybrid modes"},
+      {"label": "dbms_query_against_wrong_workspace", "query": "what is transaction serializability", "workspace_used": "OS (wrong)", "result": "System A and System B returned byte-identical chunk_id lists in both keyword and hybrid modes"}
+    ],
+    "conclusion": "no cross-workspace leak observed or possible by construction - workspace_id filtering happens inside BM25Index.search() before any tokenization or scoring, structurally unaffected by tokenizer choice. Empirically confirmed, not merely assumed."
+  },
+  "security_impact": {
+    "traced_by_code": true,
+    "finding": "script_aware_tokenizer only affects BM25Okapi.get_scores()'s internal tokenized term lists. Every RetrievalResult built in _retrieve_keyword_only and _retrieve_hybrid uses source.text (original, hydrated chunk text), never the tokenized/transliterated representation. Transliterated text is NEVER returned, displayed, cited, or passed to the LLM under any code path exercised this phase.",
+    "phase5f_defense_unaffected": "llm_generator.py's untrusted-context delimiter/neutralization defense is unmodified this phase (confirmed via git status) and operates downstream of retrieval on the same original chunk text, entirely unaffected by this experiment"
+  },
+  "performance_latency": {
+    "total_corpus_tokens_542_chunks": {"current": 110091, "script_aware": 136159, "growth_pct": 23.7},
+    "per_document_tokenize_time_ms": {"current": 0.081, "script_aware": 0.490, "factor": "~6.0x slower"},
+    "avg_bm25_only_query_latency_s": {"current": 0.0383, "script_aware": 0.1862, "factor": "~4.9x slower"},
+    "avg_hybrid_query_latency_s": {"current": 0.0598, "script_aware": 0.2282, "factor": "~3.8x slower"},
+    "avg_semantic_only_latency_s_reference": 1.6559,
+    "root_cause": "BM25Index.search()'s existing per-query, per-workspace BM25Okapi rebuild design re-tokenizes the ENTIRE workspace-scoped corpus from scratch on every single query, so the tokenizer's own per-call cost multiplies by workspace chunk count on every query, indefinitely",
+    "conclusion": "genuine, generalized latency cost with zero accompanying accuracy benefit at the production-relevant k<=10 level"
+  },
+  "production_change_decision": "Category C - NO SAFE IMPROVEMENT FOUND. None of the 11 Category A acceptance criteria are fully met (3 fail outright: improved cross-script retrieval, no Hindi/Hinglish regression, acceptable latency, full hybrid/RRF improvement; 2 marginally violated: English regression, false-positive increase). Production code was correctly never modified per the phase's explicit gate.",
+  "files_changed": {
+    "production_code": [],
+    "reports_created": [
+      "team4b/data/m6_phase5i_c_script_aware_retrieval_report.md",
+      "team4b/data/m6_phase5i_c_script_aware_retrieval_report.json"
+    ],
+    "scratchpad_only_not_committed": [
+      "phase5ic_script_aware_tokenizer.py", "phase5ic_capture_pools.py",
+      "phase5ic_compute_metrics.py", "phase5ic_falsepos_isolation.py",
+      "phase5ic_pools.jsonl", "phase5ic_metrics.json", "phase5ic_falsepos_isolation.json"
+    ],
+    "dependency_note": "indic-transliteration pip-installed into local environment for this offline experiment only; NOT added to requirements.txt, NOT imported by any application module"
+  },
+  "recommended_next_phase": [
+    "Do not pursue token-level Devanagari->Latin transliteration as a BM25 augmentation further without a fundamentally different design - evidence shows it trades a small amount of newly-possible genuine matching for collateral corpus-wide noise, new false-match competition that can outrank the genuine target within RRF, and real latency cost, for zero net benefit at k<=10",
+    "A content-word-only restriction (excluding a small, closed, algorithmically-derived - not manually authored - function-word set common to both languages) might avoid the false-positive/competition mechanism identified in Sections 9/13, but was NOT tested this phase and needs its own forensic evaluation; risks drifting toward a hardcoded list if not carefully scoped",
+    "Miss 3's root cause (embedding cross-language weakness for English loanwords phonetically spelled in Devanagari) is untouched by any BM25-side mechanism and remains open; no new candidate approach identified this phase",
+    "Before any future cross-script mechanism evaluation, the ground-truth limitation (Section 4) needs addressing - genuinely independent Hinglish->Hindi and English->Hindi examples beyond n=1 are needed for statistically meaningful conclusions"
+  ],
+  "data_safety": {
+    "canonical_educopilot_chunks": {"before": 542, "after": 542, "changed": false},
+    "validation_educopilot_chunks_product_validation": {"before": 4938, "after": 4938, "changed": false},
+    "team4b_test_suite": "not re-run this phase - no application code changed; last-verified baseline (Phase 5I-B) remains 1302 passed / 3 skipped / 1 known pre-existing failure",
+    "commit_made": false,
+    "push_made": false,
+    "pr_made": false
+  }
+}

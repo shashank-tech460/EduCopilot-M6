@@ -1,0 +1,50 @@
+{
+  "phase": "M6 Phase 5F-A - Prompt-Injection Forensic Trace",
+  "status": "FORENSIC - no code modified in this section",
+  "full_path": [
+    "RAGService.handle_query() (app/services/rag_service.py)",
+    "HybridRetriever.retrieve() -> list[RetrievalResult]",
+    "LLMGenerator.generate(query, retrieval_results, conversation_history) (llm_generator.py:429)",
+    "build_prompt() (llm_generator.py:333) -> one flat string",
+    "RealOllamaClient.generate() (llm_generator.py:178) -> httpx.post(base_url + '/api/generate', json={model, prompt, stream:false})",
+    "Ollama /api/generate (raw text-completion endpoint, NOT /api/chat's role-structured messages API)",
+    "model response (data['response'])"
+  ],
+  "no_intermediate_transformation": "RAGService passes retrieval_results straight through to LLMGenerator.generate(), which passes it straight through to build_prompt() with no filtering",
+  "findings": {
+    "A_where_text_enters_prompt": {
+      "location": "llm_generator.py:356, build_prompt()",
+      "code": "context_entries.append(f\"{heading}\\n{result.text}\")",
+      "detail": "result.text is the raw, verbatim chunk text, f-string-interpolated directly. No escaping, no filtering."
+    },
+    "B_delimitation": {
+      "detail": "Plain-text heading '[Context N - <source label>]' + newline + raw text; chunks joined with double newline; section wrapped by '=== Context ===' / '=== Conversation History ===' headers. These are ordinary text strings, not a structurally distinct boundary - a chunk containing the literal string '=== Current Question ===' would be visually indistinguishable from the real section transition."
+    },
+    "C_metadata_mixed_with_text": {
+      "detail": "Provenance heading sits immediately adjacent to raw chunk text, only a newline apart, no separate channel. Heading fields (video_title, document_title) derive in part from user-supplied filenames/video titles at ingestion - a theoretical secondary injection surface never tested in Phase 5E (which only injected via chunk body text)."
+    },
+    "D_role_markers_and_instructions_in_chunks": {
+      "confirmed": true,
+      "evidence": "SPOOF-2/3/4 (Phase 5E) embedded literal User:/Assistant:/SYSTEM: line-prefixed text with zero filtering. SPOOF-5/6/7 embedded plain imperative instructions with NO role marker at all and succeeded or partially succeeded."
+    },
+    "E_structure_resembling_trusted_instructions": {
+      "confirmed": true,
+      "core_gap": "Ollama called via /api/generate with the entire prompt collapsed into one flat string - no API-level role separation. Ollama's /api/chat endpoint exists and accepts a messages array with role:system/user/assistant, using special template tokens plain text inside a message's content cannot forge. This project uses none of that - system instructions, Context, History, and Question are all adjacent regions of one plain-text blob distinguished only by informal '===' headers with no special status to the model."
+    },
+    "F_history_vs_context_boundary": {
+      "detail": "Different header text but same weak, forgeable, plain-text mechanism as B. Not directly exploited in Phase 5E (which injected fake role-turns inside a Context chunk, not a forged '=== Conversation History ===' heading itself) - untested extension of the same attack surface, added to the Phase 5F-C threat model."
+    },
+    "G_citations_metadata_same_channel": {
+      "detail": "Yes structurally (see C), though metadata fields are system/ingestion-controlled in Phase 5E's tests, not directly attacker-supplied."
+    },
+    "H_existing_sanitization": {
+      "confirmed_none": true,
+      "method": "grep -i 'sanitiz|escape_role|neutraliz|prompt_injection|injection_guard|strip_role_markers' across app/ - zero matches"
+    },
+    "I_existing_injection_tests": {
+      "confirmed_none": true,
+      "method": "Targeted grep of tests/test_llm_generator.py - no test asserts injection resistance, role-marker handling, or instruction-override resistance"
+    }
+  },
+  "key_structural_observation": "The Phase 5E payloads that actually succeeded (SPOOF-5, SPOOF-6, SPOOF-7) used NO role-marker prefixes at all - they were plain imperative sentences. A defense that only pattern-matches role-marker strings (SYSTEM:/USER:/ASSISTANT:) would catch the already-resisted cases (SPOOF-1-4) and miss the actually successful ones. The real gap is structural: no signal distinguishes 'trusted instruction' from 'untrusted data' anywhere in the flat prompt, so any sufficiently direct, confidently-phrased imperative sentence has an equal chance of being obeyed regardless of section. The smallest defensible fix must address this structural gap directly (strong, explicit, repeated untrusted-data framing bracketing the Context block), not rely on a keyword/pattern blocklist as the primary mechanism."
+}

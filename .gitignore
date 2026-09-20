@@ -24,6 +24,8 @@ __pycache__/
 .ruff_cache/
 .venv/
 venv/
+.coverage
+htmlcov/
 
 # ---------------------------------------------------------------------------
 # Node / Next.js (team4c already has its own .gitignore covering this;
@@ -34,17 +36,35 @@ node_modules/
 .next/
 *.tsbuildinfo
 next-env.d.ts
+.local-uploads/
 
 # ---------------------------------------------------------------------------
-# Non-canonical backup/duplicate project-copy directories (exact names only
-# — see docs/M6_REPOSITORY_CLEANUP_AUDIT.md sections 5/6 for why these exist
-# and why they are excluded from Git rather than deleted). Kept locally for
-# rollback/reference.
+# Captured/ad-hoc debug output (Phase 5L: re-added — present in the original
+# cleanup audit's own recommendation but missing from this file; no tracked
+# or committed *.log file exists anywhere in the repository, verified before
+# adding this)
+# ---------------------------------------------------------------------------
+*.log
+
+# ---------------------------------------------------------------------------
+# IDE / OS artifacts
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---------------------------------------------------------------------------
+# Non-canonical backup/duplicate/disposable project-copy directories (exact
+# names only — see docs/M6_REPOSITORY_CLEANUP_AUDIT.md sections 5/6 and
+# docs/REPOSITORY_CLEANUP_REPORT.md for why these exist and why they are
+# excluded from Git rather than deleted). Kept locally for rollback/reference.
 # ---------------------------------------------------------------------------
 /team4a-backup-before-transcript-windowing/
 /team4a-before-youtube-hindi-fallback/
 /team4a-new/
 /team4b-context-provenance-temp/
+/team4c-validation/
 
 # ---------------------------------------------------------------------------
 # Tool-local session state (Claude Code) — not project content

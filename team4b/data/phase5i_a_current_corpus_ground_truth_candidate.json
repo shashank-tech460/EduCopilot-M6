@@ -1,0 +1,501 @@
+{
+  "_notice": "PHASE 5I-A CURRENT-CORPUS GROUND TRUTH CANDIDATE. Built by directly reading real, current chunk text from the canonical educopilot_chunks collection (542 points) via a read-only Qdrant scroll performed this phase -- NOT copied or remapped from any prior-phase ground truth file. Every relevant_chunk_id below was confirmed present in the canonical collection at the time of writing (see m6_phase5i_a_evaluation_foundation_hindi_determinism_report.md Section 3 for the verification method). Status is CANDIDATE for every entry -- NONE of these judgments have been reviewed or confirmed by a human. Do not call this file 'approved' or use it to report Recall@k/MRR as validated ground truth until an explicit human review step has occurred, exactly the same caveat the prior (now-stale) phase2/phase3 ground truth files carried but which their filenames misleadingly did not always reflect (phase2_ground_truth_approved.json is NOT actually approved -- see this phase's report). See the report's Section 6 for this dataset's explicit coverage limitations (only 2 workspaces / 3 documents exist in the current canonical corpus). CORRECTED DURING THIS PHASE: relevant_chunk_ids now store the payload-level chunk_id (the identifier app/services/vector_store.py actually surfaces as RetrievalResult.chunk_id via search_similar()/scroll_all_chunks(), both of which read payload[\"chunk_id\"]), NOT the raw Qdrant point.id (which is a deterministic uuid5 hash of chunk_id, an internal storage handle never returned to callers). relevant_chunk_ids_qdrant_point_id is kept alongside each entry for direct Qdrant point lookups (e.g. /points/{id}) if ever needed.",
+  "canonical_collection": "educopilot_chunks",
+  "canonical_point_count_at_creation": 542,
+  "entries": [
+    {
+      "query_id": "ci_dbms_conflict_serializability__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "document_id": "6aac31c51460f628a7f2c7e1",
+      "query": "What does it mean for a schedule to be conflict serializable?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "transaction serializability",
+      "source_type": "pdf",
+      "query_type": "conceptual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "2dd0bcac-5355-58bd-ab5f-d571aa875fa5"
+      ],
+      "rationale": "Chunk gives a direct example of a schedule that is NOT conflict serializable, directly explaining the boundary of the concept.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "Conflict Serializability (Cont. )  Example of a schedule that is not conflict serializable:  We are unable to swap instructions in the above schedule to obtain either the serial schedule",
+      "relevant_chunk_text_sha256_16": {
+        "2dd0bcac-5355-58bd-ab5f-d571aa875fa5": "2fe77ddc-6f77-577a-b55c-95b0a25c4725"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "2fe77ddc-6f77-577a-b55c-95b0a25c4725"
+      ]
+    },
+    {
+      "query_id": "ci_dbms_cycle_detection__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "document_id": "6aac31c51460f628a7f2c7e1",
+      "query": "How is a cycle-detection algorithm used to test for conflict serializability?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "transaction serializability",
+      "source_type": "pdf",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "3d200242-2269-5557-a580-aa33ac0bcdab"
+      ],
+      "rationale": "Chunk explicitly names the precedence-graph + cycle-detection-algorithm method for testing conflict serializability.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "Cycle-detection Algorithms  To test for conflict serializability, we need to construct the precedence graph and to invoke a cycle-detection algorithm.",
+      "relevant_chunk_text_sha256_16": {
+        "3d200242-2269-5557-a580-aa33ac0bcdab": "ec8991f0-fea9-5774-ab6b-8e5e01adeeed"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "ec8991f0-fea9-5774-ab6b-8e5e01adeeed"
+      ]
+    },
+    {
+      "query_id": "ci_dbms_checkpoints__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "document_id": "6aac31c51460f628a7f2c7e1",
+      "query": "What is the purpose of checkpoints during database recovery?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "recovery system",
+      "source_type": "pdf",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "e4876175-f6d7-53f1-a447-b5ad732b2de9"
+      ],
+      "rationale": "Chunk directly explains which transactions need redo/undo relative to the most recent checkpoint during recovery.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "Checkpoints (Cont. )  During recovery we need to consider only the most recent transaction Ti that started before the checkpoint, and transactions that started after Ti.",
+      "relevant_chunk_text_sha256_16": {
+        "e4876175-f6d7-53f1-a447-b5ad732b2de9": "a1d4e858-5dba-5176-a9dd-071008c61f35"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "a1d4e858-5dba-5176-a9dd-071008c61f35"
+      ]
+    },
+    {
+      "query_id": "ci_dbms_serializable_locking__q_english",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "document_id": "6aac31c51460f628a7f2c7e1",
+      "query": "How does a SERIALIZABLE transaction use locks in a lock-based implementation?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "concurrency control",
+      "source_type": "pdf",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "80cea39a-38c0-501e-9290-4affabfbe96b"
+      ],
+      "rationale": "Chunk directly describes SERIALIZABLE isolation's locking behavior under Strict 2PL.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "In terms of a lock-based implementation, a SERIALIZABLE transaction obtains locks before reading or writing objects, including locks on sets of objects that it requires to be unchanged",
+      "relevant_chunk_text_sha256_16": {
+        "80cea39a-38c0-501e-9290-4affabfbe96b": "f8c25f7b-71ef-5e5a-9c73-d4fba618e09e"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "f8c25f7b-71ef-5e5a-9c73-d4fba618e09e"
+      ]
+    },
+    {
+      "query_id": "ci_dbms_er_design__q_hinglish",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "document_id": "6aac31c51460f628a7f2c7e1",
+      "query": "Database designers conceptual design ke liye kaunsi methodology use karte hain?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "database design",
+      "source_type": "pdf",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "2bddc8ed-0375-5623-904f-485e6da9228c"
+      ],
+      "rationale": "Chunk states designers typically use ER design as the conceptual design methodology -- directly answers the Hinglish-phrased question against English source content (cross-lingual retrieval test).",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "Database designers typically use a conceptual design methodology (e. g. , ER design) to arrive at an initial database design.",
+      "relevant_chunk_text_sha256_16": {
+        "2bddc8ed-0375-5623-904f-485e6da9228c": "603848b6-0907-58b6-bc40-ca310795ef6b"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "603848b6-0907-58b6-bc40-ca310795ef6b"
+      ]
+    },
+    {
+      "query_id": "ci_dbms_3nf__q_hinglish",
+      "workspace_id": "6a8de2d7e43679cbe2ee243d",
+      "document_id": "6aac31c51460f628a7f2c7e1",
+      "query": "3NF design mein kya compromise accept kiya jata hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "database management systems",
+      "subject": "normalization",
+      "source_type": "pdf",
+      "query_type": "factual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "72750daa-343f-5596-b110-1afcdea7733c"
+      ],
+      "rationale": "Chunk is the opening of a 3NF-design discussion referencing an accepted compromise for non-3NF schemas.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "3NF design. As we shall see in Chapter 16, we may sometimes accept this compromise (or even settle for a non-3NF schema) for other reasons as well. DECOMPOSITIONS As we have seen, a relation in BCNF is free of redundancy",
+      "relevant_chunk_text_sha256_16": {
+        "72750daa-343f-5596-b110-1afcdea7733c": "005e8d80-76d8-5fb9-b8cb-38a7d7222ce0"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "005e8d80-76d8-5fb9-b8cb-38a7d7222ce0"
+      ]
+    },
+    {
+      "query_id": "ci_os_five_services__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2f6a1460f628a7f2c7d5",
+      "query": "What are the five services provided by an operating system?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "OS services",
+      "source_type": "pdf",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "528a9cc4-8bb7-5bb6-b472-3c833765e012"
+      ],
+      "rationale": "Chunk is the literal 'Lecture #4 Operating System Services' section listing the five services, starting with Program Execution.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "Lecture #4 Operating System Services Following are the five services provided by operating systems to the convenience of the users. 1. Program Execution",
+      "relevant_chunk_text_sha256_16": {
+        "528a9cc4-8bb7-5bb6-b472-3c833765e012": "4283db57-45e0-55a4-aae0-51dcfdc13962"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "4283db57-45e0-55a4-aae0-51dcfdc13962"
+      ]
+    },
+    {
+      "query_id": "ci_os_process_definition__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2f6a1460f628a7f2c7d5",
+      "query": "What is a process in an operating system?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "process management",
+      "source_type": "pdf",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "e9a0ab7d-ce5d-55fe-9448-a6dffc8579e8"
+      ],
+      "rationale": "Chunk explicitly defines a process as 'a program in execution' with its required resources.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "Lecture #2 Functions of Operating System: Process Management A process is a program in execution. A process needs certain resources, including CPU time, memory, files, and I/O devices",
+      "relevant_chunk_text_sha256_16": {
+        "e9a0ab7d-ce5d-55fe-9448-a6dffc8579e8": "4fec2f92-d980-566c-a0fc-bd4aa33b5ac6"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "4fec2f92-d980-566c-a0fc-bd4aa33b5ac6"
+      ]
+    },
+    {
+      "query_id": "ci_os_critical_section__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2f6a1460f628a7f2c7d5",
+      "query": "What is the critical section problem?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "process synchronization",
+      "source_type": "pdf",
+      "query_type": "conceptual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "da1881c6-ed62-5329-9339-81925f5425c9"
+      ],
+      "rationale": "Chunk directly names and defines the critical section problem for n processes.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "The critical section problem Consider a system consisting of n processes {Po,P1, ... , Pn-1). Each process has a segment of code, called a critical section",
+      "relevant_chunk_text_sha256_16": {
+        "da1881c6-ed62-5329-9339-81925f5425c9": "79003115-f02c-52b7-b8a0-1701250b536a"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "79003115-f02c-52b7-b8a0-1701250b536a"
+      ]
+    },
+    {
+      "query_id": "ci_os_raid0__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2f6a1460f628a7f2c7d5",
+      "query": "What is RAID level 0?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "storage systems",
+      "source_type": "pdf",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "3ff3f42c-9f06-544a-861c-d320e564d5f2"
+      ],
+      "rationale": "Chunk directly defines RAID Level 0 as block-level striping without redundancy.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "(RAID levels) The RAID levels are described as follows:  RAID Level 0: RAID level 0 refers to disk arrays with striping at the level of blocks, but without any redundancy",
+      "relevant_chunk_text_sha256_16": {
+        "3ff3f42c-9f06-544a-861c-d320e564d5f2": "87a73125-ab0f-5a3d-87a3-a456ff883c47"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "87a73125-ab0f-5a3d-87a3-a456ff883c47"
+      ]
+    },
+    {
+      "query_id": "ci_os_aging__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2f6a1460f628a7f2c7d5",
+      "query": "What is aging in process scheduling and what problem does it solve?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "CPU scheduling",
+      "source_type": "pdf",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "5f090767-992f-5b58-8a08-4a0bb0bddbe3"
+      ],
+      "rationale": "Chunk directly defines aging as the solution to indefinite blockage of low-priority processes.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "A solution to the problem of indefinite blockage of low-priority processes is aging. Aging is a technique of gradually increasing the priority of processes that wait in the system for a long time.",
+      "relevant_chunk_text_sha256_16": {
+        "5f090767-992f-5b58-8a08-4a0bb0bddbe3": "cce3a812-31af-5877-8b44-0e41ad5d4ace"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "cce3a812-31af-5877-8b44-0e41ad5d4ace"
+      ]
+    },
+    {
+      "query_id": "ci_os_definition__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2f6a1460f628a7f2c7d5",
+      "query": "What is the definition of an operating system?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "OS fundamentals",
+      "source_type": "pdf",
+      "query_type": "factual",
+      "difficulty": "easy",
+      "relevant_chunk_ids": [
+        "21fd3d0a-c902-5fc5-9a96-35c90d45b9b9"
+      ],
+      "rationale": "Chunk is the literal 'Lecture #1 What is an Operating System?' definition.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "OPERATING SYSTEM Lecture Notes Lecture #1 What is an Operating System?  A program that acts as an intermediary between a user of a computer and the computer hardware.",
+      "relevant_chunk_text_sha256_16": {
+        "21fd3d0a-c902-5fc5-9a96-35c90d45b9b9": "e3921fc1-7a28-5eda-80fd-10f227fa0be1"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "e3921fc1-7a28-5eda-80fd-10f227fa0be1"
+      ]
+    },
+    {
+      "query_id": "ci_os_logical_address__q_english",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2f6a1460f628a7f2c7d5",
+      "query": "What does a logical address space consist of in segmentation?",
+      "query_language": "english",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "memory management",
+      "source_type": "pdf",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "57f9b3d6-b2f8-58f6-996e-55f61a86640b"
+      ],
+      "rationale": "Chunk defines a logical-address space as a collection of segments, each with a name/length, addressed by <segment-number, offset>.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "A logical-address space is a collection of segments. Each segment has a name and a length. The user specifies each address by two quantities: a segment name/number and an offset.",
+      "relevant_chunk_text_sha256_16": {
+        "57f9b3d6-b2f8-58f6-996e-55f61a86640b": "a13e3487-d5ce-5825-9094-fd241b3655d9"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "a13e3487-d5ce-5825-9094-fd241b3655d9"
+      ]
+    },
+    {
+      "query_id": "ci_os_bankers_safety__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2f6a1460f628a7f2c7d5",
+      "query": "OS mein safety algorithm ka use karke system state safe hai ya nahi kaise pata chalta hai?",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "domain": "operating systems",
+      "subject": "deadlock avoidance",
+      "source_type": "pdf",
+      "query_type": "explanation",
+      "difficulty": "hard",
+      "relevant_chunk_ids": [
+        "b1c8bbbc-0925-5550-8d30-6c7140102553"
+      ],
+      "rationale": "Chunk walks through a banker's-algorithm-style safety check determining whether a resource request can be granted.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "We must determine whether this new system state is safe. To do so, we execute our safety algorithm and find that the sequence <PI, P3, P4, P0, P2> satisfies our safety requirement.",
+      "relevant_chunk_text_sha256_16": {
+        "b1c8bbbc-0925-5550-8d30-6c7140102553": "609bab85-ab11-5ccb-b895-b5ba8ab3cd7a"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "609bab85-ab11-5ccb-b895-b5ba8ab3cd7a"
+      ]
+    },
+    {
+      "query_id": "ci_os_multiprogramming__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2b521460f628a7f2c7d2",
+      "query": "मल्टी प्रोग्रामिंग ऑपरेटिंग सिस्टम क्या होता है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "multiprogramming",
+      "source_type": "youtube",
+      "query_type": "conceptual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "031e1f5e-8eaa-5567-9f81-b3607877a82d"
+      ],
+      "rationale": "Chunk directly poses and begins answering 'मल्टी प्रोग्रामिंग ऑपरेटिंग सिस्टम क्या होता है?' in the lecture audio -- CONFIRMED CLEAN, readable Devanagari text (not the garbled variant seen elsewhere in this same document, see dataset_limitations).",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "मैनेजमेंट। तो मान लीजिए 50% वेटेज आमतौर पे आपका प्रोसेस मैनेजमेंट का है और 50% आपका मेमोरी मैनेजमेंट का। मल्टी प्रोग्रामिंग ऑपरेटिंग सिस्टम क्या होता है? देखिए इसका मतलब यह है कि जो मेमोरी हमारे पास है वहां पर हम एक नहीं मल्टीपल प्रोसेससेस रन टाइम में आमतौर पर मेंटेन करते हैं।",
+      "relevant_chunk_text_sha256_16": {
+        "031e1f5e-8eaa-5567-9f81-b3607877a82d": "d57b2e3f-96e0-5b68-9322-be9ab4163a75"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "d57b2e3f-96e0-5b68-9322-be9ab4163a75"
+      ]
+    },
+    {
+      "query_id": "ci_os_race_condition__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2b521460f628a7f2c7d2",
+      "query": "रेस कंडीशन क्या है और यह कब होती है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "process synchronization",
+      "source_type": "youtube",
+      "query_type": "conceptual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "ffadee80-4797-5379-b2b6-a2c2003c7873"
+      ],
+      "rationale": "Chunk directly discusses race condition as a problem and explains it occurs when processes work on the same data -- CONFIRMED CLEAN text.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "ये शुरुआत है रेज कंडीशन एडवांटेज है कि डिसएडवांटेज है? ऑब्वियसली रेज कंडीशन एक प्रॉब्लम है। प्रॉब्लम क्यों ऐसे समझिए अगेन जो मैं आपसे बोल रहा हूं अगर दोनों प्रोसेस अलग-अलग डेटा पे काम करते तो प्रॉब्लम होता क्या है?",
+      "relevant_chunk_text_sha256_16": {
+        "ffadee80-4797-5379-b2b6-a2c2003c7873": "12aff3ad-485f-5eb0-9bf8-7950a7bc07f5"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "12aff3ad-485f-5eb0-9bf8-7950a7bc07f5"
+      ]
+    },
+    {
+      "query_id": "ci_os_race_condition__q_hinglish",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2b521460f628a7f2c7d2",
+      "query": "Race condition kya hoti hai OS mein?",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "process synchronization",
+      "source_type": "youtube",
+      "query_type": "conceptual",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "ffadee80-4797-5379-b2b6-a2c2003c7873"
+      ],
+      "rationale": "Same target chunk as ci_os_race_condition__q_hindi, deliberately paired to compare Hindi-script vs Hinglish-script retrieval of the IDENTICAL underlying question and evidence.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "ये शुरुआत है रेज कंडीशन एडवांटेज है कि डिसएडवांटेज है? ऑब्वियसली रेज कंडीशन एक प्रॉब्लम है। प्रॉब्लम क्यों ऐसे समझिए अगेन जो मैं आपसे बोल रहा हूं अगर दोनों प्रोसेस अलग-अलग डेटा पे काम करते तो प्रॉब्लम होता क्या है?",
+      "relevant_chunk_text_sha256_16": {
+        "ffadee80-4797-5379-b2b6-a2c2003c7873": "12aff3ad-485f-5eb0-9bf8-7950a7bc07f5"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "12aff3ad-485f-5eb0-9bf8-7950a7bc07f5"
+      ]
+    },
+    {
+      "query_id": "ci_os_virtual_memory_paging__q_hindi",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2b521460f628a7f2c7d2",
+      "query": "पेजिंग की मदद से कंटीन्यूअस एलोकेशन की समस्या कैसे हल होती है?",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "virtual memory",
+      "source_type": "youtube",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "ab34b9bc-f1ac-5bf0-89a2-a2d5768b6f7b"
+      ],
+      "rationale": "Chunk explains that paging + virtual memory lets a 16GB process run despite only 8GB main memory, directly solving the continuous-allocation size problem -- CONFIRMED CLEAN text.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "कंटीन्यूअस एलोकेशन में 16 GB की प्रोसेस एग्ज़क्यूट ही नहीं हो सकती क्योंकि मेन मेमोरी 8 GB का है। कैसे करेंगे? बट अब पेजिंग के बाद ऐसा किया जा सकता है विथ द आईडिया ऑफ़ वर्चुअल मेमोरी",
+      "relevant_chunk_text_sha256_16": {
+        "ab34b9bc-f1ac-5bf0-89a2-a2d5768b6f7b": "13c3d9b5-2570-55b9-b6bc-a03f43a073b9"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "13c3d9b5-2570-55b9-b6bc-a03f43a073b9"
+      ]
+    },
+    {
+      "query_id": "ci_os_virtual_memory__q_english_over_hindi_source",
+      "workspace_id": "6a912a1883f46878932e0eec",
+      "document_id": "6aac2b521460f628a7f2c7d2",
+      "query": "How does virtual memory allow a large process to run in smaller main memory?",
+      "query_language": "english",
+      "source_language": "hindi",
+      "domain": "operating systems",
+      "subject": "virtual memory",
+      "source_type": "youtube",
+      "query_type": "explanation",
+      "difficulty": "medium",
+      "relevant_chunk_ids": [
+        "ab34b9bc-f1ac-5bf0-89a2-a2d5768b6f7b"
+      ],
+      "rationale": "Same target chunk as ci_os_virtual_memory_paging__q_hindi -- deliberately an ENGLISH query against Hindi-language source audio, to test true cross-language (not just cross-script) retrieval.",
+      "status": "CANDIDATE",
+      "chunk_text_excerpt": "कंटीन्यूअस एलोकेशन में 16 GB की प्रोसेस एग्ज़क्यूट ही नहीं हो सकती क्योंकि मेन मेमोरी 8 GB का है। कैसे करेंगे? बट अब पेजिंग के बाद ऐसा किया जा सकता है विथ द आईडिया ऑफ़ वर्चुअल मेमोरी",
+      "relevant_chunk_text_sha256_16": {
+        "ab34b9bc-f1ac-5bf0-89a2-a2d5768b6f7b": "13c3d9b5-2570-55b9-b6bc-a03f43a073b9"
+      },
+      "point_id_verified_present_in_canonical": true,
+      "relevant_chunk_ids_qdrant_point_id": [
+        "13c3d9b5-2570-55b9-b6bc-a03f43a073b9"
+      ]
+    }
+  ]
+}

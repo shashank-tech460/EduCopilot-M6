@@ -1,0 +1,158 @@
+{
+  "phase": "M6 Phase 5I-A - Ground-Truth Rebuild + Hindi Retrieval Determinism Forensic",
+  "status": "FORENSIC COMPLETE - no production code changed",
+  "executive_summary": "Objective A (trustworthy current-corpus evaluation foundation) succeeded: new 19-entry ground truth built from directly reading current canonical chunk text, live-verified at 84% top-5 hit rate (16/19), with the 3 misses themselves informative (script/cross-language divergence). Building it surfaced and corrected a real methodological error from Phase 5H: RetrievalResult.chunk_id is the payload-level chunk_id, not Qdrant's raw point id (a deterministic uuid5 hash of it). Re-verified correctly, Phase 5H's bottom-line conclusion (old ground truth unusable, 0/26 IDs present) still stands. Objective B (Hindi retrieval determinism) produced a clean, unexpected result: the retrieval pipeline is provably 100% deterministic across 90 repeated calls spanning 8 query/collection/mode combinations, zero variation at any stage. Further investigation found the original Phase 5H 'inconsistency' actually compared TWO DIFFERENT retrieval queries (Hindi vs English phrasing), not a repeated identical query - a mischaracterization in that report, now corrected. No production retrieval change is recommended or implemented.",
+  "repository_state": {
+    "repository": "D:\\Major_Project\\project\\EduCopilot-M6-Local\\EduCopilot-M6-Local",
+    "branch": "phase5-cross-script-retrieval",
+    "commit_at_start": "6f8a93377fdaf7ebca3ef3b8851ff541fb2b14d8",
+    "git_status_at_start": "identical to Phase 5H's end state, no new modifications beyond this phase's own additions"
+  },
+  "canonical_corpus_state": {
+    "canonical_collection": "educopilot_chunks",
+    "canonical_points": 542,
+    "validation_collection": "educopilot_chunks_product_validation",
+    "validation_points": 4938,
+    "vector_config": {"size": 384, "distance": "Cosine"},
+    "team4b_config_confirmed": {
+      "default_top_k": 5, "default_score_threshold": 0.3, "default_search_mode": "hybrid",
+      "rrf_k": 60, "hybrid_candidate_pool_size": 100, "reranker_enabled": false,
+      "reranker_model_name": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+      "embedding_model_name": "all-MiniLM-L6-v2"
+    },
+    "canonical_corpus_structure": {
+      "workspaces": 2,
+      "documents": 3,
+      "details": [
+        {"workspace_id": "6a8de2d7e43679cbe2ee243d", "points": 250, "documents": 1, "type": "DBMS PDF"},
+        {"workspace_id": "6a912a1883f46878932e0eec", "points": 292, "documents": 2, "types": ["OS PDF (115 pts)", "OS YouTube Hindi (177 pts)"]}
+      ]
+    },
+    "architectural_finding": "Every one of the 542 points' Qdrant point id differs from its own payload chunk_id field. Confirmed via direct code read (vector_store.py _point_id_for()): Qdrant point ID is a deterministic uuid5(fixed_namespace, chunk_id) hash of the logical chunk_id, separately stored in payload and returned by search_similar()/scroll_all_chunks() as RetrievalResult.chunk_id. Intentional, consistent, deterministic - not a bug - but an easy trap for external verification scripts querying the wrong field."
+  },
+  "old_ground_truth_validity_assessment": {
+    "phase2_ground_truth_approved_json": {
+      "entries": 75,
+      "finding": "Despite filename, entries still carry status CANDIDATE_NOT_VALIDATED - never actually approved. First entry verbatim identical to phase3's file, confirming it is not independently produced or human-reviewed.",
+      "verdict": "Filename is misleading, should not be trusted as approved evidence"
+    },
+    "phase3_generalized_ground_truth_candidate_json": {
+      "entries": 75,
+      "already_flagged_candidate_not_validated": true,
+      "reverification_this_phase": "Using the CORRECT payload.chunk_id field (not Qdrant raw point id), still 0 of 26 unique referenced chunk IDs exist in current canonical corpus",
+      "verdict": "Phase 5H's substantive conclusion RECONFIRMED - unusable against current corpus, verification method now corrected for rigor"
+    },
+    "neither_file_modified": true
+  },
+  "new_current_corpus_evaluation_dataset": {
+    "file": "team4b/data/phase5i_a_current_corpus_ground_truth_candidate.json",
+    "entries": 19,
+    "construction_method": "Every relevant_chunk_ids value built by directly reading real, current chunk text from a fresh, complete read-only scroll of the canonical collection performed this phase",
+    "coverage": {
+      "by_language": {"english": 12, "hinglish": 4, "hindi": 3},
+      "by_source_type": {"pdf": 14, "youtube": 5},
+      "by_domain": {"operating_systems": 13, "dbms": 6},
+      "by_query_type": {"factual": 7, "explanation": 7, "conceptual": 5}
+    },
+    "deliberate_cross_lingual_pairs": [
+      "ci_os_race_condition__q_hindi / __q_hinglish (same target chunk, Hindi-script vs Hinglish-script)",
+      "ci_os_virtual_memory_paging__q_hindi / ci_os_virtual_memory__q_english_over_hindi_source (same target chunk, Hindi vs true English query against Hindi-source audio)"
+    ],
+    "every_entry_stores": ["payload-level chunk_id", "underlying Qdrant point ID", "workspace_id", "document_id", "source_type", "query_language", "source_language", "verbatim chunk_text_excerpt", "truncated SHA-256 hash", "rationale", "status: CANDIDATE (none VALIDATED)"],
+    "live_verification": {
+      "method": "retrieval-only, real production HybridRetriever, production defaults (top_k=5, score_threshold=0.3, hybrid)",
+      "result": "16/19 entries (84%) had target chunk within real top-5 results",
+      "misses": [
+        {"query_id": "ci_os_process_definition__q_english", "note": "missed for an as-yet-uninvestigated reason"},
+        {"query_id": "ci_os_race_condition__q_hinglish", "note": "missed while Hindi-script sibling hit at rank 3 - real script-sensitivity data point"},
+        {"query_id": "ci_os_virtual_memory__q_english_over_hindi_source", "note": "missed while Hindi-phrased sibling hit at rank 3 - real cross-language data point, consistent with known F2 finding"}
+      ]
+    }
+  },
+  "dataset_limitations": [
+    "Current canonical corpus supports only 2 domains (OS, DBMS) and 2 workspaces - cannot support a multi-subject claim, limited by the corpus itself not by design choice",
+    "No genuine multi-document query constructed - no natural question required combining evidence from both OS documents without artificially forcing it",
+    "Only 1 constructed English-to-Hindi-source cross-language pair - deliberately minimal, not broad",
+    "Only 3 documents total limits statistical power for any future Recall@k computation - findings should be treated as indicative, not conclusive"
+  ],
+  "hindi_query_matrix": [
+    {"query": "स्टैक क्या है?", "language": "hindi", "collection": "validation (4938)", "workspace": "Data Structures", "evidence_status": "Reproduces exact Phase 5G/5H case, evidence exists"},
+    {"query": "What is a stack?", "language": "english", "collection": "validation", "workspace": "Data Structures", "evidence_status": "Control"},
+    {"query": "Stack kya hota hai?", "language": "hinglish", "collection": "validation", "workspace": "Data Structures", "evidence_status": "Control"},
+    {"query": "मल्टी प्रोग्रामिंग ऑपरेटिंग सिस्टम क्या होता है?", "language": "hindi", "collection": "canonical (542)", "workspace": "OS", "evidence_status": "Confirmed rank-1 real evidence"},
+    {"query": "What are the five services provided by an operating system?", "language": "english", "collection": "canonical", "workspace": "OS", "evidence_status": "Confirmed rank-1 real evidence, strong unambiguous control"}
+  ],
+  "note_on_stack_query_corpus_choice": "स्टैक क्या है?'s relevant evidence does NOT exist in the current 542-point canonical corpus (canonical is OS/DBMS-only, no data-structure 'stack' content) - per the task's own conditional instruction, tested against the validation collection instead, where evidence is confirmed present and where the original observation occurred.",
+  "repetition_methodology": {
+    "runs_per_query": "15 (5 for the semantic/keyword/hybrid mode comparison)",
+    "total_runs": 90,
+    "errors": 0,
+    "method": "Independently instrumented pipeline calling each real, unmodified production component (Embedder.embed_query, VectorStoreManager.search_similar, BM25Index.search, HybridRetriever.reciprocal_rank_fusion, HybridRetriever's own generation-authority-filtering methods) rather than treating retrieve() as a black box",
+    "held_constant": ["exact query text", "workspace_id", "collection", "top_k", "score_threshold", "embedding model", "search_mode", "document filter (None)", "reranker state (never attached)"]
+  },
+  "embedding_determinism_results": {"identical_rate": "100% across every repeat, every query", "distinct_hashes_per_query": 1, "method": "full 384-dim vector, 10-decimal precision, SHA-256 hashed"},
+  "qdrant_determinism_results": {"identical_rate": "100%", "distinct_result_sets_per_query": 1, "note": "no equal-score ordering instability or HNSW search variance found"},
+  "bm25_determinism_results": {"identical_rate": "100%", "distinct_result_sets_per_query": 1, "note": "index rebuilt fresh once per query-block, stable within that build; cross-build stability not separately isolated this phase"},
+  "rrf_determinism_results": {"identical_rate": "100%", "distinct_result_sets_per_query": 1, "note": "consistent with RRF's explicit documented tie-break-by-chunk_id-ascending design"},
+  "generation_authority_results": {"identical_rate": "100%", "drops_observed": 0, "note": "0 drops in every tested run; does not rule out authority-driven variability under different conditions (e.g. mid-query re-ingestion), not tested this phase"},
+  "final_retrieval_determinism": {"identical_rate": "100%, exact scores included", "distinct_result_sets": 1, "total_runs": 90, "variation_observed": 0, "text_sha_check": "SHA-256 of each returned chunk's actual text also identical across all repeats"},
+  "llm_generation_variability": {
+    "tested_this_phase": false,
+    "reasoning": "Deliberate scope choice per task's own instruction to separate retrieval determinism from generation variability, tested only after retrieval behavior is understood",
+    "conclusion": "Retrieval nondeterminism and LLM generation nondeterminism are confirmed, this phase, to be two entirely separate concerns - only generation-stage variability (already documented in Phase 5D/5F/5G) is real in this codebase, based on all evidence gathered across this engagement so far"
+  },
+  "root_cause_analysis": {
+    "finding": "No retrieval nondeterminism exists to root-cause - none was found",
+    "actual_root_cause": "The original Phase 5H observation itself was mischaracterized. Re-reading that phase's own script confirmed the two contrasting cases used DIFFERENT retrieval queries (Hindi 'स्टैक क्या है?' vs English 'What is a stack?'), not a repeated identical query. Phase 5H's report incorrectly characterized this as 'the identical query... called twice in one process, materially different candidate sets' - corrected here.",
+    "true_explanation": "Ordinary cross-language retrieval-quality variance (already-documented Phase 5E/5H phenomenon) between two different-language phrasings of a conceptually similar question - not a same-input-different-output bug"
+  },
+  "evidence_for_against_each_cause": [
+    {"cause": "Nondeterministic embedding inference", "evidence": "AGAINST - 100% identical hashes across all repeats"},
+    {"cause": "Lazy model loading", "evidence": "Not implicated - models load once per process before any repeats"},
+    {"cause": "Multiprocessing/threading", "evidence": "AGAINST for the 2-worker concurrency this pipeline uses - stable despite being exercised identically each time"},
+    {"cause": "Floating-point/tie behavior", "evidence": "AGAINST - no tied-score instability; RRF's tie-break confirmed effective"},
+    {"cause": "Qdrant equal-score ordering", "evidence": "AGAINST - no evidence found"},
+    {"cause": "BM25 index rebuilding", "evidence": "AGAINST within a build; cross-build stability not separately isolated this phase"},
+    {"cause": "Python set/dict iteration", "evidence": "AGAINST - no iteration-order effects at any stage"},
+    {"cause": "Unstable sorting", "evidence": "AGAINST - all sort keys use deterministic explicit tie-breaks"},
+    {"cause": "Duplicate chunks", "evidence": "INVESTIGATED, NOT CONFIRMED - initial ID-field confusion briefly suggested it; full duplicate-text scan across all 542 canonical points found ZERO exact-duplicate chunk texts"},
+    {"cause": "Duplicate documents", "evidence": "AGAINST for canonical - 3 distinct documents, no duplication found"},
+    {"cause": "Mutable metadata", "evidence": "Not directly tested, no evidence found"},
+    {"cause": "Generation-authority database lookups", "evidence": "AGAINST for tested queries - 0 drops, identical every run"},
+    {"cause": "Workspace filtering", "evidence": "AGAINST - consistent scoping every run"},
+    {"cause": "Document filtering", "evidence": "Not exercised - all tests used document_ids=None"},
+    {"cause": "RRF tie handling", "evidence": "AGAINST - confirmed deterministic by design and evidence"},
+    {"cause": "Reranker accidentally invoked", "evidence": "CONFIRMED NOT INVOKED - reranker=None throughout"},
+    {"cause": "Random seeds", "evidence": "Not applicable - no stochastic sampling anywhere in the traced retrieval path"},
+    {"cause": "Model temperature/randomness", "evidence": "Not applicable to retrieval - LLM-generation-only concept"},
+    {"cause": "Concurrent requests", "evidence": "NOT TESTED THIS PHASE - all 90 runs sequential; genuine concurrent-request interference not ruled out, remains a real untested gap"},
+    {"cause": "Collection changes during testing", "evidence": "RULED OUT - point counts verified unchanged before and after"}
+  ],
+  "security_implications": "None discovered this phase. No security-relevant defect found in the retrieval determinism investigation. Does not weaken or change any of Phase 5F/5G's confirmed prompt-injection findings, which are generation-stage, not retrieval-stage, issues.",
+  "recommended_phase5i_b_direction": [
+    "1. Use the new phase5i_a_current_corpus_ground_truth_candidate.json to compute genuine Recall@k/MRR/threshold-tradeoff numbers against canonical - now unblocked",
+    "2. Investigate the 3 documented misses specifically - especially the unexplained ci_os_process_definition__q_english miss; the Hindi-vs-Hinglish and Hindi-vs-English pairs are a ready-made dataset for studying the cross-language retrieval gap directly",
+    "3. Test concurrent-request interference (the one remaining untested item) as a quick, cheap addition before fully closing the determinism question",
+    "4. Correct Phase 5H's own report to reflect this phase's finding"
+  ],
+  "what_was_not_changed": [
+    "retrieval algorithm", "RRF", "BM25", "embedding model", "score thresholds", "top_k defaults",
+    "reranker configuration (remained disabled, never attached to any test instance)",
+    "Team4A", "Team4C", "LLM prompt construction", "LLM generation behavior"
+  ],
+  "new_artifacts_created": [
+    "team4b/data/m6_phase5i_a_evaluation_foundation_hindi_determinism_report.md",
+    "team4b/data/m6_phase5i_a_evaluation_foundation_hindi_determinism_report.json",
+    "team4b/data/phase5i_a_current_corpus_ground_truth_candidate.json"
+  ],
+  "existing_tests_not_modified": true,
+  "known_pre_existing_failure_left_as_is": "TestRelevantChunkIdsExistInCanonicalCorpus - not fixed, not weakened",
+  "data_safety": {
+    "canonical_educopilot_chunks": {"before": 542, "after": 542, "changed": false},
+    "validation_educopilot_chunks_product_validation": {"before": 4938, "after": 4938, "changed": false},
+    "team4b_test_suite": "1302 passed, 3 skipped, 1 known pre-existing failure - identical to every prior phase's baseline, zero regression",
+    "commit_made": false,
+    "push_made": false,
+    "pr_made": false
+  }
+}

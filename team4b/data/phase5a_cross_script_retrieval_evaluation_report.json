@@ -1,0 +1,1636 @@
+{
+  "phase": "5A",
+  "canonical_collection": "educopilot_chunks",
+  "canonical_point_count_note": "Verified separately before and after this script's run (read-only) -- see the Phase 5A review markdown.",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "reranker_enabled_in_this_run": false,
+  "ground_truth_entry_count": 75,
+  "production_config": {
+    "top_k": 10,
+    "score_threshold": 0.3
+  },
+  "pool_config": {
+    "top_k": 100,
+    "score_threshold": 0.0
+  },
+  "overall": {
+    "baseline_pool": {
+      "query_count": 75,
+      "recall_at_k": {
+        "1": 0.24666666666666667,
+        "3": 0.38666666666666666,
+        "5": 0.44666666666666666,
+        "10": 0.4866666666666667,
+        "100": 0.62
+      },
+      "mrr": 0.3465132128722795
+    },
+    "candidate_pool": {
+      "query_count": 75,
+      "recall_at_k": {
+        "1": 0.24666666666666667,
+        "3": 0.37333333333333335,
+        "5": 0.43333333333333335,
+        "10": 0.47333333333333333,
+        "100": 0.6933333333333334
+      },
+      "mrr": 0.34427412023937165
+    },
+    "baseline_production_hit_rate": {
+      "query_count": 75,
+      "hit_rate_at_production_top_k": 0.5066666666666667
+    },
+    "candidate_production_hit_rate": {
+      "query_count": 75,
+      "hit_rate_at_production_top_k": 0.49333333333333335
+    }
+  },
+  "by_language_pair": {
+    "english->english": {
+      "query_count": 16,
+      "baseline_pool": {
+        "query_count": 16,
+        "recall_at_k": {
+          "1": 0.625,
+          "3": 0.75,
+          "5": 0.9375,
+          "10": 0.9375,
+          "100": 1.0
+        },
+        "mrr": 0.7302083333333333
+      },
+      "candidate_pool": {
+        "query_count": 16,
+        "recall_at_k": {
+          "1": 0.625,
+          "3": 0.75,
+          "5": 0.9375,
+          "10": 0.9375,
+          "100": 1.0
+        },
+        "mrr": 0.7294642857142857
+      },
+      "baseline_production_hit_rate": {
+        "query_count": 16,
+        "hit_rate_at_production_top_k": 0.9375
+      },
+      "candidate_production_hit_rate": {
+        "query_count": 16,
+        "hit_rate_at_production_top_k": 0.9375
+      }
+    },
+    "english->hindi": {
+      "query_count": 8,
+      "baseline_pool": {
+        "query_count": 8,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0,
+          "100": 0.0
+        },
+        "mrr": 0.0
+      },
+      "candidate_pool": {
+        "query_count": 8,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0,
+          "100": 0.3125
+        },
+        "mrr": 0.004862369890427278
+      },
+      "baseline_production_hit_rate": {
+        "query_count": 8,
+        "hit_rate_at_production_top_k": 0.0
+      },
+      "candidate_production_hit_rate": {
+        "query_count": 8,
+        "hit_rate_at_production_top_k": 0.0
+      }
+    },
+    "english->mixed": {
+      "query_count": 3,
+      "baseline_pool": {
+        "query_count": 3,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.16666666666666666,
+          "5": 0.3333333333333333,
+          "10": 0.3333333333333333,
+          "100": 0.5
+        },
+        "mrr": 0.2571428571428572
+      },
+      "candidate_pool": {
+        "query_count": 3,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.16666666666666666,
+          "5": 0.3333333333333333,
+          "10": 0.3333333333333333,
+          "100": 0.6666666666666666
+        },
+        "mrr": 0.2518518518518518
+      },
+      "baseline_production_hit_rate": {
+        "query_count": 3,
+        "hit_rate_at_production_top_k": 0.6666666666666666
+      },
+      "candidate_production_hit_rate": {
+        "query_count": 3,
+        "hit_rate_at_production_top_k": 0.6666666666666666
+      }
+    },
+    "hindi->english": {
+      "query_count": 16,
+      "baseline_pool": {
+        "query_count": 16,
+        "recall_at_k": {
+          "1": 0.0625,
+          "3": 0.1875,
+          "5": 0.1875,
+          "10": 0.3125,
+          "100": 0.3125
+        },
+        "mrr": 0.13392857142857142
+      },
+      "candidate_pool": {
+        "query_count": 16,
+        "recall_at_k": {
+          "1": 0.0625,
+          "3": 0.125,
+          "5": 0.125,
+          "10": 0.25,
+          "100": 0.3125
+        },
+        "mrr": 0.11681547619047619
+      },
+      "baseline_production_hit_rate": {
+        "query_count": 16,
+        "hit_rate_at_production_top_k": 0.3125
+      },
+      "candidate_production_hit_rate": {
+        "query_count": 16,
+        "hit_rate_at_production_top_k": 0.25
+      }
+    },
+    "hindi->hindi": {
+      "query_count": 8,
+      "baseline_pool": {
+        "query_count": 8,
+        "recall_at_k": {
+          "1": 0.0625,
+          "3": 0.3125,
+          "5": 0.3125,
+          "10": 0.3125,
+          "100": 1.0
+        },
+        "mrr": 0.2670741079403577
+      },
+      "candidate_pool": {
+        "query_count": 8,
+        "recall_at_k": {
+          "1": 0.0625,
+          "3": 0.3125,
+          "5": 0.3125,
+          "10": 0.3125,
+          "100": 0.875
+        },
+        "mrr": 0.27395395290159796
+      },
+      "baseline_production_hit_rate": {
+        "query_count": 8,
+        "hit_rate_at_production_top_k": 0.375
+      },
+      "candidate_production_hit_rate": {
+        "query_count": 8,
+        "hit_rate_at_production_top_k": 0.375
+      }
+    },
+    "hinglish->english": {
+      "query_count": 16,
+      "baseline_pool": {
+        "query_count": 16,
+        "recall_at_k": {
+          "1": 0.4375,
+          "3": 0.6875,
+          "5": 0.75,
+          "10": 0.8125,
+          "100": 1.0
+        },
+        "mrr": 0.5783924408924409
+      },
+      "candidate_pool": {
+        "query_count": 16,
+        "recall_at_k": {
+          "1": 0.4375,
+          "3": 0.6875,
+          "5": 0.75,
+          "10": 0.8125,
+          "100": 1.0
+        },
+        "mrr": 0.573139880952381
+      },
+      "baseline_production_hit_rate": {
+        "query_count": 16,
+        "hit_rate_at_production_top_k": 0.8125
+      },
+      "candidate_production_hit_rate": {
+        "query_count": 16,
+        "hit_rate_at_production_top_k": 0.8125
+      }
+    },
+    "hinglish->hindi": {
+      "query_count": 8,
+      "baseline_pool": {
+        "query_count": 8,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0,
+          "100": 0.0
+        },
+        "mrr": 0.0
+      },
+      "candidate_pool": {
+        "query_count": 8,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0,
+          "100": 0.4375
+        },
+        "mrr": 0.015469824293353706
+      },
+      "baseline_production_hit_rate": {
+        "query_count": 8,
+        "hit_rate_at_production_top_k": 0.0
+      },
+      "candidate_production_hit_rate": {
+        "query_count": 8,
+        "hit_rate_at_production_top_k": 0.0
+      }
+    }
+  },
+  "by_query_type": {
+    "advantage_disadvantage": {
+      "query_count": 3,
+      "baseline_pool": {
+        "query_count": 3,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0,
+          "100": 0.6666666666666666
+        },
+        "mrr": 0.053418803418803416
+      },
+      "candidate_pool": {
+        "query_count": 3,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0,
+          "100": 0.6666666666666666
+        },
+        "mrr": 0.047619047619047616
+      }
+    },
+    "cause_reason": {
+      "query_count": 12,
+      "baseline_pool": {
+        "query_count": 12,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.08333333333333333,
+          "5": 0.25,
+          "10": 0.25,
+          "100": 0.5
+        },
+        "mrr": 0.08835470085470086
+      },
+      "candidate_pool": {
+        "query_count": 12,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.08333333333333333,
+          "5": 0.25,
+          "10": 0.25,
+          "100": 0.75
+        },
+        "mrr": 0.09730737608644585
+      }
+    },
+    "comparison": {
+      "query_count": 15,
+      "baseline_pool": {
+        "query_count": 15,
+        "recall_at_k": {
+          "1": 0.4666666666666667,
+          "3": 0.5333333333333333,
+          "5": 0.6,
+          "10": 0.6666666666666666,
+          "100": 0.7333333333333333
+        },
+        "mrr": 0.5178066378066378
+      },
+      "candidate_pool": {
+        "query_count": 15,
+        "recall_at_k": {
+          "1": 0.4666666666666667,
+          "3": 0.4666666666666667,
+          "5": 0.5333333333333333,
+          "10": 0.6666666666666666,
+          "100": 0.7333333333333333
+        },
+        "mrr": 0.5002380952380953
+      }
+    },
+    "conceptual": {
+      "query_count": 9,
+      "baseline_pool": {
+        "query_count": 9,
+        "recall_at_k": {
+          "1": 0.3333333333333333,
+          "3": 0.4444444444444444,
+          "5": 0.4444444444444444,
+          "10": 0.4444444444444444,
+          "100": 0.5555555555555556
+        },
+        "mrr": 0.3722860791826309
+      },
+      "candidate_pool": {
+        "query_count": 9,
+        "recall_at_k": {
+          "1": 0.3333333333333333,
+          "3": 0.4444444444444444,
+          "5": 0.4444444444444444,
+          "10": 0.4444444444444444,
+          "100": 0.5555555555555556
+        },
+        "mrr": 0.3722860791826309
+      }
+    },
+    "explanation": {
+      "query_count": 15,
+      "baseline_pool": {
+        "query_count": 15,
+        "recall_at_k": {
+          "1": 0.23333333333333334,
+          "3": 0.43333333333333335,
+          "5": 0.5,
+          "10": 0.5666666666666667,
+          "100": 0.6666666666666666
+        },
+        "mrr": 0.38077519379844965
+      },
+      "candidate_pool": {
+        "query_count": 15,
+        "recall_at_k": {
+          "1": 0.23333333333333334,
+          "3": 0.43333333333333335,
+          "5": 0.5,
+          "10": 0.5,
+          "100": 0.7333333333333333
+        },
+        "mrr": 0.3782827166077581
+      }
+    },
+    "factual": {
+      "query_count": 18,
+      "baseline_pool": {
+        "query_count": 18,
+        "recall_at_k": {
+          "1": 0.2777777777777778,
+          "3": 0.5,
+          "5": 0.5,
+          "10": 0.5555555555555556,
+          "100": 0.6111111111111112
+        },
+        "mrr": 0.39818041037553237
+      },
+      "candidate_pool": {
+        "query_count": 18,
+        "recall_at_k": {
+          "1": 0.2777777777777778,
+          "3": 0.5,
+          "5": 0.5,
+          "10": 0.5555555555555556,
+          "100": 0.6666666666666666
+        },
+        "mrr": 0.4014483842317415
+      }
+    },
+    "multi_document": {
+      "query_count": 2,
+      "baseline_pool": {
+        "query_count": 2,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.25,
+          "5": 0.5,
+          "10": 0.5,
+          "100": 0.5
+        },
+        "mrr": 0.35
+      },
+      "candidate_pool": {
+        "query_count": 2,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.25,
+          "5": 0.5,
+          "10": 0.5,
+          "100": 0.75
+        },
+        "mrr": 0.35
+      }
+    },
+    "workspace_wide": {
+      "query_count": 1,
+      "baseline_pool": {
+        "query_count": 1,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0,
+          "100": 0.5
+        },
+        "mrr": 0.07142857142857142
+      },
+      "candidate_pool": {
+        "query_count": 1,
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0,
+          "100": 0.5
+        },
+        "mrr": 0.05555555555555555
+      }
+    }
+  },
+  "transition_analysis_at_production_top10": {
+    "counts": {
+      "unchanged_hit": 37,
+      "unchanged_miss": 37,
+      "hit_to_miss_regression": 1
+    },
+    "counts_by_language_pair": {
+      "english->english": {
+        "unchanged_hit": 15,
+        "unchanged_miss": 1
+      },
+      "hindi->english": {
+        "unchanged_miss": 11,
+        "unchanged_hit": 4,
+        "hit_to_miss_regression": 1
+      },
+      "hinglish->english": {
+        "unchanged_hit": 13,
+        "unchanged_miss": 3
+      },
+      "english->hindi": {
+        "unchanged_miss": 8
+      },
+      "hindi->hindi": {
+        "unchanged_miss": 5,
+        "unchanged_hit": 3
+      },
+      "hinglish->hindi": {
+        "unchanged_miss": 8
+      },
+      "english->mixed": {
+        "unchanged_hit": 2,
+        "unchanged_miss": 1
+      }
+    },
+    "hit_to_miss_regressions": [
+      {
+        "query_id": "c_sql_query_evaluation_steps__q_hindi",
+        "query_language": "hindi",
+        "source_language": "english",
+        "language_pair": "hindi->english",
+        "transition_at_production_top10": "hit_to_miss_regression",
+        "baseline_pool_rank_top100": 6,
+        "candidate_pool_rank_top100": 12,
+        "rank_change_positive_is_improvement": -6,
+        "candidate_query_variant_sources_generated": [
+          "original",
+          "latin_to_devanagari_transliteration"
+        ]
+      }
+    ],
+    "miss_to_hit_improvements": []
+  },
+  "rank_change_analysis_pool_top100": {
+    "mean_rank_change_when_both_hit": -0.3191489361702128,
+    "significant_improvements_rank_change_gte_5": [
+      {
+        "query_id": "c_sjf_not_implementable__q_hindi",
+        "query_language": "hindi",
+        "source_language": "hindi",
+        "language_pair": "hindi->hindi",
+        "transition_at_production_top10": "unchanged_miss",
+        "baseline_pool_rank_top100": 60,
+        "candidate_pool_rank_top100": 12,
+        "rank_change_positive_is_improvement": 48,
+        "candidate_query_variant_sources_generated": [
+          "original",
+          "latin_to_devanagari_transliteration"
+        ]
+      }
+    ],
+    "significant_regressions_rank_change_lte_neg5": [
+      {
+        "query_id": "c_process_vs_program__q_hinglish",
+        "query_language": "hinglish",
+        "source_language": "english",
+        "language_pair": "hinglish->english",
+        "transition_at_production_top10": "unchanged_miss",
+        "baseline_pool_rank_top100": 11,
+        "candidate_pool_rank_top100": 56,
+        "rank_change_positive_is_improvement": -45,
+        "candidate_query_variant_sources_generated": [
+          "original",
+          "latin_to_devanagari_transliteration"
+        ]
+      },
+      {
+        "query_id": "c_sql_query_evaluation_steps__q_hindi",
+        "query_language": "hindi",
+        "source_language": "english",
+        "language_pair": "hindi->english",
+        "transition_at_production_top10": "hit_to_miss_regression",
+        "baseline_pool_rank_top100": 6,
+        "candidate_pool_rank_top100": 12,
+        "rank_change_positive_is_improvement": -6,
+        "candidate_query_variant_sources_generated": [
+          "original",
+          "latin_to_devanagari_transliteration"
+        ]
+      }
+    ]
+  },
+  "latency": {
+    "mean_variant_generation_seconds": 0.00016343066668923713,
+    "mean_baseline_pool_retrieval_seconds": 0.4832755093333253,
+    "mean_candidate_pool_retrieval_seconds": 0.25243850266663986,
+    "mean_baseline_production_retrieval_seconds": 0.13643810933332134,
+    "mean_candidate_production_retrieval_seconds": 0.2503216973333474,
+    "mean_candidate_overhead_factor_production": 1.8346904582341135,
+    "num_variants_distribution": {
+      "2": 61,
+      "1": 14
+    }
+  },
+  "total_evaluation_seconds": 84.2008850000002,
+  "per_query_transitions": [
+    {
+      "query_id": "c_mft_mvt__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_mft_mvt__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_mft_mvt__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_producer_consumer__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_producer_consumer__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_producer_consumer__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 3,
+      "candidate_pool_rank_top100": 3,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_process_vs_program__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_process_vs_program__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_process_vs_program__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": 11,
+      "candidate_pool_rank_top100": 56,
+      "rank_change_positive_is_improvement": -45,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_semaphore_wait_signal__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_semaphore_wait_signal__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_semaphore_wait_signal__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 2,
+      "candidate_pool_rank_top100": 2,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_user_level_threads__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": 12,
+      "candidate_pool_rank_top100": 14,
+      "rank_change_positive_is_improvement": -2,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_user_level_threads__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_user_level_threads__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": 13,
+      "candidate_pool_rank_top100": 14,
+      "rank_change_positive_is_improvement": -1,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sjf_difficulty__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 5,
+      "candidate_pool_rank_top100": 5,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sjf_difficulty__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sjf_difficulty__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 5,
+      "candidate_pool_rank_top100": 5,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_ipc_direct_vs_indirect__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 5,
+      "candidate_pool_rank_top100": 5,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_ipc_direct_vs_indirect__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_ipc_direct_vs_indirect__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 7,
+      "candidate_pool_rank_top100": 7,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_lru_page_replacement__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 5,
+      "candidate_pool_rank_top100": 5,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_lru_page_replacement__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_lru_page_replacement__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 3,
+      "candidate_pool_rank_top100": 3,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_os_modules__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "language_pair": "english->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_os_modules__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "language_pair": "hindi->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": 58,
+      "candidate_pool_rank_top100": 58,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_os_modules__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "language_pair": "hinglish->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_real_time_os__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "language_pair": "english->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_real_time_os__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "language_pair": "hindi->hindi",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 2,
+      "candidate_pool_rank_top100": 2,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_real_time_os__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "language_pair": "hinglish->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_process_stack_contents__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "language_pair": "english->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_process_stack_contents__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "language_pair": "hindi->hindi",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 2,
+      "candidate_pool_rank_top100": 2,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_process_stack_contents__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "language_pair": "hinglish->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": 17,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "language_pair": "english->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "language_pair": "hindi->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": 60,
+      "candidate_pool_rank_top100": 12,
+      "rank_change_positive_is_improvement": 48,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sjf_not_implementable__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "language_pair": "hinglish->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": 44,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_page_fault_definition__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "language_pair": "english->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_page_fault_definition__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "language_pair": "hindi->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": 41,
+      "candidate_pool_rank_top100": 41,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_page_fault_definition__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "language_pair": "hinglish->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "language_pair": "english->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": 67,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "language_pair": "hindi->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": 86,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_fcfs_disk_scheduling__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "language_pair": "hinglish->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "language_pair": "english->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": 81,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "language_pair": "hindi->hindi",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_memory_hierarchy_locality__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "language_pair": "hinglish->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": 33,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_english",
+      "query_language": "english",
+      "source_language": "hindi",
+      "language_pair": "english->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": 86,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_hindi",
+      "query_language": "hindi",
+      "source_language": "hindi",
+      "language_pair": "hindi->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": 15,
+      "candidate_pool_rank_top100": 15,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_hold_and_wait_deadlock__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "hindi",
+      "language_pair": "hinglish->hindi",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": 84,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sql_null__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sql_null__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sql_null__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sql_transaction_end__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sql_transaction_end__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 2,
+      "candidate_pool_rank_top100": 2,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sql_transaction_end__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_transaction_manager_role__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_transaction_manager_role__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 7,
+      "candidate_pool_rank_top100": 7,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_transaction_manager_role__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_relational_join__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_relational_join__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_relational_join__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sql_query_evaluation_steps__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 2,
+      "candidate_pool_rank_top100": 2,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sql_query_evaluation_steps__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "hit_to_miss_regression",
+      "baseline_pool_rank_top100": 6,
+      "candidate_pool_rank_top100": 12,
+      "rank_change_positive_is_improvement": -6,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sql_query_evaluation_steps__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 2,
+      "candidate_pool_rank_top100": 2,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_transaction_isolation_levels__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_transaction_isolation_levels__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 3,
+      "candidate_pool_rank_top100": 7,
+      "rank_change_positive_is_improvement": -4,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_transaction_isolation_levels__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_decomposition_redundancy__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 2,
+      "candidate_pool_rank_top100": 2,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_decomposition_redundancy__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_decomposition_redundancy__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": 13,
+      "candidate_pool_rank_top100": 14,
+      "rank_change_positive_is_improvement": -1,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_schema_vs_instance__q_english",
+      "query_language": "english",
+      "source_language": "english",
+      "language_pair": "english->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_schema_vs_instance__q_hindi",
+      "query_language": "hindi",
+      "source_language": "english",
+      "language_pair": "hindi->english",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": null,
+      "candidate_pool_rank_top100": null,
+      "rank_change_positive_is_improvement": null,
+      "candidate_query_variant_sources_generated": [
+        "original"
+      ]
+    },
+    {
+      "query_id": "c_schema_vs_instance__q_hinglish",
+      "query_language": "hinglish",
+      "source_language": "english",
+      "language_pair": "hinglish->english",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 1,
+      "candidate_pool_rank_top100": 1,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_sjf_cross_document_hard__q_english",
+      "query_language": "english",
+      "source_language": "mixed",
+      "language_pair": "english->mixed",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 5,
+      "candidate_pool_rank_top100": 5,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_process_memory_cross_document_hard__q_english",
+      "query_language": "english",
+      "source_language": "mixed",
+      "language_pair": "english->mixed",
+      "transition_at_production_top10": "unchanged_hit",
+      "baseline_pool_rank_top100": 2,
+      "candidate_pool_rank_top100": 2,
+      "rank_change_positive_is_improvement": 0,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    },
+    {
+      "query_id": "c_workspace_wide_scheduling_algorithms__q_english",
+      "query_language": "english",
+      "source_language": "mixed",
+      "language_pair": "english->mixed",
+      "transition_at_production_top10": "unchanged_miss",
+      "baseline_pool_rank_top100": 14,
+      "candidate_pool_rank_top100": 18,
+      "rank_change_positive_is_improvement": -4,
+      "candidate_query_variant_sources_generated": [
+        "original",
+        "latin_to_devanagari_transliteration"
+      ]
+    }
+  ]
+}

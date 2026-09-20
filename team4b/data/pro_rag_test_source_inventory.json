@@ -1,0 +1,158 @@
+{
+  "inventory_date": "2026-09-17",
+  "note": "All subjects/languages below were determined by direct inspection of actual content (PDF text extraction via PyMuPDF, YouTube thumbnails/titles observed after real ingestion) -- never guessed from filenames or URLs, per this validation's explicit requirement.",
+  "pdfs": [
+    {
+      "filename": "Data Structures Full Notes.pdf",
+      "pages": 128,
+      "size_bytes": 4678785,
+      "observed_subject": "Data Structures (Computer Science)",
+      "observed_language": "English",
+      "observed_content_summary": "Unit-1 begins with 'WHAT IS DATA STRUCTURE?' -- primitive/non-primitive data structures, arrays, linked lists, stacks, queues, trees, graphs, hash tables.",
+      "suitable_for_rag_testing": true,
+      "extraction_concerns": "None observed in first pages.",
+      "assigned_to": {"account": "Test Account A", "workspace": "Data Structures", "workspace_id": "6aabc9fcf65bde209972f56b"},
+      "document_id_after_ingestion": "6aabcc83f65bde209972f57a",
+      "ingestion_result": "SUCCESS (status: ready, synchronous)"
+    },
+    {
+      "filename": "lemh201.pdf",
+      "pages": 67,
+      "size_bytes": 5662676,
+      "observed_subject": "Mathematics -- Calculus (NCERT Class 12, chapter 7: Integrals)",
+      "observed_language": "English",
+      "observed_content_summary": "Introduces Integral Calculus, antiderivatives, indefinite integrals, motivated by area-under-curve and velocity/position problems.",
+      "suitable_for_rag_testing": true,
+      "extraction_concerns": "Contains mathematical notation/symbols (e.g. primes, integral signs) that failed to print to a Windows cp1252 console during manual inspection -- a local terminal-encoding artifact only, not a PDF extraction failure (UTF-8 file-based extraction worked cleanly).",
+      "assigned_to": {"account": "Test Account B", "workspace": "Mathematics", "workspace_id": "6aabca6ff65bde209972f56e"},
+      "document_id_after_ingestion": "6aabcd0af65bde209972f580",
+      "ingestion_result": "SUCCESS (status: ready, synchronous)"
+    },
+    {
+      "filename": "jemh108.pdf",
+      "pages": 20,
+      "size_bytes": 2230227,
+      "observed_subject": "Mathematics -- Trigonometry (NCERT Class 10, chapter 8: Introduction to Trigonometry)",
+      "observed_language": "English",
+      "observed_content_summary": "Right-triangle trigonometry motivation (Qutub Minar height problem, river-width problem, hot air balloon problem).",
+      "suitable_for_rag_testing": true,
+      "extraction_concerns": "None observed.",
+      "assigned_to": {"account": "Test Account B", "workspace": "Mathematics", "workspace_id": "6aabca6ff65bde209972f56e"},
+      "document_id_after_ingestion": "6aabcd1ff65bde209972f581",
+      "ingestion_result": "SUCCESS (status: ready, synchronous)",
+      "note": "Second document in the same workspace as lemh201.pdf -- deliberate multi-document, same-subject, different-sub-topic pairing (Integrals vs. Trigonometry)."
+    },
+    {
+      "filename": "DATABASE MANAGEMENT SYSTEMS (1).pdf",
+      "pages": 232,
+      "size_bytes": 11211566,
+      "observed_subject": "DBMS (Database Management Systems)",
+      "observed_language": "English",
+      "observed_content_summary": "Full course notes, Malla Reddy College of Engineering & Technology; syllabus covers ER model, relational model, SQL, transaction management, storage/query processing.",
+      "suitable_for_rag_testing": true,
+      "extraction_concerns": "None observed.",
+      "assigned_to": {"account": "Test Account B", "workspace": "DBMS", "workspace_id": "6aabca84f65bde209972f56f"},
+      "document_id_after_ingestion": "6aabcd2df65bde209972f582",
+      "ingestion_result": "SUCCESS (status: ready, synchronous)",
+      "note": "DBMS already exists in the original Phase 2-4 canonical benchmark corpus (a different source document, different workspace_id) -- this is a genuinely NEW document for the SAME subject, used for multi-document/existing-subject-new-source testing, not new-subject generalization."
+    },
+    {
+      "filename": "5723a07ce6db1b2e7fe33b5db5f0d606.pdf",
+      "pages": 178,
+      "size_bytes": 4861373,
+      "observed_subject": "DBMS (Database Management Systems)",
+      "observed_language": "English",
+      "observed_content_summary": "Introductory DBMS notes -- key features (data modeling, storage/retrieval, concurrency control, integrity/security, backup/recovery), RDBMS vs NoSQL.",
+      "suitable_for_rag_testing": true,
+      "extraction_concerns": "None observed.",
+      "assigned_to": {"account": "Test Account B", "workspace": "DBMS", "workspace_id": "6aabca84f65bde209972f56f"},
+      "document_id_after_ingestion": "6aabcd3df65bde209972f583",
+      "ingestion_result": "SUCCESS (status: ready, synchronous)",
+      "note": "Second, independent DBMS document in the same workspace -- multi-document (2 different sources, same subject) testing."
+    },
+    {
+      "filename": "COMPUTER NETWORKS NOTES.pdf",
+      "pages": 311,
+      "size_bytes": 7445943,
+      "observed_subject": "Computer Networks",
+      "observed_language": "English",
+      "observed_content_summary": "Full course lecture notes, Malla Reddy College of Engineering & Technology; OSI/TCP-IP models, physical layer, data link layer, MAC protocols, Ethernet.",
+      "suitable_for_rag_testing": true,
+      "extraction_concerns": "None observed.",
+      "assigned_to": {"account": "Test Account A", "workspace": "Computer Networks", "workspace_id": "6aabca1df65bde209972f56c"},
+      "document_id_after_ingestion": "6aabccc6f65bde209972f57d",
+      "ingestion_result": "SUCCESS (status: ready, synchronous)"
+    }
+  ],
+  "youtube_sources": [
+    {
+      "url": "https://youtu.be/skvCwFPZ7zM",
+      "observed_title": "COMPUTER NETWORK ONE SHOT | INTERVIEW QUESTIONS With Notes",
+      "observed_subject": "Computer Networks",
+      "assigned_to": {"account": "Test Account A", "workspace": "Data Structures", "workspace_id": "6aabc9fcf65bde209972f56b"},
+      "assignment_mismatch": "YES -- this video's real subject (Computer Networks) does not match the 'Data Structures' workspace it was assigned to before content was known. Left in place deliberately: it creates a real, unplanned cross-subject-contamination test case (see review Part 21 results) and is exactly the kind of 'do not guess from the URL' scenario this validation was designed to surface.",
+      "ingestion_result": "SUCCESS (status: ready)"
+    },
+    {
+      "url": "https://youtu.be/wdaBwIv7Jso",
+      "observed_title": "Trigonometry ONE SHOT | Class 10 (Ritik Mishra)",
+      "observed_subject": "Mathematics -- Trigonometry",
+      "assigned_to": {"account": "Test Account A", "workspace": "Data Structures", "workspace_id": "6aabc9fcf65bde209972f56b"},
+      "assignment_mismatch": "YES -- Mathematics content in a Data Structures workspace. Same rationale as above.",
+      "ingestion_result": "SUCCESS (status: ready)"
+    },
+    {
+      "url": "https://youtu.be/AzblgZNoBWw",
+      "observed_title": "COMPLETE MACHINE LEARNING ONE SHOT SERIES (5 HOURS)",
+      "observed_subject": "Machine Learning",
+      "assigned_to": {"account": "Test Account A", "workspace": "Computer Networks", "workspace_id": "6aabca1df65bde209972f56c"},
+      "assignment_mismatch": "YES -- Machine Learning content in a Computer Networks workspace.",
+      "ingestion_result": "SUCCESS (status: ready)"
+    },
+    {
+      "url": "https://youtu.be/z18nw4adsx4",
+      "observed_title": "10 Machine Learning algorithms in 45 minutes (Unfold Data Science)",
+      "observed_subject": "Machine Learning",
+      "assigned_to": {"account": "Test Account A", "workspace": "Computer Networks", "workspace_id": "6aabca1df65bde209972f56c"},
+      "assignment_mismatch": "YES -- Machine Learning content in a Computer Networks workspace.",
+      "ingestion_result": "SUCCESS (status: ready)"
+    },
+    {
+      "url": "https://youtu.be/Ql6sJrhCWdg",
+      "observed_title": "ARRAYS ONE SHOT | Placement Course",
+      "observed_subject": "Data Structures (Arrays)",
+      "assigned_to": {"account": "Test Account C", "workspace": "Mixed Learning", "workspace_id": "6aabcae0f65bde209972f571"},
+      "assignment_mismatch": "NO -- reasonably fits a general 'Mixed Learning' workspace.",
+      "ingestion_result": "SUCCESS (status: ready)"
+    },
+    {
+      "url": "https://youtu.be/J0OvDNmAWNw",
+      "observed_title": "Complete Data Structures One Shot (4 Hours)",
+      "observed_subject": "Data Structures",
+      "assigned_to": {"account": "Test Account C", "workspace": "Mixed Learning", "workspace_id": "6aabcae0f65bde209972f571"},
+      "assignment_mismatch": "NO",
+      "ingestion_result": "SUCCESS (status: ready)",
+      "note": "Visually near-identical thumbnail/title style to c8lY_qmXxpI below -- possibly the same course series or a duplicate upload. Not further investigated (out of scope); flagged for the duplicate-content observation in Part 33."
+    },
+    {
+      "url": "https://youtu.be/c8lY_qmXxpI",
+      "observed_title": "Complete Data Structures (One Shot Series, 4 Hours, Semester Exam Special)",
+      "observed_subject": "Data Structures",
+      "assigned_to": {"account": "Test Account C", "workspace": "Mixed Learning", "workspace_id": "6aabcae0f65bde209972f571"},
+      "assignment_mismatch": "NO",
+      "ingestion_result": "SUCCESS (status: ready)"
+    }
+  ],
+  "summary": {
+    "total_pdfs": 6,
+    "total_pdfs_ingested_successfully": 6,
+    "total_youtube_sources": 7,
+    "total_youtube_ingested_successfully": 7,
+    "total_ingestion_failures": 0,
+    "languages_observed": ["English"],
+    "note_on_language": "All 6 PDFs and all 7 YouTube videos observed are English-language (titles/text). No genuinely Hindi-source material was newly ingested in this validation -- Hindi/Hinglish testing against these NEW sources is necessarily query-language-only (Hindi/Hinglish query against English source), not query+source cross-script. Genuine Hindi-source cross-script retrieval remains covered only by the pre-existing, already-validated Phase 2-4E-F1 75-entry benchmark.",
+    "subjects_represented": ["Data Structures", "Mathematics (Integrals, Trigonometry)", "DBMS", "Computer Networks", "Machine Learning (via YouTube only)"],
+    "workspace_content_actually_ended_up_multi_subject": true,
+    "workspace_content_note": "Because 5 of the 7 YouTube videos' real subjects did not match the workspace they were assigned to before ingestion (an expected consequence of the task's own 'do not guess from the URL' rule), 3 of the 5 test workspaces ended up containing more than one real subject: Data Structures workspace = Data Structures (PDF) + Computer Networks (video) + Trigonometry (video); Computer Networks workspace = Computer Networks (PDF) + Machine Learning (2 videos). This is treated as a genuine, unplanned but valuable contamination/precision test case, not a setup error to be corrected."
+  }
+}
