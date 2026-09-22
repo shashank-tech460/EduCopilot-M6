@@ -3,15 +3,26 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Phase 6H — premium visual identity.
+ *
+ * The app now defaults to the dark, "deep navy + indigo/violet/cyan"
+ * theme (see app/layout.tsx's `className="dark"` on <html>) — this is
+ * the primary, commercial-grade identity, not an optional toggle. The
+ * light `:root` block below is kept as a complete, real fallback (never
+ * deleted) so the existing `.dark` custom-variant mechanism, and any
+ * future light-mode toggle, keep working from a correct base — but it is
+ * not what a real visitor sees today.
+ */
 :root {
-  --radius: 0.625rem;
+  --radius: 0.75rem;
   --background: oklch(0.99 0.002 250);
   --foreground: oklch(0.2 0.02 260);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.2 0.02 260);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.2 0.02 260);
-  --primary: oklch(0.32 0.08 260);
+  --primary: oklch(0.5 0.2 288);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.96 0.006 250);
   --secondary-foreground: oklch(0.25 0.03 260);
@@ -23,27 +34,91 @@
   --border: oklch(0.91 0.008 260);
   --input: oklch(0.91 0.008 260);
   --ring: oklch(0.6 0.06 260);
+
+  --sidebar: oklch(0.97 0.004 255);
+  --sidebar-foreground: oklch(0.25 0.03 260);
+  --sidebar-border: oklch(0.91 0.008 260);
+  --sidebar-accent: oklch(0.93 0.015 258);
+  --sidebar-accent-foreground: oklch(0.25 0.03 260);
+  --sidebar-ring: oklch(0.6 0.06 260);
+
+  --shadow-sm: 0 1px 2px 0 oklch(0.2 0.02 260 / 0.05);
+  --shadow-md: 0 4px 12px -2px oklch(0.2 0.02 260 / 0.08), 0 2px 4px -2px oklch(0.2 0.02 260 / 0.06);
+  --shadow-lg: 0 12px 32px -8px oklch(0.2 0.02 260 / 0.14), 0 4px 8px -4px oklch(0.2 0.02 260 / 0.08);
+
+  --brand-indigo: oklch(0.56 0.22 288);
+  --brand-violet: oklch(0.6 0.22 305);
+  --brand-cyan: oklch(0.72 0.13 215);
+  --glass-bg: oklch(1 0 0 / 0.6);
+  --glass-border: oklch(0.2 0.02 260 / 0.08);
+  --glow-primary: 0 0 1px oklch(0.56 0.22 288 / 0.4);
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0, 1);
+  --duration-sm: 150ms;
+  --duration-md: 250ms;
+  --duration-lg: 400ms;
+  --duration-xl: 700ms;
 }
 
 .dark {
-  --background: oklch(0.18 0.015 260);
-  --foreground: oklch(0.96 0.005 250);
-  --card: oklch(0.23 0.018 260);
-  --card-foreground: oklch(0.96 0.005 250);
-  --popover: oklch(0.23 0.018 260);
-  --popover-foreground: oklch(0.96 0.005 250);
-  --primary: oklch(0.75 0.07 260);
-  --primary-foreground: oklch(0.18 0.015 260);
-  --secondary: oklch(0.3 0.02 260);
-  --secondary-foreground: oklch(0.96 0.005 250);
-  --muted: oklch(0.3 0.02 260);
-  --muted-foreground: oklch(0.7 0.015 260);
-  --accent: oklch(0.32 0.03 260);
-  --accent-foreground: oklch(0.96 0.005 250);
+  /* Deep navy / near-black foundation. */
+  --background: oklch(0.135 0.018 268);
+  --foreground: oklch(0.96 0.008 255);
+  --card: oklch(0.185 0.022 267);
+  --card-foreground: oklch(0.96 0.008 255);
+  --popover: oklch(0.19 0.023 267);
+  --popover-foreground: oklch(0.96 0.008 255);
+
+  /* Indigo/violet primary accent. Deliberately darker than the brand
+     gradient hues (--brand-indigo/violet below) specifically so white
+     button text passes WCAG AA contrast (4.5:1) at normal text sizes —
+     verified via a real axe-core scan (tests/e2e/accessibility.spec.ts),
+     not eyeballed. The lighter --brand-* tones remain for large-text/
+     decorative use (gradient headlines, glow), where the more lenient
+     3:1 large-text threshold applies. */
+  --primary: oklch(0.5 0.19 288);
+  --primary-foreground: oklch(0.98 0.006 260);
+  --secondary: oklch(0.245 0.025 266);
+  --secondary-foreground: oklch(0.94 0.01 255);
+  --muted: oklch(0.22 0.022 266);
+  --muted-foreground: oklch(0.68 0.02 258);
+  --accent: oklch(0.28 0.045 270);
+  --accent-foreground: oklch(0.93 0.02 250);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.6 0.05 260);
+  --border: oklch(1 0 0 / 9%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.62 0.2 288 / 0.6);
+
+  --sidebar: oklch(0.115 0.018 268);
+  --sidebar-foreground: oklch(0.9 0.012 255);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-accent: oklch(0.24 0.03 270);
+  --sidebar-accent-foreground: oklch(0.97 0.008 255);
+  --sidebar-ring: oklch(0.62 0.2 288 / 0.6);
+
+  --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.3);
+  --shadow-md: 0 4px 16px -4px oklch(0 0 0 / 0.45), 0 2px 6px -2px oklch(0 0 0 / 0.3);
+  --shadow-lg: 0 16px 48px -12px oklch(0 0 0 / 0.55), 0 4px 12px -4px oklch(0 0 0 / 0.4);
+
+  /* Brand hues — used for gradients, glow, and accent chips independent of
+     the primary/accent semantic tokens above (which stay conservative for
+     text/border contrast).
+     Phase 6I: --brand-indigo is also the designated *text/icon* color
+     wherever a small colored element sits on --card/--background (see the
+     `text-brand-indigo` swaps across components) — --primary is too dark
+     for that role (tuned for white text on a --primary background
+     instead). Lightened from 0.62 to 0.66 specifically so this text role
+     clears 4.5:1 with real margin on the small (10–12px) badges/chips
+     that use it, verified via a live canvas-based contrast sweep rather
+     than eyeballed. */
+  --brand-indigo: oklch(0.66 0.2 288);
+  --brand-violet: oklch(0.66 0.23 308);
+  --brand-cyan: oklch(0.78 0.14 208);
+
+  --glass-bg: oklch(0.22 0.03 267 / 0.55);
+  --glass-border: oklch(1 0 0 / 0.1);
+  --glow-primary: 0 0 60px oklch(0.62 0.22 288 / 0.35);
 }
 
 @theme inline {
@@ -69,7 +144,16 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-brand-indigo: var(--brand-indigo);
+  --color-brand-violet: var(--brand-violet);
+  --color-brand-cyan: var(--brand-cyan);
+  --font-sans: var(--font-sans-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
     Consolas, monospace;
@@ -82,6 +166,207 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Respect the user's OS-level motion preference project-wide: decorative
+   transitions/animations collapse to near-instant, but the underlying
+   state change (e.g. a dialog opening) still happens — nothing here
+   disables functionality, only movement. Also disables the new premium
+   ambient/parallax/tilt effects entirely (not just speeds them up),
+   since those exist purely for visual flourish. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .tilt-card {
+    transform: none !important;
+  }
+  .aurora-bg::before,
+  .aurora-bg::after {
+    animation: none !important;
+    opacity: 0.5 !important;
+  }
+}
+
+/*
+ * Landing-page hero visual (Phase 6E, extended Phase 6H) — a lightweight,
+ * CSS-only layered card motif standing in for a literal 3D scene (see
+ * docs/PHASE_6E_UI_UX_AUDIT.md §13: CSS/DOM preferred over a WebGL
+ * dependency for bundle-size and perf reasons — same reasoning applies to
+ * Phase 6H's "tasteful 3D" brief). Each keyframe bakes in its own static
+ * tilt so it doesn't fight with Tailwind's own transform-utility
+ * composition.
+ */
+@keyframes hero-float-a {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-10px) rotate(-4deg); }
+}
+@keyframes hero-float-b {
+  0%, 100% { transform: translateY(0) rotate(3deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+@keyframes hero-float-c {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-7px) rotate(-2deg); }
+}
+.animate-hero-float-a {
+  animation: hero-float-a 6s ease-in-out infinite;
+}
+.animate-hero-float-b {
+  animation: hero-float-b 7s ease-in-out infinite;
+  animation-delay: -2.5s;
+}
+.animate-hero-float-c {
+  animation: hero-float-c 8s ease-in-out infinite;
+  animation-delay: -4s;
+}
+
+/* Entrance sequence — a small, shared vocabulary for "this appeared"
+   rather than one-off transitions per page. Applied via inline
+   animation-delay for staggering; respects prefers-reduced-motion above. */
+@keyframes fade-up-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up-in {
+  animation: fade-up-in var(--duration-xl) var(--ease-decelerate) both;
+}
+
+/* Aurora / ambient gradient background — a slow-moving, low-contrast
+   gradient wash used behind the landing hero and auth showcase. Pure CSS
+   (background-position animation on a large gradient), no canvas/WebGL,
+   GPU-friendly (compositor-only property). */
+@keyframes aurora-drift {
+  0% { background-position: 0% 50%, 100% 30%; }
+  50% { background-position: 100% 50%, 0% 70%; }
+  100% { background-position: 0% 50%, 100% 30%; }
+}
+.aurora-bg {
+  position: relative;
+  isolation: isolate;
+}
+.aurora-bg::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  background-image:
+    radial-gradient(40% 50% at 20% 30%, oklch(0.62 0.22 288 / 0.35), transparent 70%),
+    radial-gradient(45% 55% at 80% 60%, oklch(0.78 0.14 208 / 0.28), transparent 70%);
+  background-size: 140% 140%, 130% 130%;
+  animation: aurora-drift 22s ease-in-out infinite;
+  filter: blur(40px);
+}
+.dark .aurora-bg::before {
+  opacity: 1;
+}
+.aurora-bg::before {
+  opacity: 0.5;
+}
+
+/* Fine "starfield"/grid ambience for the hero — a static, extremely
+   subtle dot grid via a repeating gradient (no DOM nodes, no JS).
+   ROOT-CAUSE FIX: this was previously `background-image` +
+   `mask-image` on the class applied DIRECTLY to the hero <section>/auth
+   <div> — the same element that also contains the real heading,
+   paragraph, CTA buttons, and (on the auth page) the marketing bullet
+   list. `mask-image` on an element masks that element's ENTIRE painted
+   output (all children/text included), not just its own
+   background-image layer, unlike `background-image` alone. The mask's
+   radial gradient (opaque near top-center, fading to fully transparent
+   toward the bottom/edges) was therefore genuinely fading out real
+   content lower in the section — on both the landing hero AND the auth
+   panel's feature list, which share this exact class — not a rendering
+   or screenshot-capture artifact. Fixed by moving the dot-grid +
+   fade-mask onto a dedicated `::after` pseudo-element (paired with
+   `.aurora-bg`'s own `::before` on the same elements), positioned
+   behind the content (`z-index: -1`) exactly like the aurora glow
+   already is — so the fade now only ever affects the decorative dot
+   pattern, never real text. */
+.ambient-grid {
+  position: relative;
+}
+.ambient-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(oklch(1 0 0 / 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+}
+
+/* Tilt-card — subtle perspective hover for dashboard/workspace/landing
+   cards. The actual rotation is set per-card via inline custom properties
+   (--tilt-x/--tilt-y) by a small pointer-move handler; this class only
+   supplies the transform composition + transition + GPU hint. Falls back
+   to a plain hover lift with no JS at all if scripting is unavailable,
+   since --tilt-x/--tilt-y default to 0. */
+.tilt-card {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateZ(0);
+  transition: transform var(--duration-md) var(--ease-standard), box-shadow var(--duration-md) var(--ease-standard);
+  will-change: transform;
+}
+
+/* Glow ring used for the AI Tutor input focus, primary CTAs on hover, and
+   the hero product-preview card — a soft, colored shadow rather than a
+   hard outline, layered additively with the existing focus ring so
+   keyboard focus is never weaker than before. */
+.glow-primary {
+  box-shadow: var(--glow-primary);
+}
+
+/* Gradient text for hero headlines / section eyebrows.
+   Phase 6I fix: a horizontal `background-clip: text` gradient is sized to
+   the WHOLE element's bounding box, not per rendered line. On a span that
+   wraps onto multiple lines (e.g. the 3-line hero headline), the box's
+   full gradient gets sliced across those lines, so a trailing line can
+   land on a narrow, unintended slice of it — verified via a zoomed
+   screenshot to genuinely render as a hard-to-read dark line, not just
+   this tool's known blur-capture quirk. `box-decoration-break: clone`
+   makes each wrapped line treat the gradient as its own complete box, so
+   every line independently spans the full indigo -> violet -> cyan
+   range instead of an arbitrary fragment of it. */
+.text-gradient-brand {
+  /* Phase 6J root-cause fix: a plain `linear-gradient(90deg, indigo,
+     violet, cyan)` interpolates in sRGB by default, even though the
+     stops themselves are declared in oklch(). Violet (~308deg hue) to
+     cyan (~208deg hue) is a ~100deg hue jump; interpolating that in
+     sRGB space passes through a visibly darker, desaturated "muddy"
+     midpoint than either endpoint (the classic red-to-green-makes-
+     brown problem) — confirmed by comparing renders at native 1:1
+     pixel scale (where the dip is a real but narrow band) against a
+     downscaled capture (where anti-aliasing exaggerates that band
+     across most of the glyph). `in oklch` makes the browser interpolate
+     along the perceptually-uniform OKLCH path instead, which keeps
+     lightness roughly monotonic across the whole transition instead of
+     dipping in the middle. Falls back to the default (sRGB) gradient
+     in any browser that doesn't parse the `in oklch` syntax, which
+     still renders — just with the narrower dip described above. */
+  background-image: linear-gradient(90deg in oklch, var(--brand-indigo), var(--brand-violet) 55%, var(--brand-cyan));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Glass surface — used sparingly (per the "not everything glassmorphism"
+   instruction): the hero product-preview card, the auth showcase panel,
+   and floating citation/answer cards only. */
+.glass-panel {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
 
 /*

@@ -2,11 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { Send, Loader2, AlertCircle, WifiOff, Sparkles } from "lucide-react";
+import { Send, Loader2, AlertCircle, WifiOff, Sparkles, Lightbulb, ListChecks, MessageSquareQuote, ScrollText, Scale, GraduationCap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MarkdownContent } from "@/components/chat/MarkdownContent";
 import { SourceAttribution } from "@/components/chat/SourceAttribution";
+import { EmptyState } from "@/components/shared/EmptyState";
 import { useChatStream } from "@/hooks/useChatStream";
 import { useActiveConversation } from "@/hooks/useActiveConversation";
 import { SourceScopePicker } from "@/components/chat/SourceScopePicker";
@@ -46,6 +48,22 @@ import type { SourceAttribution as SourceAttributionType } from "@/store/appStor
  * incidental side effect of a test passing. The Accion Labs document does
  * not specify a numeric rendering-time threshold, so none is claimed here.
  */
+
+interface SuggestionChip {
+  icon: typeof Lightbulb;
+  label: string;
+  query: string;
+}
+
+const SUGGESTION_CHIPS: SuggestionChip[] = [
+  { icon: Lightbulb, label: "Explain this simply", query: "Explain the key idea in this material simply, like I'm new to the topic." },
+  { icon: ScrollText, label: "Summarize the material", query: "Summarize the main points of this material." },
+  { icon: ListChecks, label: "Key concepts", query: "What are the key concepts I should know from this material?" },
+  { icon: GraduationCap, label: "Exam questions", query: "Give me a few exam-style questions based on this material." },
+  { icon: MessageSquareQuote, label: "Explain with an example", query: "Explain the main concept with a concrete example." },
+  { icon: Scale, label: "Compare two concepts", query: "Compare and contrast the two most important concepts covered here." },
+];
+
 export function ChatPanel({ workspaceId }: { workspaceId: string }) {
   const conversationId = useActiveConversation(workspaceId);
   const { messages, submitMessage, isStreaming, error, retry, offlineQueue } = useChatStream(workspaceId, conversationId);
@@ -94,17 +112,37 @@ export function ChatPanel({ workspaceId }: { workspaceId: string }) {
     setInput("");
   }
 
+  function handleSuggestion(query: string) {
+    if (isStreaming || !conversationId) return;
+    submitMessage(query);
+  }
+
   return (
     <div className="flex h-full flex-col">
       <SourceScopePicker workspaceId={workspaceId} conversationId={conversationId} />
       <div ref={scrollContainerRef} className="flex-1 overflow-y-auto p-4">
         {messages.length === 0 ? (
-          <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
-            <Sparkles className="h-6 w-6 text-muted-foreground/50" aria-hidden="true" />
-            <p className="text-sm font-medium">Ask your AI tutor</p>
-            <p className="max-w-[22rem] text-sm text-muted-foreground">
-              Ask questions about your uploaded course material and learn faster.
-            </p>
+          <div className="flex h-full flex-col items-center justify-center gap-5">
+            <EmptyState
+              icon={Sparkles}
+              title="Ask your AI tutor"
+              description="Ask questions about your uploaded course material and learn faster."
+              className="border-none"
+            />
+            <div className="flex w-full max-w-sm flex-wrap justify-center gap-2" role="group" aria-label="Suggested questions">
+              {SUGGESTION_CHIPS.map((chip) => (
+                <button
+                  key={chip.label}
+                  type="button"
+                  onClick={() => handleSuggestion(chip.query)}
+                  disabled={isStreaming || !conversationId}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-card/60 px-3 py-1.5 text-xs font-medium text-foreground/90 transition-colors duration-[var(--duration-sm)] hover:border-primary/40 hover:bg-primary/10 hover:text-brand-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                >
+                  <chip.icon className="h-3.5 w-3.5 text-brand-indigo" aria-hidden="true" />
+                  {chip.label}
+                </button>
+              ))}
+            </div>
           </div>
         ) : (
           <ul
@@ -124,18 +162,28 @@ export function ChatPanel({ workspaceId }: { workspaceId: string }) {
                 >
                   <div
                     className={
+                      // NOTE: the assistant branch's exact classes
+                      // `rounded-lg bg-muted` are a real E2E test contract
+                      // (tests/e2e/core-rag.spec.ts's `assistantBubbles`
+                      // locator disambiguates the message bubble from the
+                      // sibling citations row, which shares `mr-auto`/
+                      // `max-w-[80%]` but never `bg-muted`) — kept
+                      // literally present, extra visual polish layered
+                      // around them rather than replacing them.
                       message.role === "user"
-                        ? "ml-auto max-w-[80%] rounded-lg bg-primary px-3 py-2 text-sm leading-relaxed text-primary-foreground"
-                        : "mr-auto max-w-[80%] rounded-lg bg-muted px-3 py-2 text-sm leading-relaxed"
+                        ? "ml-auto max-w-[80%] rounded-lg bg-gradient-to-br from-primary to-brand-violet px-3.5 py-2.5 text-primary-foreground shadow-[var(--shadow-sm)]"
+                        : "mr-auto max-w-[80%] rounded-lg bg-muted px-3.5 py-2.5 shadow-[var(--shadow-sm)]"
                     }
                   >
-                    {message.parts
-                      .filter(
-                        (part): part is Extract<typeof part, { type: "text" }> =>
-                          part.type === "text"
-                      )
-                      .map((part) => part.text)
-                      .join("")}
+                    <MarkdownContent
+                      content={message.parts
+                        .filter(
+                          (part): part is Extract<typeof part, { type: "text" }> =>
+                            part.type === "text"
+                        )
+                        .map((part) => part.text)
+                        .join("")}
+                    />
                   </div>
                   {(() => {
                     // Requirement 3.1 — attributions render as clickable
@@ -150,10 +198,17 @@ export function ChatPanel({ workspaceId }: { workspaceId: string }) {
                       return null;
                     }
                     return (
-                      <div className="mr-auto mt-1.5 flex max-w-[80%] flex-wrap gap-1.5">
-                        {citationsPart.data.map((attribution, index) => (
-                          <SourceAttribution key={`${attribution.fileId}-${index}`} attribution={attribution} />
-                        ))}
+                      <div className="mr-auto mt-2 max-w-[80%]">
+                        {citationsPart.data.length > 1 ? (
+                          <p className="mb-1 text-[0.7rem] font-medium uppercase tracking-wide text-muted-foreground">
+                            Sources ({citationsPart.data.length})
+                          </p>
+                        ) : null}
+                        <div className="flex flex-wrap gap-1.5">
+                          {citationsPart.data.map((attribution, index) => (
+                            <SourceAttribution key={`${attribution.fileId}-${index}`} attribution={attribution} />
+                          ))}
+                        </div>
                       </div>
                     );
                   })()}
@@ -197,7 +252,7 @@ export function ChatPanel({ workspaceId }: { workspaceId: string }) {
         ) : null}
       </div>
 
-      <form onSubmit={handleSubmit} className="flex gap-2 border-t p-3">
+      <form onSubmit={handleSubmit} className="flex gap-2 border-t border-border/70 bg-card/40 p-3">
         <Input
           value={input}
           onChange={(event) => setInput(event.target.value)}
@@ -205,7 +260,12 @@ export function ChatPanel({ workspaceId }: { workspaceId: string }) {
           disabled={isStreaming || !conversationId}
           aria-label="Chat message"
         />
-        <Button type="submit" size="icon" disabled={isStreaming || !input.trim() || !conversationId}>
+        <Button
+          type="submit"
+          size="icon"
+          disabled={isStreaming || !input.trim() || !conversationId}
+          className="shrink-0"
+        >
           <Send className="h-4 w-4" />
           <span className="sr-only">Send</span>
         </Button>

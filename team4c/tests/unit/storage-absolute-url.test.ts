@@ -46,7 +46,19 @@ afterEach(async () => {
   } else {
     process.env.STORAGE_PROVIDER = originalStorageProvider;
   }
-  await rm(path.join(process.cwd(), ".local-uploads"), { recursive: true, force: true });
+  // Phase 6B fix: scoped to exactly the fixed workspace directories this
+  // file's own tests write to ("workspace-1"/"workspace-42"), not the
+  // entire shared `.local-uploads` root -- a blanket wipe there raced
+  // against other test FILES (Vitest runs files concurrently by default)
+  // writing their own fixtures under the same shared directory at the
+  // same time, causing an intermittent cross-file 404 in
+  // storage-canonical-integration.test.ts. See that file's own comment
+  // for the full root-cause writeup.
+  await Promise.all(
+    ["workspace-1", "workspace-42"].map((workspaceId) =>
+      rm(path.join(process.cwd(), ".local-uploads", workspaceId), { recursive: true, force: true })
+    )
+  );
   vi.resetModules();
 });
 

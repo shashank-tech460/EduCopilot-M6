@@ -2,13 +2,17 @@
 
 **Application State & Chat UI** module of Project 4: Multi-Modal Educational Intelligence Copilot.
 
-This app is the student-facing layer: a learning dashboard, file upload interface,
-AI chat with streamed answers, and a video player that jumps to the exact cited
+This app is the student-facing layer: authentication, a workspace/learning
+dashboard, PDF/YouTube material upload, a streaming AI Tutor chat with
+grounded, cited answers, and a video player that jumps to the exact cited
 timestamp. It consumes Team A's ingestion pipeline and Team B's RAG/query API —
 it does not implement either.
 
 Full architecture, database design, and API contracts: see [`docs/decisions.md`](./docs/decisions.md)
-and [`docs/api-contracts.md`](./docs/api-contracts.md).
+and [`docs/api-contracts.md`](./docs/api-contracts.md). Product-level
+documentation (setup, environment, testing, integration with Team A/B):
+see the repository root's [`../docs/`](../docs/) — start with
+[`../docs/TEAM4C.md`](../docs/TEAM4C.md).
 
 ## Technology Stack
 
@@ -17,9 +21,9 @@ and [`docs/api-contracts.md`](./docs/api-contracts.md).
 | Framework | Next.js (App Router), React, TypeScript |
 | Styling | Tailwind CSS, shadcn/ui, lucide-react |
 | AI / Chat | Vercel AI SDK |
-| Database | MongoDB Atlas, Mongoose *(wired up in Phase 3)* |
-| Auth | Auth.js — Credentials provider *(wired up in Phase 4)* |
-| File storage | Object storage, provider TBD *(wired up in Phase 6)* |
+| Database | MongoDB, Mongoose |
+| Auth | Auth.js — Credentials provider |
+| File storage | Local-storage development mock by default; a real object storage provider can be configured via `STORAGE_PROVIDER` |
 | Video | react-player |
 | State | React state by default, Zustand for cross-component state |
 | Testing | Vitest, React Testing Library, Playwright |
@@ -27,11 +31,13 @@ and [`docs/api-contracts.md`](./docs/api-contracts.md).
 
 ## Project Status
 
-This repository is being built in controlled phases (see `docs/decisions.md` for
-the full 15-phase roadmap). **Current phase: Phase 2 — project foundation.**
-Authentication, database connectivity, file upload, chat, and video sync are
-not implemented yet — the pages under `app/(auth)` and `app/(dashboard)` are
-route placeholders only.
+Authentication, database connectivity, workspace/material management, the
+streaming AI Tutor chat, citations, and video sync are all implemented and
+tested — see [`../docs/TEAM4C.md`](../docs/TEAM4C.md) and
+[`../docs/TESTING.md`](../docs/TESTING.md) for current detail.
+`docs/decisions.md` records the original phased build plan and the
+architectural decisions made along the way — read it for *why* things are
+built the way they are, not as a live status tracker.
 
 ## Local Setup
 

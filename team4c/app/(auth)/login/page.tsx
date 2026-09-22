@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { GraduationCap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -45,10 +46,13 @@ export default function LoginPage() {
   }
 
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-sm shadow-[var(--shadow-lg)]">
       <CardHeader>
+        <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 lg:hidden">
+          <GraduationCap className="h-5 w-5 text-brand-indigo" aria-hidden="true" />
+        </div>
         <CardTitle>Log in</CardTitle>
-        <CardDescription>Welcome back.</CardDescription>
+        <CardDescription>Welcome back to your learning workspace.</CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="flex flex-col gap-4">

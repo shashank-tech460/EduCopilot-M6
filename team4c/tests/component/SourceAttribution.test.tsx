@@ -91,7 +91,11 @@ describe("SourceAttribution — Property 7 (missing source attribution)", () => 
     render(<SourceAttribution attribution={unavailableAttribution} />);
 
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
-    const element = screen.getByText(/Deleted\.mp4/);
+    // Phase 6J: `sourceFile` now renders inside its own truncating
+    // <span> (for long-title handling), so the outer disabled/title-
+    // bearing element is the text's ancestor, not the exact node
+    // getByText resolves to.
+    const element = screen.getByText(/Deleted\.mp4/).closest('[aria-disabled="true"]');
     expect(element).toHaveAttribute("aria-disabled", "true");
     expect(element).toHaveAttribute("title", expect.stringMatching(/unavailable/i));
   });
@@ -100,7 +104,7 @@ describe("SourceAttribution — Property 7 (missing source attribution)", () => 
     const user = userEvent.setup();
     render(<SourceAttribution attribution={unavailableAttribution} />);
 
-    const element = screen.getByText(/Deleted\.mp4/);
+    const element = screen.getByText(/Deleted\.mp4/).closest('[aria-disabled="true"]')!;
     await user.click(element);
 
     expect(useAppStore.getState().video.currentTimestamp).toBe(0);
@@ -132,7 +136,7 @@ describe("SourceAttribution — visual distinction (Requirement 3.4)", () => {
     expect(validElement.className).not.toMatch(/opacity-60/);
 
     rerender(<SourceAttribution attribution={unavailableAttribution} />);
-    const disabledElement = screen.getByText(/Deleted\.mp4/);
-    expect(disabledElement.className).toMatch(/opacity-60/);
+    const disabledElement = screen.getByText(/Deleted\.mp4/).closest('[aria-disabled="true"]');
+    expect(disabledElement?.className).toMatch(/opacity-60/);
   });
 });

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Film, Sparkles } from "lucide-react";
 
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { WorkspaceFiles, type MaterialSummary } from "@/components/shared/workspace-files";
@@ -8,6 +9,7 @@ import { ChatPanel } from "@/components/chat/ChatPanel";
 import { VideoPlayer } from "@/components/video/VideoPlayer";
 import { TabNavigation } from "@/components/shared/TabNavigation";
 import { PanelErrorBoundary } from "@/components/shared/PanelErrorBoundary";
+import { EmptyState } from "@/components/shared/EmptyState";
 import { useWorkspaceInit } from "@/hooks/useWorkspaceInit";
 import { useAppStore } from "@/store/appStore";
 
@@ -122,13 +124,13 @@ export function WorkspaceDashboardShell({
             className={panelClasses("video")}
           >
             <PanelErrorBoundary panelName="Video">
-              <Card className="flex flex-col md:h-full md:min-h-[500px]">
-                <CardHeader>
+              <Card className="flex flex-col overflow-hidden border-border/70 md:h-full md:min-h-[500px]">
+                <CardHeader className="border-b border-border/60 bg-card/60">
                   <CardTitle className="truncate" title={currentVideoFile ? currentVideoFile.originalName : undefined}>
                     {currentVideoFile ? currentVideoFile.originalName : "Current Lesson"}
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="flex flex-1 flex-col justify-center">
+                <CardContent className="flex flex-1 flex-col justify-center bg-gradient-to-b from-transparent to-black/10 p-4 md:p-6">
                   {currentVideoFile ? (
                     <VideoPlayer
                       fileId={currentVideoFile.id}
@@ -137,12 +139,13 @@ export function WorkspaceDashboardShell({
                       title={currentVideoFile.originalName}
                     />
                   ) : (
-                    <div className="flex flex-col items-center gap-1 py-8 text-center">
-                      <p className="text-sm font-medium">No lesson video yet</p>
-                      <p className="max-w-[18rem] text-sm text-muted-foreground">
-                        Upload an MP4 or add a YouTube video to start learning.
-                      </p>
-                    </div>
+                    <EmptyState
+                      icon={Film}
+                      title="No lesson video yet"
+                      description="Upload an MP4 or add a YouTube video to start learning."
+                      compact
+                      className="border-none"
+                    />
                   )}
                 </CardContent>
               </Card>
@@ -156,9 +159,26 @@ export function WorkspaceDashboardShell({
             className={panelClasses("chat")}
           >
             <PanelErrorBoundary panelName="Chat">
-              <Card className="flex h-[500px] flex-col overflow-hidden md:h-full md:min-h-[500px]">
-                <CardHeader className="border-b">
-                  <CardTitle>AI Tutor</CardTitle>
+              {/* Phase 6K: was `md:h-full md:min-h-[500px]` — `h-full`
+                  needs a definite-height ancestor to actually cap
+                  anything, and this grid row's height is auto/content-
+                  driven, so it did nothing on desktop: a long AI answer
+                  grew this Card (and the whole grid row, and the page)
+                  instead of scrolling inside ChatPanel's own internal
+                  `overflow-y-auto` region (components/chat/ChatPanel.tsx
+                  already has that region — it just had no bounded
+                  height to scroll within). A real fixed height, matching
+                  the pattern already used on mobile, actually bounds it;
+                  the Video panel (which keeps `md:h-full`) stretches to
+                  match via the grid's default `align-items: stretch`. */}
+              <Card className="flex h-[500px] flex-col overflow-hidden border-border/70 md:h-[640px]">
+                <CardHeader className="border-b border-border/60 bg-card/60">
+                  <CardTitle className="flex items-center gap-2">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-brand-indigo/30 to-brand-violet/20 text-brand-indigo">
+                      <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                    </span>
+                    AI Tutor
+                  </CardTitle>
                 </CardHeader>
                 <ChatPanel workspaceId={workspaceId} />
               </Card>

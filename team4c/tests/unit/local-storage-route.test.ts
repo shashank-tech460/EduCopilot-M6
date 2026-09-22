@@ -50,8 +50,19 @@ function ownedWorkspace(id: string, ownerId: string) {
   return { _id: new Types.ObjectId(id), userId: new Types.ObjectId(ownerId), name: "DBMS" } as never;
 }
 
+// Phase 6B fix: tracks exactly which workspace subdirectories this file's
+// tests create, so `afterEach` can delete only those instead of the
+// entire shared `.local-uploads` root -- a blanket wipe there raced
+// against other test FILES (Vitest runs files concurrently by default)
+// writing their own fixtures under the same shared directory at the same
+// time, causing an intermittent cross-file 404 in
+// storage-canonical-integration.test.ts. See that file's own comment for
+// the full root-cause writeup.
+const createdWorkspaceDirs = new Set<string>();
+
 async function writeRealLocalFile(workspaceId: string, publicId: string, contents: string) {
   const dir = path.join(LOCAL_STORAGE_ROOT, workspaceId);
+  createdWorkspaceDirs.add(workspaceId);
   await mkdir(dir, { recursive: true });
   await writeFile(path.join(dir, publicId), contents);
 }
@@ -76,7 +87,12 @@ afterEach(async () => {
   } else {
     process.env.AUTH_SECRET = originalAuthSecret;
   }
-  await rm(LOCAL_STORAGE_ROOT, { recursive: true, force: true });
+  await Promise.all(
+    Array.from(createdWorkspaceDirs).map((workspaceId) =>
+      rm(path.join(LOCAL_STORAGE_ROOT, workspaceId), { recursive: true, force: true })
+    )
+  );
+  createdWorkspaceDirs.clear();
 });
 
 describe("GET /api/local-storage/[...path] — MVP M6 retrieval correction", () => {

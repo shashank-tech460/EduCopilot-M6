@@ -2,10 +2,12 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FileText, Film, Link as LinkIcon, Plus, Trash2 } from "lucide-react";
+import { FileText, Film, Link as LinkIcon, Plus, Upload } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { EmptyState } from "@/components/shared/EmptyState";
+import { MaterialCard } from "@/components/shared/MaterialCard";
 import {
   Dialog,
   DialogContent,
@@ -74,20 +76,6 @@ const TYPE_ICON: Record<MaterialSummary["type"], React.ComponentType<{ className
   // in this version — a generic external-link icon communicates "this
   // points somewhere else" without depending on a specific brand's mark.
   youtube_url: LinkIcon,
-};
-
-const STATUS_LABEL: Record<MaterialSummary["status"], string> = {
-  uploading: "Uploading…",
-  processing: "Processing…",
-  ready: "Ready",
-  failed: "Failed",
-};
-
-const STATUS_BADGE: Record<MaterialSummary["status"], string> = {
-  uploading: "bg-muted text-muted-foreground",
-  processing: "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400",
-  ready: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400",
-  failed: "bg-destructive/10 text-destructive",
 };
 
 const TYPE_LABEL: Record<MaterialSummary["type"], string> = {
@@ -402,7 +390,15 @@ export function WorkspaceFiles({ workspaceId, initialMaterials }: WorkspaceFiles
               <DialogHeader>
                 <DialogTitle>Add course material</DialogTitle>
                 <DialogDescription>
-                  Upload a PDF, an MP4 lecture recording, or link a YouTube video.
+                  {/* Phase 6B product-messaging correction: PDF and YouTube
+                      are the two most thoroughly RAG-validated source
+                      types (see docs/RAG_ARCHITECTURE.md/KNOWN_LIMITATIONS.md);
+                      MP4 upload is fully available through the current
+                      pipeline but does not yet have the same validation
+                      evidence, so this says so plainly without being
+                      alarming or technical. */}
+                  Upload a PDF, link a YouTube video, or add an MP4 lecture recording. Your AI
+                  tutor currently answers most reliably from PDFs and YouTube videos.
                 </DialogDescription>
               </DialogHeader>
 
@@ -471,95 +467,26 @@ export function WorkspaceFiles({ workspaceId, initialMaterials }: WorkspaceFiles
         ) : null}
 
         {materials.length === 0 ? (
-          <div className="flex flex-col items-center gap-2 rounded-md border border-dashed py-8 text-center">
-            <p className="text-sm font-medium">No materials yet</p>
-            <p className="text-xs text-muted-foreground">
-              Upload a PDF, an MP4 lecture, or add a YouTube link to get started.
-            </p>
-          </div>
+          <EmptyState
+            icon={Upload}
+            title="No materials yet"
+            description="Upload a PDF, add a YouTube link, or upload an MP4 lecture to get started. Your AI tutor works best with PDFs and YouTube videos right now."
+            compact
+          />
         ) : (
-          materials.map((material) => {
-            const Icon = TYPE_ICON[material.type];
-            return (
-              <div
-                key={material.id}
-                className="flex items-center justify-between gap-3 rounded-md border p-3"
-              >
-                {material.status === "ready" ? (
-                  <button
-                    type="button"
-                    onClick={() => handleSelectMaterial(material)}
-                    className="flex min-w-0 flex-1 items-center gap-3 rounded-sm text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    aria-label={
-                      material.type === "pdf"
-                        ? `Open ${material.originalName}`
-                        : `Play ${material.originalName}`
-                    }
-                  >
-                    <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-medium" title={material.originalName}>{material.originalName}</p>
-                      <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1">
-                        <span
-                          className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_BADGE[material.status]}`}
-                        >
-                          {STATUS_LABEL[material.status]}
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          {TYPE_LABEL[material.type]}
-                        </span>
-                        {formatBytes(material.sizeBytes) ? (
-                          <span className="text-xs text-muted-foreground">
-                            {formatBytes(material.sizeBytes)}
-                          </span>
-                        ) : null}
-                        <span className="text-xs text-muted-foreground">
-                          {formatUploadDate(material.createdAt)}
-                        </span>
-                      </div>
-                    </div>
-                  </button>
-                ) : (
-                  <div className="flex min-w-0 flex-1 items-center gap-3">
-                    <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-medium" title={material.originalName}>{material.originalName}</p>
-                      <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1">
-                        <span
-                          className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_BADGE[material.status]}`}
-                        >
-                          {STATUS_LABEL[material.status]}
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          {TYPE_LABEL[material.type]}
-                        </span>
-                        {formatBytes(material.sizeBytes) ? (
-                          <span className="text-xs text-muted-foreground">
-                            {formatBytes(material.sizeBytes)}
-                          </span>
-                        ) : null}
-                        <span className="text-xs text-muted-foreground">
-                          {formatUploadDate(material.createdAt)}
-                        </span>
-                      </div>
-                      {material.status === "failed" && material.processingError ? (
-                        <p className="mt-1 text-xs text-destructive">{material.processingError}</p>
-                      ) : null}
-                    </div>
-                  </div>
-                )}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setPendingDelete(material)}
-                  disabled={deletingId === material.id}
-                >
-                  <Trash2 className="h-4 w-4" />
-                  {deletingId === material.id ? "Deleting…" : "Delete"}
-                </Button>
-              </div>
-            );
-          })
+          materials.map((material) => (
+            <MaterialCard
+              key={material.id}
+              material={material}
+              icon={TYPE_ICON[material.type]}
+              typeLabel={TYPE_LABEL[material.type]}
+              sizeLabel={formatBytes(material.sizeBytes)}
+              dateLabel={formatUploadDate(material.createdAt)}
+              onSelect={handleSelectMaterial}
+              onDelete={(m) => setPendingDelete(m)}
+              isDeleting={deletingId === material.id}
+            />
+          ))
         )}
       </CardContent>
 

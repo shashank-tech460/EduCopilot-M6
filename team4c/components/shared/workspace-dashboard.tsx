@@ -1,18 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus, Trash2 } from "lucide-react";
+import { ArrowRight, FileText, FolderKanban, Plus, Search, Trash2, Video } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { TiltCard } from "@/components/shared/TiltCard";
+import { Spotlight } from "@/components/shared/Spotlight";
+import { StatusBadge } from "@/components/shared/StatusBadge";
 import {
   Dialog,
   DialogContent,
@@ -32,14 +35,22 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { EmptyState } from "@/components/shared/EmptyState";
+import { PageHeader } from "@/components/shared/PageHeader";
 import { toast } from "@/store/useToastStore";
 
 export interface WorkspaceSummary {
   id: string;
   name: string;
   createdAt: string;
+  /** Real, server-aggregated counts (Phase 6H) — never fabricated. A
+   * freshly-created workspace defaults all of these to 0, which is
+   * simply true, not a placeholder. */
+  materialCount?: number;
+  readyCount?: number;
+  pdfCount?: number;
+  videoCount?: number;
 }
 
 interface WorkspaceDashboardProps {
@@ -67,6 +78,13 @@ export function WorkspaceDashboard({ userName, initialWorkspaces }: WorkspaceDas
   const [createError, setCreateError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+
+  const filteredWorkspaces = useMemo(() => {
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed) return workspaces;
+    return workspaces.filter((w) => w.name.toLowerCase().includes(trimmed));
+  }, [workspaces, query]);
   const [pendingDelete, setPendingDelete] = useState<WorkspaceSummary | null>(null);
 
   async function handleCreate(event: React.FormEvent<HTMLFormElement>) {
@@ -87,7 +105,10 @@ export function WorkspaceDashboard({ userName, initialWorkspaces }: WorkspaceDas
         return;
       }
 
-      setWorkspaces((prev) => [data, ...prev]);
+      setWorkspaces((prev) => [
+        { ...data, materialCount: 0, readyCount: 0, pdfCount: 0, videoCount: 0 },
+        ...prev,
+      ]);
       setName("");
       setDialogOpen(false);
       toast({ title: "Workspace created", description: data.name, variant: "success" });
@@ -133,25 +154,22 @@ export function WorkspaceDashboard({ userName, initialWorkspaces }: WorkspaceDas
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Welcome, {userName}</h1>
-        <p className="text-sm text-muted-foreground">
-          {workspaces.length === 0
+      <PageHeader
+        title={`Welcome, ${userName}`}
+        description={
+          workspaces.length === 0
             ? "You don't have any workspaces yet."
-            : `${workspaces.length} workspace${workspaces.length === 1 ? "" : "s"}.`}
-        </p>
-      </div>
-
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-medium">Your Workspaces</h2>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button size="sm">
-              <Plus className="h-4 w-4" />
-              Create Workspace
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
+            : `${workspaces.length} workspace${workspaces.length === 1 ? "" : "s"}.`
+        }
+        actions={
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button size="sm">
+                <Plus className="h-4 w-4" />
+                Create Workspace
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
             <form onSubmit={handleCreate}>
               <DialogHeader>
                 <DialogTitle>Create workspace</DialogTitle>
@@ -179,42 +197,102 @@ export function WorkspaceDashboard({ userName, initialWorkspaces }: WorkspaceDas
                 </Button>
               </DialogFooter>
             </form>
-          </DialogContent>
-        </Dialog>
+            </DialogContent>
+          </Dialog>
+        }
+      />
+
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-lg font-medium">Your Workspaces</h2>
+        {workspaces.length > 1 ? (
+          <div className="relative w-full max-w-xs">
+            <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search workspaces…"
+              aria-label="Search workspaces"
+              className="pl-8"
+            />
+          </div>
+        ) : null}
       </div>
 
       {workspaces.length === 0 ? (
-        <Card className="border-dashed">
-          <CardContent className="flex flex-col items-center gap-2 py-10 text-center">
-            <p className="text-sm font-medium">No workspaces yet</p>
-            <p className="max-w-xs text-sm text-muted-foreground">
-              Create one for a course or subject to start uploading material.
-            </p>
-          </CardContent>
-        </Card>
+        <EmptyState
+          icon={FolderKanban}
+          title="No workspaces yet"
+          description="Create one for a course or subject to start uploading material."
+        />
+      ) : filteredWorkspaces.length === 0 ? (
+        <EmptyState
+          icon={Search}
+          title="No workspaces match your search"
+          description={`Nothing found for "${query}". Try a different name.`}
+          compact
+        />
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2">
-          {workspaces.map((workspace) => (
-            <Card key={workspace.id}>
-              <CardHeader>
-                <CardTitle>{workspace.name}</CardTitle>
-              </CardHeader>
-              <CardFooter className="flex gap-2">
-                <Button asChild variant="outline" size="sm">
-                  <Link href={`/workspace/${workspace.id}`}>Open</Link>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setPendingDelete(workspace)}
-                  disabled={deletingId === workspace.id}
-                >
-                  <Trash2 className="h-4 w-4" />
-                  {deletingId === workspace.id ? "Deleting…" : "Delete"}
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredWorkspaces.map((workspace) => {
+            const materialCount = workspace.materialCount ?? 0;
+            const readyCount = workspace.readyCount ?? 0;
+            const processingCount = Math.max(0, materialCount - readyCount);
+            return (
+              <Spotlight key={workspace.id} className="rounded-xl" color="oklch(0.62 0.22 288 / 0.14)">
+                <TiltCard className="group h-full">
+                  <Card className="flex h-full flex-col overflow-hidden transition-[box-shadow,border-color] duration-[var(--duration-md)] hover:border-primary/40 hover:shadow-[var(--shadow-lg)]">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand-indigo/25 to-brand-violet/15 text-brand-indigo transition-transform duration-[var(--duration-md)] group-hover:scale-110">
+                          <FolderKanban className="h-4.5 w-4.5" aria-hidden="true" />
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-7 px-2 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100"
+                          onClick={() => setPendingDelete(workspace)}
+                          disabled={deletingId === workspace.id}
+                          aria-label={`Delete ${workspace.name}`}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                      <CardTitle className="truncate pt-1" title={workspace.name}>
+                        {workspace.name}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex flex-1 flex-col gap-3 pt-0">
+                      {materialCount > 0 ? (
+                        <div className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                          {(workspace.pdfCount ?? 0) > 0 ? (
+                            <span className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-secondary/50 px-2 py-0.5">
+                              <FileText className="h-3 w-3" /> {workspace.pdfCount}
+                            </span>
+                          ) : null}
+                          {(workspace.videoCount ?? 0) > 0 ? (
+                            <span className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-secondary/50 px-2 py-0.5">
+                              <Video className="h-3 w-3" /> {workspace.videoCount}
+                            </span>
+                          ) : null}
+                          {processingCount > 0 ? <StatusBadge status="processing" label={`${processingCount} processing`} /> : null}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-muted-foreground">No materials yet</p>
+                      )}
+                      <div className="mt-auto flex items-center justify-between pt-1">
+                        <Button asChild size="sm" variant="secondary" className="gap-1.5 transition-all group-hover:bg-primary group-hover:text-primary-foreground">
+                          <Link href={`/workspace/${workspace.id}`}>
+                            Open
+                            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TiltCard>
+              </Spotlight>
+            );
+          })}
         </div>
       )}
 

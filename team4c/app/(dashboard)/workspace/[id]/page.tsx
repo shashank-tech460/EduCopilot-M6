@@ -82,9 +82,16 @@ export default async function WorkspacePage({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
+        {/* Phase 6J: was plain `text-sm text-muted-foreground` — legible,
+            but visually indistinguishable from ordinary secondary text
+            sitting right above a much bolder page heading, so it read as
+            a footnote rather than a navigation control. Given the same
+            pill/chip treatment already used for suggestion chips and
+            other nav affordances elsewhere, so it reads as obviously
+            clickable at a glance instead of blending in. */}
         <Link
           href="/dashboard"
-          className="inline-flex w-fit items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          className="inline-flex w-fit items-center gap-1.5 rounded-full border border-border/70 bg-card/60 px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:border-primary/40 hover:bg-primary/10 hover:text-brand-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
           Back to Workspaces

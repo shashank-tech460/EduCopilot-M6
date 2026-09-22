@@ -4,6 +4,19 @@ import { Types } from "mongoose";
 import { rm } from "fs/promises";
 import path from "path";
 
+// ROOT CAUSE (Phase 6B investigation): this file's own `afterEach` used to
+// `rm(".local-uploads", {recursive: true, force: true})` -- the ENTIRE
+// shared fixture directory, not just what this file wrote. Vitest runs
+// separate test FILES concurrently (in separate worker threads/processes)
+// by default, and `storage-absolute-url.test.ts` / `local-storage-route.test.ts`
+// write real files under that SAME shared directory at the same time. A
+// blanket delete from any one file's `afterEach` could remove another
+// file's in-flight fixture before its own read/assertion ran, causing the
+// exact intermittent "expected 200, got 404" failure this test showed.
+// Fix: track only the workspace subdirectories THIS file's tests actually
+// created, and delete only those -- never the shared root.
+const createdWorkspaceDirs = new Set<string>();
+
 /**
  * MVP M6 local-stack correction — the ONE test in this project that
  * exercises the REAL `services/storage.ts` (not mocked) together with
@@ -84,13 +97,21 @@ afterEach(async () => {
   } else {
     process.env.AUTH_SECRET = originalAuthSecret;
   }
-  await rm(path.join(process.cwd(), ".local-uploads"), { recursive: true, force: true });
+  // Scoped to exactly what this test run created -- see the module-level
+  // comment above for why a blanket `.local-uploads` wipe is unsafe here.
+  await Promise.all(
+    Array.from(createdWorkspaceDirs).map((workspaceId) =>
+      rm(path.join(process.cwd(), ".local-uploads", workspaceId), { recursive: true, force: true })
+    )
+  );
+  createdWorkspaceDirs.clear();
 });
 
 describe("Real local storage -> canonical Team A body (MVP M6 local-stack correction)", () => {
   it("12: local storage URL is absolute, file_url is http(s), document_id is File._id, no workspace_id/user_id in the body", async () => {
     const userId = new Types.ObjectId().toString();
     const workspaceId = new Types.ObjectId().toString();
+    createdWorkspaceDirs.add(workspaceId);
     const fileId = new Types.ObjectId();
 
     mockedAuth.mockResolvedValue(fakeSession(userId));
@@ -152,6 +173,7 @@ describe("Real local storage -> canonical Team A body (MVP M6 local-stack correc
   it("preserves existing ownership protection: a user without workspace access is rejected before any file is stored", async () => {
     const userId = new Types.ObjectId().toString();
     const workspaceId = new Types.ObjectId().toString();
+    createdWorkspaceDirs.add(workspaceId);
 
     mockedAuth.mockResolvedValue(fakeSession(userId));
     mockedWorkspaceFindById.mockResolvedValue(null as never); // not owned / doesn't exist
@@ -171,6 +193,7 @@ describe("MVP M6 correction (round 2) — citation links never carry an expiring
   it("a citation URL (File.storageUrl) remains fetchable via browser session long after the ingestion-time capability would have expired", async () => {
     const userId = new Types.ObjectId().toString();
     const workspaceId = new Types.ObjectId().toString();
+    createdWorkspaceDirs.add(workspaceId);
     const fileId = new Types.ObjectId();
 
     mockedAuth.mockResolvedValue(fakeSession(userId));

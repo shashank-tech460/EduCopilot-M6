@@ -65,10 +65,16 @@ function toSourceAttribution(attribution: TeamBSourceAttribution, fileUrl: strin
 /**
  * POST /api/chat — Accion Labs Requirement 2 (Chat Interface with
  * Streaming Responses) and Requirement 3 (Source Attribution). Consumes
- * Team B's Query_API (currently the mock, per docs/decisions.md's
- * mock-first strategy) and relays a real SSE stream back to the client via
- * the installed AI SDK's own streaming primitives — this is genuine
- * token-by-token streaming, not a simulated delay dressed up as one.
+ * Team B's Query_API via `getTeamBService()` (services/teamB/index.ts) —
+ * the mock by default, per docs/decisions.md's mock-first strategy, but
+ * the REAL Team4B backend when `USE_MOCK_TEAM_B=false` is set (Phase 6A
+ * audit finding: this is how the project's own local `.env` is
+ * currently configured — see docs/PHASE_6A_TEAM4C_FORENSIC_AUDIT.md
+ * §1). This route itself never knows or cares which one it's talking
+ * to — see `getTeamBService()`'s own docstring. Relays a real SSE stream
+ * back to the client via the installed AI SDK's own streaming
+ * primitives — this is genuine token-by-token streaming, not a
+ * simulated delay dressed up as one.
  *
  * SECURITY: `workspaceId` arrives in the request body from the client
  * (unavoidable — the client is the one that knows which workspace it's

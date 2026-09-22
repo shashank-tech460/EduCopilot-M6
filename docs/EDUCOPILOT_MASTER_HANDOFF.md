@@ -1,15 +1,24 @@
 # EduCopilot --- Master Engineering Handoff
 
-> **STATUS NOTE (added Phase 5L, 2026-09-21):** this document was written
-> before the Phase 5D–5K RAG validation arc and its "Roadmap"/"Confirmed
-> RAG Weaknesses"/completion-status sections are now historical, not
-> current — several items this document lists as not-started (e.g. Phase
-> 1 BM25 Devanagari support, Phase 2 multilingual evaluation) were
-> completed afterward. For **current, authoritative status**, see
-> `docs/M6_STATUS.md`, `docs/RAG_ARCHITECTURE.md`,
-> `docs/RAG_VALIDATION.md`, `docs/SECURITY_ARCHITECTURE.md`, and
-> `docs/KNOWN_LIMITATIONS.md`. The engineering-rules and early-history
-> sections below remain useful background and were not rewritten.
+> **STATUS NOTE (added Phase 5L, updated during the M6 final documentation
+> consolidation pass):** this document was written before the Phase 5D–5K
+> RAG validation arc and its "Roadmap"/"Confirmed RAG Weaknesses"/
+> completion-status sections are now historical, not current — several
+> items this document lists as not-started (e.g. Phase 1 BM25 Devanagari
+> support, Phase 2 multilingual evaluation) were completed afterward.
+> **Section 21 ("Team4C Status") in particular is now badly stale**:
+> Team4C's product integration, which this document describes as not
+> started, was subsequently completed and tested in full (real auth,
+> workspaces, materials, AI Tutor, a premium UI/UX pass, and a full
+> automated test suite). For **current, authoritative status and
+> architecture**, see the repository's canonical documentation set
+> instead of this file: `README.md`, `docs/ARCHITECTURE.md`,
+> `docs/TEAM4A.md`, `docs/TEAM4B.md`, `docs/TEAM4C.md`,
+> `docs/INTEGRATION.md`, `docs/M6_STATUS.md`, `docs/RAG_ARCHITECTURE.md`,
+> `docs/SECURITY_ARCHITECTURE.md`, and `docs/KNOWN_LIMITATIONS.md`. This
+> document is preserved as a historical engineering log (its early
+> RAG-design rationale, sections 10–20, has genuine archival value) and is
+> not otherwise updated for currency.
 
 ## Purpose
 

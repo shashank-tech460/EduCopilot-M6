@@ -211,6 +211,55 @@ describe("POST /api/workspaces/[id]/files", () => {
     expect(data.status).toBe("ready");
   });
 
+  it("Phase 6G / item E — a real Team A ingestion failure (e.g. aborted_authority_lost) reaches status='failed' with an accurate processingError, not a false 'ready'", async () => {
+    const userId = new Types.ObjectId().toString();
+    const workspaceId = new Types.ObjectId().toString();
+    mockedAuth.mockResolvedValue(fakeSession(userId));
+    mockedWorkspaceFindById.mockResolvedValue(ownedWorkspace(workspaceId, userId));
+    mockedReferenceYoutubeUrl.mockReturnValue({
+      storageUrl: "https://youtu.be/dQw4w9WgXcQ",
+      storageProvider: "youtube",
+      publicId: "https://youtu.be/dQw4w9WgXcQ",
+    });
+    // Mirrors the real client's behavior: services/teamA/client.ts's
+    // realTeamA.submit() throws when Team A's canonical /v1/ingest
+    // returns a non-2xx status (e.g. 409 aborted_authority_lost) --
+    // confirmed live against the real service, see
+    // docs/PHASE_6_LIVE_COLLECTION_ALIGNMENT.md §9.
+    mockedGetTeamAService.mockReturnValue({
+      submit: vi.fn().mockRejectedValue(new Error("Team A submit failed with status 409")),
+      checkStatus: vi.fn(),
+    });
+
+    const savedDoc = {
+      _id: new Types.ObjectId(),
+      workspaceId,
+      originalName: "https://youtu.be/dQw4w9WgXcQ",
+      type: "youtube_url",
+      status: "uploading",
+      processingError: null,
+      storageUrl: "https://youtu.be/dQw4w9WgXcQ",
+      createdAt: new Date(),
+      save: vi.fn().mockResolvedValue(undefined),
+    };
+    mockedFileCreate.mockResolvedValue(savedDoc as never);
+
+    const response = await POST(
+      formDataRequest({ type: "youtube_url", youtubeUrl: "https://youtu.be/dQw4w9WgXcQ" }),
+      paramsFor(workspaceId)
+    );
+    const data = await response.json();
+
+    expect(response.status).toBe(201); // upload itself still succeeds; ingestion status is carried in the body
+    expect(data.status).toBe("failed");
+    expect(data.processingError).toContain("409");
+    // The in-memory document was actually mutated to reflect the real
+    // failure and persisted via save() -- not silently left as "uploading"
+    // or forced to "ready".
+    expect(savedDoc.status).toBe("failed");
+    expect(savedDoc.save).toHaveBeenCalled();
+  });
+
   it("rejects an invalid YouTube URL with 400, without creating a file", async () => {
     const userId = new Types.ObjectId().toString();
     const workspaceId = new Types.ObjectId().toString();

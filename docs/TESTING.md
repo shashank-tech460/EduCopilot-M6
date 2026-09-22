@@ -79,18 +79,77 @@ before implementing anything, then re-ran the full 31-case battery +
 5-case supplement + the full 31-case main acceptance battery post-fix.
 Full detail: `team4b/data/m6_phase5k_prompt_injection_architecture_report.md`.
 
-## Team4A and Team4C test suites
+## Team4A test suite
 
-Not modified, re-baselined, or newly validated by the Phase 5D–5L arc.
+Not modified, re-baselined, or newly validated by the Phase 5D–5L RAG arc,
+or by the later Team4C product-integration work described below.
 
 ```bash
 cd team4a && python -m pytest -q
-cd team4c && npm test        # or the project's configured test script
 ```
 
-Their own existing baselines (from before this arc) apply; consult each
-service's own test output/CI history, not this document, for their
-current numbers.
+Consult the service's own test output for its current numbers.
+
+## Team4C test suite
+
+Unlike Team4A, Team4C's frontend/product layer **was** extensively built,
+tested, and validated in a later phase of this project (after the Phase
+5D–5L RAG arc concluded and Team4B was frozen) — full auth, workspace,
+material, and AI Tutor product flows, a premium UI/UX pass, and a
+dedicated final visual-acceptance pass. This is real, current, and
+re-verified — not aspirational.
+
+```bash
+cd team4c
+npx tsc --noEmit          # TypeScript
+npx eslint .               # lint
+npx vitest run             # unit + component tests
+npx playwright test        # end-to-end
+npm run build               # production build
+```
+
+**Current real baseline:**
+
+| Check | Result |
+|---|---|
+| `tsc --noEmit` | 0 errors |
+| `eslint .` | 9 pre-existing errors / 3 pre-existing warnings, all in test files unrelated to any product change — see below; 0 new introduced by any change described in this document |
+| `vitest run` | 469 tests passed (51 files) |
+| `playwright test` (auth-workspace, smoke, accessibility, workspace-isolation, source-isolation, core-rag, youtube-rag) | 13/13 passed |
+| accessibility (`@axe-core/playwright`) | 5/5 pages pass WCAG 2A/2AA (landing, login, signup, dashboard, workspace) |
+| `npm run build` | clean, all routes compile |
+
+**Distinguishing pre-existing ESLint issues from new ones**: the 9
+pre-existing errors are all `@typescript-eslint/no-explicit-any` in two
+older test files (`tests/unit/m5-conversations-route.test.ts`,
+`tests/unit/m5-ragSession.test.ts`) that predate the product-integration
+work and were never touched by it — confirmed via `git status` on those
+exact files showing no changes. Any new ESLint run should show the same
+9/3 baseline; a different count is a real regression to investigate.
+
+### What Team4C's Playwright suite actually verifies
+
+Not mocked — real signup/login/logout against a real MongoDB, real
+workspace CRUD and cross-account isolation, a real PDF upload through
+real ingestion to a real "ready" status, a real question sent to the real
+running Team4B service producing a real grounded answer with a real
+citation, and cross-source (PDF vs. YouTube) / cross-workspace citation
+isolation. This is the closest thing this project has to a live product
+acceptance test, run automatically rather than manually.
+
+### What the production build checks
+
+`next build` — full TypeScript compilation, all routes statically
+analyzed and either pre-rendered or marked server-rendered correctly, no
+build-time errors. A clean build is a standing requirement, checked before
+any change is considered complete.
+
+## Integration tests
+
+There is no separate "integration test" suite distinct from the above —
+Team4C's Playwright E2E suite *is* the integration test, since several of
+its specs (`core-rag.spec.ts`, `source-isolation.spec.ts`) exercise the
+real, running Team4A → Team4B → Team4C path end-to-end, not a mocked one.
 
 ## Reproducibility
 
@@ -100,5 +159,15 @@ correlated to a specific, known code/data state. Qdrant collection point
 counts have been verified unchanged at the start and end of every phase
 in the arc:
 
-- `educopilot_chunks` (canonical): 542
-- `educopilot_chunks_product_validation`: 4938
+- `educopilot_chunks` (canonical, frozen): **542** — this collection is
+  intentionally frozen and this count should never change; if a fresh
+  `curl http://localhost:6333/collections/educopilot_chunks` ever shows a
+  different number, treat it as a real incident, not routine drift.
+- `educopilot_chunks_product_validation`: **4938** at the point-in-time
+  this figure was recorded (end of the Phase 5 RAG validation arc). Unlike
+  the canonical collection, this one is a disposable, intentionally
+  non-frozen collection used for live product-level testing in later
+  phases and grows through ordinary use — do not treat this specific
+  number as an expected current value; check `curl
+  http://localhost:6333/collections/educopilot_chunks_product_validation`
+  for the real current count if it matters for what you're doing.

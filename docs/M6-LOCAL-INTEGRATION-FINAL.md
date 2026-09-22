@@ -1,5 +1,18 @@
 # M6 Local Integration — Final Report
 
+> **SUPERSEDED (M6 final documentation consolidation pass):** this
+> report's central finding — "no live services were started or reached,
+> every E2E scenario is blocked" — no longer describes the project.
+> Extensive real, live, end-to-end testing (real ingestion, real
+> retrieval, real generation, a full Playwright E2E suite against the
+> real running Team4A/Team4B services) was subsequently completed — see
+> [TESTING.md](TESTING.md) and [M6_STATUS.md](M6_STATUS.md) for the
+> current, live-verified state. The one genuine environment finding this
+> report identified (the Mongo database-name mismatch) remains accurate
+> and is now documented in [ENVIRONMENT.md](ENVIRONMENT.md) and
+> [TROUBLESHOOTING.md](TROUBLESHOOTING.md). This document is preserved as
+> a historical record of that specific, now-resolved blocked state.
+
 ## Critical limitation, stated first
 
 **No live services were started or reached during this task.** This sandbox has no network route to a real Windows laptop's `localhost` services, and no ability to run Docker/Mongo/Redis/Qdrant/Ollama itself (confirmed and documented repeatedly across this project's prior tasks — MongoDB and Ollama in particular cannot be installed here due to network egress restrictions). Every item in the required E2E test matrix (Section 12, Tests 1–12) that requires a real running stack is **BLOCKED / NOT PERFORMED**, not simulated, not assumed passing.

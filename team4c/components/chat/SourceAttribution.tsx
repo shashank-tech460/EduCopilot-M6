@@ -4,6 +4,7 @@ import { FileText, Video } from "lucide-react";
 
 import { useAppStore, type SourceAttribution as SourceAttributionType } from "@/store/appStore";
 import { formatTimestamp } from "@/lib/formatTimestamp";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface SourceAttributionProps {
   attribution: SourceAttributionType;
@@ -44,8 +45,33 @@ export function SourceAttribution({ attribution }: SourceAttributionProps) {
     ? `Page ${attribution.location}`
     : formatTimestamp(attribution.location);
 
+  // Phase 6J: `max-w-full` was unbounded before — a real long video/PDF
+  // title (confirmed live: "Java OOPs in One Shot | Object Oriented
+  // Programming | Java Language | Placement Course") wrapped across 2-3
+  // lines PER chip, and with 5 citations on one answer the citation row
+  // visually dominated the rest of the message. `sourceFile` is now
+  // truncated with an ellipsis inside a capped-width span (full title
+  // still in the DOM/accessible name — CSS truncation doesn't remove
+  // text content — and still available via the tooltip below and the
+  // native `title` attribute), while the short, always-important
+  // location label (page/timestamp) stays outside that span so it's
+  // never the part that gets clipped.
   const baseClasses =
-    "inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-medium underline underline-offset-2";
+    "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium underline underline-offset-2 max-w-full";
+  // Distinct accent per source type (PDF = indigo, video = cyan) — a
+  // small, real visual differentiation matching the master prompt's own
+  // two example formats, not a change to the underlying citation data.
+  //
+  // Phase 6I: uses `--brand-indigo` rather than `--primary` for the PDF
+  // accent's TEXT color specifically. `--primary` is deliberately tuned
+  // dark (Phase 6H) so *white* button text passes AA on a `--primary`
+  // background — but that makes it fail AA (~2.7:1, need 4.5:1) when
+  // reused as small colored text on a dark card, which is exactly this
+  // chip's case. `--brand-indigo` is the lighter sibling token built for
+  // this (verified ~4.7:1 on `--card` via a live contrast sweep).
+  const accentClasses = isPdf
+    ? "border-primary/30 bg-primary/10 text-brand-indigo hover:bg-primary/20"
+    : "border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan hover:bg-brand-cyan/20";
 
   if (attribution.disabled) {
     return (
@@ -54,8 +80,9 @@ export function SourceAttribution({ attribution }: SourceAttributionProps) {
         aria-disabled="true"
         title="Source unavailable in this workspace"
       >
-        <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-        {attribution.sourceFile} · {locationLabel}
+        <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+        <span className="max-w-[10rem] truncate">{attribution.sourceFile}</span>
+        <span className="shrink-0">· {locationLabel}</span>
       </span>
     );
   }
@@ -73,13 +100,24 @@ export function SourceAttribution({ attribution }: SourceAttributionProps) {
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className={`${baseClasses} border-primary/30 bg-primary/10 text-primary hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}
-    >
-      <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-      {attribution.sourceFile} · {locationLabel}
-    </button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          onClick={handleClick}
+          className={`${baseClasses} ${accentClasses} transition-[box-shadow,background-color] duration-[var(--duration-sm)] hover:shadow-[var(--shadow-sm)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}
+        >
+          <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+          <span className="max-w-[10rem] truncate">{attribution.sourceFile}</span>
+          <span className="shrink-0">· {locationLabel}</span>
+        </button>
+      </TooltipTrigger>
+      <TooltipContent side="top">
+        <p className="font-medium text-foreground">Evidence behind this answer</p>
+        <p className="mt-0.5 text-muted-foreground">
+          {isPdf ? "PDF" : "Video"} · {attribution.sourceFile} · {locationLabel}
+        </p>
+      </TooltipContent>
+    </Tooltip>
   );
 }

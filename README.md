@@ -1,203 +1,262 @@
-# EduCopilot — M6
+# EduCopilot
 
-EduCopilot is an educational Retrieval-Augmented-Generation (RAG) product
-that lets students ask questions about their own course material (PDFs and
-lecture videos) and get answers grounded in that material, with citations
-back to the source.
+**An educational RAG copilot** — students upload their own course PDFs and
+lecture videos, organize them into workspaces, and ask an AI Tutor
+questions. Every answer is grounded in that student's own material, with
+a citation back to the exact page or timestamp — never a guess from the
+model's general training data.
 
-**M6 milestone scope:** a generalized, workspace-isolated RAG backend
-(Team4B) fed by an ingestion/extraction pipeline (Team4A), with a Next.js
-frontend (Team4C). This README describes the current, actual state of the
-system — not an aspirational one. See [Known limitations](#known-limitations)
-and [Current M6 status](#current-m6-status) for what is and isn't done.
+## Overview
+
+EduCopilot is built as three independent services:
+
+- **Team4A** — ingests PDFs and YouTube videos: extracts text, chunks it,
+  generates embeddings, and publishes to a vector store.
+- **Team4B** — the RAG (Retrieval-Augmented Generation) engine: hybrid
+  semantic + keyword retrieval, workspace/document isolation, and grounded
+  answer generation with citations.
+- **Team4C** — the Next.js product: authentication, workspaces, material
+  management, and the AI Tutor chat UI.
+
+Full architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Problem statement
 
-Students have course PDFs and recorded lecture videos but no fast way to ask
+Students have course PDFs and recorded lectures but no fast way to ask
 "what does my own material say about X?" and get a trustworthy, cited
-answer — one that says "I don't know" when the material doesn't cover the
-question, rather than guessing.
+answer — one that honestly says "I don't know" when the material doesn't
+cover the question, rather than guessing.
 
-## Major capabilities
+## Key features
 
-- **Generalized RAG**: no subject-specific retrieval logic. The same
-  architecture answers Operating Systems, DBMS, Data Structures, Computer
-  Networks, and other subjects without per-subject code.
-- **Hybrid retrieval**: semantic (Qdrant vector search) + BM25 keyword
-  search, merged via Reciprocal Rank Fusion (RRF).
-- **Multilingual support (with documented limits)**: English, Hindi
-  (Devanagari), and Hinglish queries are all handled by the same pipeline.
-  English retrieval is strong and reliable. Hindi and cross-script
-  (Hinglish/English↔Hindi) retrieval work in many cases but are measurably
-  weaker and phrasing-sensitive — see
-  [docs/KNOWN_LIMITATIONS.md](docs/KNOWN_LIMITATIONS.md). This is **not**
-  claimed to be solved.
-- **Supported source types**: PDF documents and YouTube-derived video
-  transcripts. Answers from video sources are grounded in the
-  **transcript text**, not visual frame content — no visual-video
-  understanding exists in this pipeline.
-- **Workspace and document isolation**: every retrieval call is scoped to a
-  `workspace_id`, enforced before fusion, not after. Optional
-  `document_ids`/source-type filtering narrows further, with the same
-  isolation guarantee.
-- **Generation authority**: a fail-closed check against the ingestion
-  system's current-generation record for each document, so a
-  since-superseded chunk can never appear in an answer.
-- **Grounded generation with citations**: the LLM is instructed to answer
-  only from retrieved context and to say so honestly when the context is
-  insufficient, rather than fabricating.
-- **Prompt-injection defenses**: untrusted-context delimiters + neutralization
-  (Phase 5F) plus an output-side guard against forced-fixed-output attacks
-  (Phase 5K). See [docs/SECURITY_ARCHITECTURE.md](docs/SECURITY_ARCHITECTURE.md)
-  for what is fixed and what residual risk remains.
+- **Workspace-isolated organization** — course material is grouped into
+  workspaces; a workspace's content is never visible to another user, and
+  never cross-cited into another workspace's answers.
+- **PDF and YouTube ingestion**, with per-document status
+  (uploading/processing/ready/failed) reflected live in the UI.
+- **AI Tutor** — a streaming chat interface. Answers adapt their structure
+  to the question (short prose for a simple definition, numbered steps
+  for a procedure, bullet points for a list of concepts) because the
+  underlying LLM does, not because the frontend forces a template.
+- **Grounded, cited answers** — every citation is built from real
+  retrieval metadata, re-verified against the caller's own workspace
+  before being rendered, and traceable to a specific PDF page or video
+  timestamp.
+- **Hybrid retrieval** — semantic (vector) search + BM25 keyword search,
+  merged with Reciprocal Rank Fusion, so both conceptual and exact-terminology
+  questions are covered.
+- **Source-grounded, not hallucination-prone by design** — the LLM is
+  instructed to answer only from retrieved evidence, with a documented,
+  measured (not just claimed) mitigation for prompt injection. See
+  [docs/SECURITY_ARCHITECTURE.md](docs/SECURITY_ARCHITECTURE.md).
 
 ## Architecture overview
 
 ```
-User Query
+Student (browser)
     |
     v
-Team4C (Next.js UI + API routes)
-    |
+Team4C — Next.js UI + API routes (auth, workspaces, materials, chat)
+    |  (internal service JWT)
     v
-Team4B RAGService
-    +-- ConversationManager (Redis-backed session history)
-    +-- HybridRetriever
-    |     +-- Semantic leg  -> Qdrant (educopilot_chunks)
-    |     +-- BM25 leg      -> in-memory index, rebuilt from Qdrant
-    |     +-- Reciprocal Rank Fusion -> normalized, thresholded, top_k
-    +-- GenerationAuthorityClient (MongoDB-backed, fail-closed)
+Team4B — RAGService
+    +-- HybridRetriever (semantic via Qdrant + BM25, fused via RRF)
+    +-- Generation-authority filter (MongoDB, fail-closed)
     +-- LLMGenerator -> Ollama (llama3) -> grounded answer + citations
+    ^
+    |  (internal service JWT)
     |
-    v
-Team4A (ingestion, extraction, chunking, embedding, Qdrant publishing)
+Team4A — ingestion: extract -> chunk -> embed -> publish to Qdrant
+                     writes ingestion-generation record to MongoDB
 ```
 
-Full detail: [docs/RAG_ARCHITECTURE.md](docs/RAG_ARCHITECTURE.md).
+Full detail, including request/ingestion/query lifecycles:
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and
+[docs/INTEGRATION.md](docs/INTEGRATION.md).
 
 ### Team responsibilities
 
-| Team | Responsibility | Status |
-|---|---|---|
-| **Team4A** | PDF/YouTube ingestion, text extraction, chunking, metadata, embedding, publishing to the canonical Qdrant collection | Stable; untouched by the Phase 5 RAG validation arc |
-| **Team4B** | Query API, session/history, hybrid retrieval, generation authority, LLM generation, citations, security boundary | **RAG-accepted / frozen** as of Phase 5K — see [docs/M6_STATUS.md](docs/M6_STATUS.md) |
-| **Team4C** | Next.js frontend, product integration, auth, UI | Exists and runs; **not** the subject of the Phase 5 RAG validation arc — see [docs/M6_STATUS.md](docs/M6_STATUS.md) for exactly what is and isn't verified |
+| Team | Responsibility |
+|---|---|
+| **Team4A** | PDF/YouTube ingestion, extraction, chunking, embedding, Qdrant publishing, the ingestion-generation/authority record |
+| **Team4B** | Hybrid retrieval, generation-authority checks, LLM generation, citations, prompt-injection defenses — **RAG-accepted and frozen** (see [docs/M6_STATUS.md](docs/M6_STATUS.md)) |
+| **Team4C** | Next.js frontend, auth, workspace/material CRUD, the AI Tutor UI, and the MongoDB product schema — full product integration completed and tested |
 
-## Services and ports (local development)
+## Technology stack
 
-| Service | Default port (docker-compose) | Port actually used in this project's local multi-service runs |
-|---|---|---|
-| Team4A (ingestion API) | 8000 | 8001 |
-| Team4B (RAG API) | 8000 (override via `TEAM4B_HOST_PORT`) | 8002 |
-| Team4C (Next.js) | 3000 | 3000 |
-| Qdrant | 6333 | 6333 |
-| MongoDB | 27017 (standard) | 27017 |
-| Redis | 6379 | 6379 |
-| Ollama | 11434 | 11434 |
+Next.js 16 / React 19 / TypeScript (Team4C) · FastAPI / Python 3.12
+(Team4A, Team4B) · MongoDB · Qdrant · Redis · Ollama (`llama3`). Full
+detail per service: [docs/TEAM4A.md](docs/TEAM4A.md),
+[docs/TEAM4B.md](docs/TEAM4B.md), [docs/TEAM4C.md](docs/TEAM4C.md).
 
-A disposable, fully isolated second stack (ports 8011/8012/3010, its own
-Qdrant collection `educopilot_chunks_product_validation`) has been used for
-product-level RAG validation without risking the protected corpus — see
-[docs/m6-product-validation-isolation-environment.md](docs/m6-product-validation-isolation-environment.md).
-It is not part of the deployed product.
+## Prerequisites
 
-## Local setup
+Node.js 20+ (this project developed against 22.17.1), Python 3.12, Docker
+Desktop, MongoDB, Ollama (with the `llama3` model pulled). Full list with
+exact versions: [docs/SETUP.md](docs/SETUP.md).
 
-Each service has its own detailed setup instructions — this is a pointer,
-not a duplicate:
+## Ports (local development)
 
-- **Team4A**: `team4a/requirements.txt`, `team4a/Dockerfile`, `team4a/docker-compose.yml`. Copy `team4a/.env` from your own values (no example file is currently committed for Team4A — coordinate with the ingestion owner for required variables).
-- **Team4B**: see [team4b/README.md](team4b/README.md) for the full Docker deployment guide (prerequisites, build, startup, environment variables, health checks, troubleshooting). Copy `team4b/.env.example` (or `.env.docker.example` for the containerized variant) to `.env` and fill in real values.
-- **Team4C**: see [team4c/README.md](team4c/README.md). Copy `team4c/.env.example` to `.env.local` and fill in real values.
+| Service | Port |
+|---|---|
+| Team4C | 3000 |
+| Team4A | 8001 |
+| Team4B | 8002 |
+| Qdrant | 6333 |
+| MongoDB | 27017 |
+| Redis (Team4A) | 6379 |
+| Redis (Team4B) | 6380 |
+| Ollama | 11434 |
 
-**Never commit a real `.env` file, a `*.pem` key, or any file containing a
-real credential.** See [docs/SECURITY_ARCHITECTURE.md](docs/SECURITY_ARCHITECTURE.md#secrets-handling).
+## Quick setup
 
-## Running each service
+```powershell
+# 1. Install
+cd team4c && npm install && cd ..
+cd team4a && pip install -r requirements.txt && cd ..
+cd team4b && pip install -r requirements.txt && cd ..
 
-```bash
-# Team4A
-cd team4a && docker compose up --build
+# 2. Configure environment (see docs/SETUP.md for exact values)
+cd team4c && Copy-Item .env.example .env.local && cd ..
+cd team4b && Copy-Item .env.example .env && cd ..
+# create team4a\.env by hand — see docs/SETUP.md
 
-# Team4B
-cd team4b && docker compose up --build
-# or locally: uvicorn app.api.main:app --reload
+# 3. Start infrastructure, then each service (separate terminals)
+docker run -d --name qdrant -p 6333:6333 qdrant/qdrant:latest
+docker run -d --name team4a-redis -p 6379:6379 redis:7-alpine
+docker run -d --name team4b-redis -p 6380:6379 redis:7-alpine
+# MongoDB + Ollama running natively or via their own containers
 
-# Team4C
-cd team4c && npm install && npm run dev
+cd team4a && python -m uvicorn app.main:app --host 0.0.0.0 --port 8001
+cd team4a && celery -A app.celery_app worker --loglevel=info   # second terminal
+cd team4b && uvicorn app.api.main:app --host 0.0.0.0 --port 8002
+cd team4c && npm run dev
 ```
 
-Top-level orchestration helpers exist in [scripts/](scripts/):
-`start-all.ps1`, `stop-all.ps1`, `health-check.ps1`, `e2e-smoke.ps1`.
+Full, exact walkthrough (including generating the auth/JWT secrets):
+[docs/SETUP.md](docs/SETUP.md).
+
+## Startup order
+
+Infrastructure (MongoDB, Redis ×2, Qdrant, Ollama) → Team4A → Team4B →
+Team4C. Why: [docs/INTEGRATION.md](docs/INTEGRATION.md#startup-order).
+
+## Health checks
+
+```powershell
+curl http://localhost:3000
+curl http://localhost:8001/health
+curl http://localhost:8002/health
+curl http://localhost:6333/collections
+```
 
 ## Testing
 
-```bash
+```powershell
 # Team4B (the service covered by the Phase 5 RAG validation arc)
 cd team4b && python -m pytest -q
+# Expected: 1302 passed, 3 skipped, 1 known pre-existing failure (explained, not silenced — see docs/TESTING.md)
+
+# Team4A
+cd team4a && python -m pytest -q
+
+# Team4C
+cd team4c
+npx tsc --noEmit && npx eslint . && npx vitest run && npx playwright test
+# Expected: 0 type errors, 469 Vitest tests passing, 13/13 Playwright tests passing,
+# 5/5 pages passing WCAG 2A/2AA accessibility checks
 ```
 
-Expected baseline: **1302 passed, 3 skipped, 1 known pre-existing failure**
-(a stale-ground-truth test — explained, not silenced, in
-[docs/TESTING.md](docs/TESTING.md)). If this baseline changes, treat it as
-a regression to investigate, not a test to delete.
+Full detail, including how to distinguish a pre-existing issue from a
+regression: [docs/TESTING.md](docs/TESTING.md).
 
-Team4A and Team4C each have their own test suites (`team4a/tests/`,
-`team4c/tests/`) — not modified or re-baselined by this documentation pass.
+## Production build
 
-## Security
+```powershell
+cd team4c && npm run build
+```
 
-- Workspace and document isolation, generation authority, and the Phase
-  5F/5K prompt-injection defenses are documented in
-  [docs/SECURITY_ARCHITECTURE.md](docs/SECURITY_ARCHITECTURE.md).
-- Prompt injection is **mitigated, not eliminated**: a narrow
-  forced-fixed-output attack pattern is fixed (validated at 0/32 live
-  cases after the Phase 5K fix); one lower-severity residual (prompt-scaffold
-  disclosure, no real secrets) remains open. Do not claim prompt injection
-  is impossible.
-- Secrets (`.env*`, `*.pem`) are gitignored at both the root and per-service
-  level and were audited as part of Phase 5L — see
-  [docs/REPOSITORY_CLEANUP_REPORT.md](docs/REPOSITORY_CLEANUP_REPORT.md).
+## Documentation
 
-## Current M6 status
+| Document | Covers |
+|---|---|
+| [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md) | Problem, solution, features, and scope explained professionally |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System-level design, data flow, isolation model |
+| [docs/TEAM4A.md](docs/TEAM4A.md) | Ingestion service in full |
+| [docs/TEAM4B.md](docs/TEAM4B.md) | RAG/query service in full |
+| [docs/TEAM4C.md](docs/TEAM4C.md) | Frontend/product in full |
+| [docs/INTEGRATION.md](docs/INTEGRATION.md) | Exact service-to-service contracts, ingestion/query lifecycles |
+| [docs/SETUP.md](docs/SETUP.md) | Fresh-machine installation walkthrough, quick start to full setup |
+| [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md) | Every environment variable, what it does, safe example values |
+| [docs/TESTING.md](docs/TESTING.md) | Test suites, expected baselines, what each category validates |
+| [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Common problems, safe diagnostics, safe fixes |
+| [docs/PROJECT_QA.md](docs/PROJECT_QA.md) | Full Q&A reference — architecture, RAG, security, deployment, interview-length explanations, an honest engineering evaluation |
+| [docs/DEVELOPER_HANDOFF.md](docs/DEVELOPER_HANDOFF.md) | What to read first, where code lives, what not to modify casually |
+| [docs/SECURITY.md](docs/SECURITY.md) | Product-wide security reference (auth, isolation, JWT, secrets) |
+| [docs/RAG_ARCHITECTURE.md](docs/RAG_ARCHITECTURE.md) | Team4B's frozen retrieval/generation pipeline, including every alternative investigated and rejected |
+| [docs/SECURITY_ARCHITECTURE.md](docs/SECURITY_ARCHITECTURE.md) | Team4B's prompt-injection threat model and defenses, stated plainly (fixed vs. mitigated vs. open) |
+| [docs/LIMITATIONS.md](docs/LIMITATIONS.md) | Current limitations, test/dev-only limitations, and future improvements — kept separate |
+| [docs/KNOWN_LIMITATIONS.md](docs/KNOWN_LIMITATIONS.md) | Team4B's real, evidence-backed retrieval/generation limitations |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | Completed vs. deferred vs. genuinely future work |
+| [docs/CHANGELOG.md](docs/CHANGELOG.md) | High-level milestones |
+| [docs/M6_STATUS.md](docs/M6_STATUS.md) | Current, authoritative project status |
 
-See [docs/M6_STATUS.md](docs/M6_STATUS.md) for the authoritative,
-up-to-date breakdown of what's COMPLETED, IN PROGRESS, and PENDING. In
-short: **Team4B's generalized RAG is validated and frozen** (Phases 5D–5K);
-**Team4C product integration is not yet the subject of this validation
-arc**. Do not read this repository as "M6 complete" — it is not.
+## Security notes
+
+- **Never commit** a real `.env`, `.env.local`, or `*.pem` file — all are
+  git-ignored. See [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md).
+- Service-to-service calls are authenticated with short-lived signed
+  internal JWTs, never long-lived shared API keys.
+- Prompt injection is **mitigated, not eliminated** — a specific
+  forced-fixed-output attack pattern is fixed and validated (0/32 live
+  cases after the fix); one lower-severity residual (prompt-scaffold
+  disclosure, no real secret exists to leak) remains open and is tracked,
+  not hidden. See [docs/SECURITY_ARCHITECTURE.md](docs/SECURITY_ARCHITECTURE.md).
 
 ## Known limitations
 
 See [docs/KNOWN_LIMITATIONS.md](docs/KNOWN_LIMITATIONS.md) for the full,
-evidence-backed list. Headline items: Hindi retrieval is phrasing-sensitive;
-cross-script (Hinglish/English↔Hindi) retrieval is weaker than same-language
-retrieval; the LLM occasionally narrates lexically-adjacent-but-wrong-domain
-content instead of declining; local LLM generation is CPU-bound and slow
-(tens of seconds per request in this environment); one lower-severity
-prompt-injection residual remains open.
+evidence-backed list. Headline items: Hindi/cross-script retrieval is
+weaker than same-language retrieval and not claimed to be solved; the LLM
+occasionally misapplies in-scope content from the wrong subject area
+instead of declining; local LLM generation is CPU-bound and can take
+30–140+ seconds per answer in this environment; no cloud deployment or
+load testing has been performed.
+
+## Current status
+
+See [docs/M6_STATUS.md](docs/M6_STATUS.md) for the authoritative,
+up-to-date breakdown. In short: **Team4B's generalized RAG is validated
+and frozen**; **Team4C's product integration is complete and tested**
+(auth, workspaces, materials, AI Tutor, a full automated test suite, and
+a dedicated visual-polish/accessibility pass).
 
 ## Project structure
 
 ```
 .
 ├── team4a/           Ingestion service (FastAPI, Python)
-├── team4b/           RAG/retrieval service (FastAPI, Python) — the focus of the Phase 5 validation arc
+├── team4b/           RAG/retrieval service (FastAPI, Python)
 │   ├── app/          application source
-│   ├── tests/        pytest suite (1302 passed / 3 skipped / 1 known failure baseline)
-│   ├── scripts/       reproducible evaluation harnesses (not one-off scripts)
-│   ├── data/          phase evaluation reports and evidence (kept — see docs/RAG_VALIDATION.md)
-│   └── docs/          service-level decision records
+│   ├── tests/        pytest suite
+│   ├── scripts/      reproducible evaluation harnesses
+│   ├── data/         phase evaluation reports and evidence
+│   └── docs/         service-level decision records
 ├── team4c/           Next.js frontend/API
+│   ├── app/          routes, API handlers
+│   ├── components/   UI components
+│   ├── lib/, models/, services/, hooks/, store/
+│   ├── tests/        unit/, component/, e2e/
+│   └── docs/         Team4C's own decision records
 ├── docs/             project-level documentation (this file's companions)
-├── infra/            infra placeholder (intentionally minimal — see infra/README.md)
+├── infra/            infra placeholder (intentionally minimal)
 └── scripts/          top-level orchestration (start-all/stop-all/health-check/e2e-smoke)
 ```
 
-`team4c-validation/` (a disposable, gitignored copy of `team4c/` used for
-isolated product-level validation) and four gitignored historical
-backup/snapshot directories from earlier `team4a`/`team4b` development are
-retained locally for rollback reference but are intentionally excluded from
-version control — see
-[docs/REPOSITORY_CLEANUP_REPORT.md](docs/REPOSITORY_CLEANUP_REPORT.md) for
-the full inventory and reasoning.
+A small number of gitignored backup/duplicate directories
+(`team4a-backup-before-transcript-windowing/`,
+`team4a-before-youtube-hindi-fallback/`, `team4b-context-provenance-temp/`,
+`team4c-validation/`) exist locally for rollback reference from earlier
+development but are intentionally excluded from version control and from
+any ZIP/GitHub distribution — see
+[docs/REPOSITORY_CLEANUP_REPORT.md](docs/REPOSITORY_CLEANUP_REPORT.md).
